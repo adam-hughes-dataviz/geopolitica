@@ -18,7 +18,7 @@ def get(url):
                 return json.load(r)
         except urllib.error.HTTPError as e:
             print("blocked" if e.code in (401, 403) else "retry", url[:80], e, e.read()[:200] if e.code == 400 else "")
-            if e.code in (401, 403, 404): return None
+            if e.code in (400, 401, 403, 404): return None
             time.sleep(4)
         except Exception as e:
             print("retry", url[:80], e); time.sleep(4)
@@ -59,17 +59,18 @@ def main():
     for sub, key in (("GGXWDG_NGDP", "debt"), ("GGXCNL_NGDP", "bal")):
         miss = [i for i in out if key not in out[i] and key + "2" not in out[i]]
         n = 0
-        for k in range(0, len(miss), 25):
-            ids = ",".join(c for i in miss[k:k + 25] for c in ("%s.%s.pcent_gdp" % (i, sub), "%s.%s" % (i, sub)))
-            j = get("https://api.db.nomics.world/v22/series/IMF/WEO?observations=1&series_ids=" + ids)
-            for d in ((j or {}).get("series") or {}).get("docs", []):
-                iso = d.get("series_code", "")[:3]; best = None
-                for per, v in zip(d.get("period", []), d.get("value", [])):
-                    try: y = int(str(per)[:4]); f = float(v)
-                    except (ValueError, TypeError): continue
-                    if y <= NOW and (best is None or y > best[1]): best = [f, y]
-                if best: out[iso][key] = best; n += 1
-            time.sleep(1)
+        for iso in miss:
+            for code in ("%s.%s.pcent_gdp" % (iso, sub), "%s.%s" % (iso, sub)):
+                j = get("https://api.db.nomics.world/v22/series/IMF/WEO/%s?observations=1" % code)
+                docs = ((j or {}).get("series") or {}).get("docs", [])
+                best = None
+                for d in docs:
+                    for per, v in zip(d.get("period", []), d.get("value", [])):
+                        try: y = int(str(per)[:4]); f = float(v)
+                        except (ValueError, TypeError): continue
+                        if y <= NOW and (best is None or y > best[1]): best = [f, y]
+                if best: out[iso][key] = best; n += 1; break
+            time.sleep(0.3)
         print("dbnomics", sub, n)
     if len(out) < 100:
         raise SystemExit("too few countries (%d), not publishing" % len(out))
