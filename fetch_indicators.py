@@ -32,13 +32,24 @@ def main():
                 out.setdefault(iso, {})[key] = [series[str(ys[-1])], ys[-1]]; n += 1
         print("imf", code, n); time.sleep(1)
     for code, key in WB.items():
-        j = get("https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code)
-        rows = (j[1] if isinstance(j, list) and len(j) > 1 else None) or []
+        gov = code.endswith(".PER.RNK")
+        tries = ["https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code]
+        if gov:
+            tries = ["https://api.worldbank.org/v2/country/all/indicator/%s?source=3&format=json&mrnev=1&per_page=500" % code,
+                     "https://api.worldbank.org/v2/country/all/indicator/%s?source=3&format=json&date=2019:2025&per_page=3000" % code]
         n = 0
-        for r in rows:
-            iso = r.get("countryiso3code")
-            if iso and r.get("value") is not None:
-                out.setdefault(iso, {})[key] = [r["value"], int(r["date"])]; n += 1
+        for url in tries:
+            j = get(url)
+            rows = (j[1] if isinstance(j, list) and len(j) > 1 else None) or []
+            best = {}
+            for r in rows:
+                iso = r.get("countryiso3code")
+                if iso and r.get("value") is not None:
+                    y = int(r["date"])
+                    if iso not in best or y > best[iso][1]: best[iso] = [r["value"], y]
+            for iso, v in best.items(): out.setdefault(iso, {})[key] = v
+            n = len(best)
+            if n: break
         print("wb", code, n); time.sleep(1)
     if len(out) < 100:
         raise SystemExit("too few countries (%d), not publishing" % len(out))
