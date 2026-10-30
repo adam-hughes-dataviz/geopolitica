@@ -1,0 +1,258 @@
+IDN Indonesia|Indonesia
+MYS Malaysia|Malaysia
+CHL Chile|Chile ; Isla Salas y Gómez|Chile ; Easter Island|Chile
+BOL Bolivia|Bolivia
+PER Peru|Peru
+ARG Argentina|Argentina
+ESB Dhekelia Cantonment|United Kingdom
+CYP Cyprus|Cyprus
+IND India|India ; Lakshadweep|India ; Andaman Islands|India ; Nicobar Islands|India
+CHN People's Republic of China|China ; Hainan|China ; Paracel Islands|China
+ISR Israel|Israel
+PSX Gaza Strip|Israel ; West Bank|Israel
+LBN Lebanon|Lebanon
+ETH Ethiopia|Ethiopia
+SDS South Sudan|South Sudan
+SOM Puntland|Somalia ; Somalia|Somalia
+KEN Kenya|Kenya
+MWI Malawi|Malawi
+TZA Tanzania|United Republic of Tanzania ; Zanzibar|United Republic of Tanzania
+SYR United Nations Disengagement Observer Force|Syria ; Syria|Syria
+SOL Somaliland|Somaliland
+FRA French Guiana|France ; France|France ; Martinique|France ; Guadeloupe|France ; Réunion|France ; Mayotte|France ; Corsica|France
+SUR Suriname|Suriname
+GUY Guyana|Guyana
+KOR Korean Demilitarized Zone|South Korea ; South Korea|South Korea ; Jeju Province|South Korea ; Ulleungdo|South Korea ; Baengnyeongdo|South Korea ; Liancourt Rocks|South Korea
+PRK Korean Demilitarized Zone|North Korea ; North Korea|North Korea
+MAR Morocco|Morocco
+SAH Western Sahara|Western Sahara
+CRI Costa Rica|Costa Rica
+NIC Nicaragua|Nicaragua
+COG Republic of the Congo|Republic of the Congo
+COD Democratic Republic of the Congo|Democratic Republic of the Congo
+BTN Bhutan|Bhutan
+UKR Ukraine|Ukraine
+BLR Belarus|Belarus
+NAM Namibia|Namibia
+ZAF South Africa|South Africa ; Prince Edward Islands|South Africa
+MAF Saint Martin|France
+SXM Sint Maarten|Netherlands
+OMN Oman|Oman
+UZB Uzbekistan|Uzbekistan
+KAZ Kazakhstan|Kazakhstan
+TJK Tajikistan|Tajikistan
+LTU Lithuania|Lithuania
+BRA Brazil|Brazil
+URY Uruguay|Uruguay
+MNG Mongolia|Mongolia
+RUS Russia|Russia ; Kaliningrad Oblast|Russia ; Autonomous Republic of Crimea|Russia
+CZE Czechia|Czechia
+DEU Germany|Germany
+EST Estonia|Estonia
+LVA Latvia|Latvia
+NOR Norway|Norway ; Jan Mayen|Norway ; Svalbard|Norway ; Bouvet Island|Norway
+SWE Sweden|Sweden
+FIN Finland|Finland
+VNM Vietnam|Vietnam
+KHM Cambodia|Cambodia
+LUX Luxembourg|Luxembourg
+ARE United Arab Emirates|United Arab Emirates
+BEL Flemish Brabant|Belgium ; Walloon Brabant|Belgium ; Brussels Capital Region|Belgium
+GEO Georgia|Georgia ; Adjara|Georgia
+MKD North Macedonia|North Macedonia
+ALB Albania|Albania
+AZE Azerbaijan|Azerbaijan
+KOS Kosovo|Kosovo
+TUR Turkey|Turkey
+ESP Ceuta|Spain ; Melilla|Spain ; Spain|Spain ; Canary Islands|Spain ; Balearic Islands|Spain
+LAO Laos|Laos
+KGZ Kyrgyzstan|Kyrgyzstan
+ARM Armenia|Armenia
+DNK Denmark|Denmark ; Bornholm|Denmark
+LBY Libya|Libya
+TUN Tunisia|Tunisia
+ROU Romania|Romania
+HUN Hungary|Hungary
+SVK Slovakia|Slovakia
+POL Poland|Poland
+IRL Ireland|Ireland
+GBR Northern Ireland|United Kingdom ; Wales|United Kingdom ; England|United Kingdom ; Scotland|United Kingdom
+GRC Greece|Greece
+ZMB Zambia|Zambia
+SLE Sierra Leone|Sierra Leone
+GIN Guinea|Guinea
+LBR Liberia|Liberia
+CAF Central African Republic|Central African Republic
+SDN Sudan|Sudan
+DJI Djibouti|Djibouti
+ERI Eritrea|Eritrea
+AUT Austria|Austria
+IRQ Kurdistan Region|Iraq ; Iraq|Iraq
+ITA Italy|Italy ; Pantelleria Island|Italy ; Sicily|Italy ; Sardinia|Italy ; Pelagie Islands|Italy
+CHE Switzerland|Switzerland
+IRN Iran|Iran
+NLD Netherlands|Netherlands ; Caribbean Netherlands|Netherlands
+LIE Liechtenstein|Liechtenstein
+CIV Ivory Coast|Ivory Coast
+SRB Vojvodina|Republic of Serbia ; Serbia|Republic of Serbia
+MLI Mali|Mali
+SEN Senegal|Senegal
+NGA Nigeria|Nigeria
+BEN Benin|Benin
+AGO Angola|Angola
+HRV Croatia|Croatia
+SVN Slovenia|Slovenia
+QAT Qatar|Qatar
+SAU Saudi Arabia|Saudi Arabia
+BWA Botswana|Botswana
+ZWE Zimbabwe|Zimbabwe
+PAK Pakistan|Pakistan
+BGR Bulgaria|Bulgaria
+THA Thailand|Thailand
+SMR San Marino|San Marino
+HTI Haiti|Haiti
+DOM Dominican Republic|Dominican Republic
+TCD Chad|Chad
+KWT Kuwait|Kuwait
+SLV El Salvador|El Salvador
+GTM Guatemala|Guatemala
+TLS Pante Makassar Subdistrict|East Timor ; East Timor|East Timor
+BRN Brunei|Brunei
+MCO Monaco|Monaco
+DZA Algeria|Algeria
+MOZ Mozambique|Mozambique
+SWZ Eswatini|eSwatini
+BDI Burundi|Burundi
+RWA Rwanda|Rwanda
+MMR Myanmar|Myanmar
+BGD Bangladesh|Bangladesh
+AND Andorra|Andorra
+AFG Afghanistan|Afghanistan
+MNE Montenegro|Montenegro
+BIH Federation of Bosnia and Herzegovina|Bosnia and Herzegovina ; Republika Srpska|Bosnia and Herzegovina ; Brčko|Bosnia and Herzegovina
+UGA Uganda|Uganda
+USG Guantanamo Bay Naval Base|Cuba
+CUB Cuba|Cuba
+HND Honduras|Honduras
+ECU Ecuador|Ecuador ; Galápagos Province|Ecuador
+COL Colombia|Colombia
+PRY Paraguay|Paraguay
+BRI Brazilian Island|Brazilian Island
+PRT Portugal|Portugal ; Madeira|Portugal ; Azores|Portugal
+MDA Moldova|Moldova
+TKM Turkmenistan|Turkmenistan
+JOR Jordan|Jordan
+NPL Nepal|Nepal
+LSO Lesotho|Lesotho
+CMR Cameroon|Cameroon
+GAB Gabon|Gabon
+NER Niger|Niger
+BFA Burkina Faso|Burkina Faso
+TGO Togo|Togo
+GHA Ghana|Ghana
+GNB Guinea-Bissau|Guinea-Bissau
+GIB Gibraltar|United Kingdom
+USA United States of America|United States of America ; Alaska|United States of America ; Hawaii|United States of America
+CAN Canada|Canada
+MEX Mexico|Mexico
+BLZ Belize|Belize
+PAN Panama|Panama
+VEN Venezuela|Venezuela
+PNG Papua New Guinea|Papua New Guinea ; Autonomous Region of Bougainville|Papua New Guinea
+EGY Egypt|Egypt
+YEM Yemen|Yemen ; Socotra Archipelago|Yemen
+MRT Mauritania|Mauritania
+GNQ Río Muni|Equatorial Guinea ; Annobón Province|Equatorial Guinea ; Bioko|Equatorial Guinea
+GMB The Gambia|Gambia
+HKG Hong Kong|China
+VAT Vatican City|Vatican
+CYN Turkish Republic of Northern Cyprus|Northern Cyprus
+CNM United Nations Buffer Zone in Cyprus|Cyprus No Mans Area
+KAS Siachen Glacier|Kashmir
+KAB Baikonur|Kazakhstan
+WSB Akrotiri Sovereign Base Area|United Kingdom
+SPI Southern Patagonian Ice Field|Southern Patagonian Ice Field
+BRT Bir Tawil|Bir Tawil
+ATA Antarctica|Antarctica ; South Orkney Islands|Antarctica ; Peter I Island|Antarctica
+AUS Australia|Australia ; Tasmania|Australia ; Macquarie Island|Australia
+GRL Greenland|Denmark
+FJI Fiji|Fiji
+NZL New Zealand Subantarctic Islands|New Zealand ; Chatham Islands|New Zealand ; Kermadec Islands|New Zealand ; Tokelau|New Zealand ; South Island|New Zealand ; North Island|New Zealand
+NCL New Caledonia|France
+MDG Madagascar|Madagascar
+PHL Philippines|Philippines
+LKA Sri Lanka|Sri Lanka
+CUW Curaçao|Netherlands
+ABW Aruba|Netherlands
+BHS The Bahamas|The Bahamas
+TCA Turks and Caicos Islands|United Kingdom
+TWN Taiwan|Taiwan
+JPN Japan|Japan ; Kyushu|Japan ; Shikoku|Japan ; Honshu|Japan ; Hokkaido Prefecture|Japan ; Ryukyu Islands|Japan ; Volcano Islands|Japan ; Ogasawara Islands|Japan ; Izu Islands|Japan
+SPM Saint Pierre and Miquelon|France
+ISL Iceland|Iceland
+PCN Pitcairn Islands|United Kingdom
+PYF French Polynesia|France
+ATF Juan de Nova Island|France ; French Southern and Antarctic Lands|France ; Europa Island|France ; Bassas da India|France ; Tromelin Island|France ; Glorioso Islands|France
+SYC Seychelles|Seychelles
+KIR Kiribati|Kiribati
+MHL Marshall Islands|Marshall Islands
+TTO Trinidad|Trinidad and Tobago ; Tobago|Trinidad and Tobago
+GRD Grenada|Grenada
+VCT Saint Vincent and the Grenadines|Saint Vincent and the Grenadines
+BRB Barbados|Barbados
+LCA Saint Lucia|Saint Lucia
+DMA Dominica|Dominica
+UMI Johnston Atoll|United States of America ; Jarvis Island|United States of America ; Baker Island|United States of America ; Howland Island|United States of America ; Wake Island|United States of America ; Midway Atoll|United States of America ; Navassa Island|United States of America ; Palmyra Atoll|United States of America ; Kingman Reef|United States of America
+MSR Montserrat|United Kingdom
+ATG Antigua|Antigua and Barbuda ; Barbuda|Antigua and Barbuda
+KNA Saint Kitts and Nevis|Saint Kitts and Nevis
+VIR United States Virgin Islands|United States of America
+BLM Saint Barthélemy|France
+PRI Puerto Rico|United States of America
+AIA Anguilla|United Kingdom
+VGB British Virgin Islands|United Kingdom
+JAM Jamaica|Jamaica
+CYM Cayman Islands|United Kingdom
+BMU Bermuda|United Kingdom
+HMD Heard Island and McDonald Islands|Australia
+SHN Tristan da Cunha|United Kingdom ; Saint Helena|United Kingdom ; Ascension|United Kingdom
+MUS Mauritius|Mauritius
+COM Comoros|Comoros
+STP São Tomé Island|São Tomé and Principe ; Príncipe|São Tomé and Principe
+CPV Cape Verde|Cabo Verde
+MLT Malta|Malta
+JEY Jersey|United Kingdom
+GGY Guernsey|United Kingdom ; Sark|United Kingdom ; Alderney|United Kingdom ; Herm|United Kingdom
+IMN Isle of Man|United Kingdom
+ALD Åland|Finland
+FRO Faroe Islands|Denmark
+IOA Cocos|Australia ; Christmas Island|Australia
+IOT Diego Garcia Navy Airport|United Kingdom ; British Indian Ocean Territory|United Kingdom
+SGP Singapore|Singapore
+NFK Norfolk Island|Australia
+COK Cook Islands|New Zealand
+TON Tonga|Tonga
+WLF Wallis and Futuna|France
+WSM Samoa|Samoa
+SLB Solomon Islands|Solomon Islands
+TUV Tuvalu|Tuvalu
+MDV Maldives|Maldives
+NRU Nauru|Nauru
+FSM Federated States of Micronesia|Federated States of Micronesia
+SGS South Sandwich Islands|United Kingdom ; South Georgia|United Kingdom
+FLK Falkland Islands|United Kingdom
+VUT Vanuatu|Vanuatu
+NIU Niue|New Zealand
+ASM American Samoa|United States of America
+PLW Palau|Palau
+GUM Guam|United States of America
+MNP Northern Mariana Islands|United States of America
+BHR Bahrain|Bahrain
+CSI Coral Sea Islands|Australia
+PGA Spratly Islands|Spratly Islands
+CLP Clipperton Island|France
+MAC Macau|China
+ATC Ashmore and Cartier Islands|Australia
+BJN Bajo Nuevo Bank|Bajo Nuevo Bank (Petrel Is.)
+SER Serranilla Bank|Serranilla Bank
+SCR Scarborough Shoal|Scarborough Reef
