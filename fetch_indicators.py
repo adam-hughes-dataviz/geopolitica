@@ -17,7 +17,7 @@ def get(url):
             with urllib.request.urlopen(req, timeout=90) as r:
                 return json.load(r)
         except urllib.error.HTTPError as e:
-            print("blocked" if e.code in (401, 403) else "retry", url[:80], e)
+            print("blocked" if e.code in (401, 403) else "retry", url[:80], e, e.read()[:200] if e.code == 400 else "")
             if e.code in (401, 403, 404): return None
             time.sleep(4)
         except Exception as e:
@@ -59,9 +59,9 @@ def main():
     for sub, key in (("GGXWDG_NGDP", "debt"), ("GGXCNL_NGDP", "bal")):
         miss = [i for i in out if key not in out[i] and key + "2" not in out[i]]
         n = 0
-        for k in range(0, len(miss), 40):
-            ids = ",".join("%s.%s.pcent_gdp" % (i, sub) for i in miss[k:k + 40])
-            j = get("https://api.db.nomics.world/v22/series/IMF/WEO:latest?observations=1&series_ids=" + ids)
+        for k in range(0, len(miss), 25):
+            ids = ",".join(c for i in miss[k:k + 25] for c in ("%s.%s.pcent_gdp" % (i, sub), "%s.%s" % (i, sub)))
+            j = get("https://api.db.nomics.world/v22/series/IMF/WEO?observations=1&series_ids=" + ids)
             for d in ((j or {}).get("series") or {}).get("docs", []):
                 iso = d.get("series_code", "")[:3]; best = None
                 for per, v in zip(d.get("period", []), d.get("value", [])):
