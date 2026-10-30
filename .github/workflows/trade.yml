@@ -20,4 +20,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add trade.json
           git diff --cached --quiet || git commit -m "Refresh trade data"
+          git pull --rebase -X theirs origin main
           git push
