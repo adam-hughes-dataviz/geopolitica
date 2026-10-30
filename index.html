@@ -129,6 +129,8 @@ canvas.dragging { cursor: grabbing; }
 .flt .legl { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); }
 .flt .plist { list-style: none; margin: 8px 0 0; padding: 0; }
 .flt .plist li { display: flex; align-items: center; gap: 7px; padding: 2px 0; font-size: 12.5px; }
+.flt .plist li.pk { cursor: pointer; border-radius: 4px; margin: 0 -4px; padding: 2px 4px; }
+.flt .plist li.pk:hover { background: rgba(127,127,127,.18); }
 .flt .plist .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
 .flt .plist .pn { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .flt .plist .phd { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); padding-bottom: 3px; }
@@ -1103,7 +1105,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var d = relData(sel.key), ps = relPartners();
     if (!d || !ps.length) { note("Relations data has not been added for " + sel.name + " yet."); return; }
     relInfo.appendChild(el("div", "ft", sel.name));
-    note("Top partners by news-reported events. " + (d.window || "") + " Colour compares each partner with a typical pair, where about one fifth of events are conflict. Click a second country to compare the pair.");
+    note("Top partners by news-reported events. " + (d.window || "") + " Colour compares each partner with a typical pair, where about one fifth of events are conflict. Click a partner here, or a second country on the map, to compare the pair.");
     relInfo.appendChild(el("div", "leg"));
     var lg = el("div", "legl"); lg.appendChild(el("span", "", "More conflict")); lg.appendChild(el("span", "", "Less conflict")); relInfo.appendChild(lg);
     var ul = el("ul", "plist"), hd = el("li", "phd");
@@ -1115,6 +1117,8 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       li.appendChild(dt); li.appendChild(pn);
       li.appendChild(el("span", "pv", p.act ? "War" : Math.round(100 * (p.n - p.coop) / p.n) + "%"));
       li.appendChild(el("span", "pv pc", p.n.toLocaleString("en-GB")));
+      var pp = null; for (var q = 0; q < polys.length; q++) if (polys[q].f.properties.a === p.c && (!pp || polys[q].area > pp.area)) pp = polys[q];
+      if (pp) { li.className = "pk"; li.title = "Compare " + sel.name + " and " + relName(p.c); li.addEventListener("click", (function (P) { return function () { if (sel && !sel2) pickSecond(P); }; })(pp)); }
       ul.appendChild(li);
     });
     relInfo.appendChild(ul);
