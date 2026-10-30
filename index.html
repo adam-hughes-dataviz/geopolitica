@@ -957,6 +957,48 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   }
   // Partner lists for any country come from the pair data (last 4 weeks); the older hand-loaded REL entry is the fallback.
   var relMem = {};
+  // Background for pairs without hand-written notes: the opening sentences of the Wikipedia "X-Y relations" article, fetched live.
+  var WIKI = "https://en.wikipedia.org/w/api.php", wikiMem = {};
+  var WIKI_ALIAS = { "People's Republic of China": "China", "United States of America": "United States", "Czechia": "Czech Republic", "Trinidad": "Trinidad and Tobago", "Vatican City": "Holy See", "Gaza Strip": "Palestine", "Ivory Coast": "Ivory Coast" };
+  function wikiGet(params) { return fetch(WIKI + "?format=json&formatversion=2&origin=*&" + params).then(function (r) { return r.json(); }); }
+  function wikiLead(title) {
+    return wikiGet("action=query&prop=extracts%7Cinfo&exintro=1&explaintext=1&exsentences=3&redirects=1&inprop=url&titles=" + encodeURIComponent(title)).then(function (j) {
+      var p = ((j.query && j.query.pages) || [])[0];
+      return p && !p.missing && p.extract && /relations$/i.test(p.title) ? { t: p.title, x: p.extract.trim(), u: p.fullurl } : null;
+    });
+  }
+  function wikiFind(a, b) {
+    var A = WIKI_ALIAS[a] || a, B = WIKI_ALIAS[b] || b, en = "\u2013";
+    return wikiLead(A + en + B + " relations").then(function (r) {
+      if (r) return r;
+      return wikiLead(B + en + A + " relations");
+    }).then(function (r) {
+      if (r) return r;
+      return wikiGet("action=query&list=search&srlimit=3&srsearch=" + encodeURIComponent('intitle:"' + A + '" intitle:"' + B + '" relations')).then(function (j) {
+        var hits = ((j.query && j.query.search) || []).filter(function (h) { return /relations$/i.test(h.title) && h.title.toLowerCase().indexOf(A.toLowerCase()) >= 0 && h.title.toLowerCase().indexOf(B.toLowerCase()) >= 0; });
+        return hits.length ? wikiLead(hits[0].title) : null;
+      });
+    });
+  }
+  function loadPairBg(box, ka, kb, a, b) {
+    var key = ka + "-" + kb;
+    function current() { return sel && sel2 && sel.key === ka && sel2.key === kb; }
+    function show(r) {
+      if (!current()) return;
+      box.innerHTML = "";
+      if (!r) {
+        box.appendChild(el("div", "empty", "No background article is available for this pair."));
+        var s = el("a", "nlink", "Search Wikipedia"); s.href = "https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(a + " " + b + " relations"); s.target = "_blank"; s.rel = "noopener noreferrer"; box.appendChild(s);
+        return;
+      }
+      var c = el("div", "ctx"); c.appendChild(el("p", "", r.x)); box.appendChild(c);
+      var n = el("div", "pnote", "From the Wikipedia article "), l = el("a", "", r.t); l.href = r.u; l.target = "_blank"; l.rel = "noopener noreferrer";
+      n.appendChild(l); n.appendChild(document.createTextNode(" (CC BY-SA 4.0). Anyone can edit Wikipedia, so check it against a current source.")); box.appendChild(n);
+    }
+    if (wikiMem[key] !== undefined) { show(wikiMem[key]); return; }
+    box.appendChild(el("div", "empty", "Loading background..."));
+    wikiFind(a, b).then(function (r) { wikiMem[key] = r; show(r); }).catch(function () { if (current()) { box.innerHTML = ""; box.appendChild(el("div", "empty", "Could not load the background article.")); } });
+  }
   // Live data: the refresh job in GitHub rewrites pairs.json; the page uses it when it is newer than the copy built in.
   var PAIRS_URL = "https://raw.githubusercontent.com/adam-hughes-dataviz/geopolitica/main/pairs.json";
   setTimeout(function () {
@@ -1222,7 +1264,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     box.appendChild(el("div", "pnote", "Green dot: cooperative types. Red dot: conflict types. Bars show who was the first-named actor in the report."));
   }
 
-  var SPORT_SRC = /sport|espn|cricbuzz|cricinfo|goal\.com|bleacher|athletic|onefootball|fox ?sports|yahoo sports|dazn|eurosport/i, SPORT_URL = /\/sports?(\/|-|\.)|sports\.|\/cricket|\/football|\/soccer|\/rugby|\/tennis|\/golf/i, SPORT_TTL = /\b(cricket|football|footballer|soccer|rugby|tennis|golf|golfer|pga|lpga|nba|nfl|nhl|mlb|fifa|uefa|concacaf|conmebol|ipl|t20|odi|wicket|wickets|batsman|bowler|goalkeeper|striker|olympic|olympics|paralympic|premier league|champions league|la liga|world cup|wwc|u-?17|u-?20|u-?21|asia cup|grand slam|formula (1|one)|f1|motogp|grand prix|athlete|athletes|medal|fixture|squash|hockey|kabaddi|wrestler|wrestling|boxer|boxing|ufc|mma|esports|surf|surfing|surfer|netball|basketball|baseball|volleyball|cycling|marathon|sprinter|championship|championships|round of 16|knockout|playoffs?|midfielder)\b/i, PAIR_OK = /\b(trade|trading|tariff|tariffs|sanction|sanctions|embargo|export|exports|import|imports|investment|invest|treaty|agreement|accord|deal|talks|negotiat\w*|summit|visit|visits|diplomat\w*|ambassador|embassy|consul\w*|foreign minister|foreign ministry|prime minister|president|minister|government|parliament|border|military|army|navy|troops|defen[cs]e|security|war|conflict|attack|strike|missile|drone|ceasefire|peace|alliance|nato|brics|asean|g20|g7|un|united nations|migration|migrants|refugees|visa|energy|oil|gas|climate|cooperation|partnership|relations|tensions|dispute|espionage|spy)\b/i;
+  var SPORT_SRC = /sport|espn|cricbuzz|cricinfo|goal\.com|bleacher|athletic|onefootball|fox ?sports|yahoo sports|dazn|eurosport/i, SPORT_URL = /\/sports?(\/|-|\.)|sports\.|\/cricket|\/football|\/soccer|\/rugby|\/tennis|\/golf/i, SPORT_TTL = /\b(cricket|football|footballer|soccer|rugby|tennis|golf|golfer|pga|lpga|nba|nfl|nhl|mlb|fifa|uefa|concacaf|conmebol|ipl|t20|odi|wicket|wickets|batsman|bowler|goalkeeper|striker|olympic|olympics|paralympic|premier league|champions league|la liga|world cup|wwc|u-?17|u-?20|u-?21|asia cup|grand slam|formula (1|one)|f1|motogp|grand prix|athlete|athletes|medal|fixture|squash|hockey|kabaddi|wrestler|wrestling|boxer|boxing|ufc|mma|esports|netball|basketball|baseball|volleyball|cycling|marathon|sprinter|championship|championships|round of 16|knockout|playoffs?|midfielder)\b/i, PAIR_OK = /\b(trade|trading|tariff|tariffs|sanction|sanctions|embargo|export|exports|import|imports|investment|invest|treaty|agreement|accord|deal|talks|negotiat\w*|summit|visit|visits|diplomat\w*|ambassador|embassy|consul\w*|foreign minister|foreign ministry|prime minister|president|minister|government|parliament|border|military|army|navy|troops|defen[cs]e|security|war|conflict|attack|strike|missile|drone|ceasefire|peace|alliance|nato|brics|asean|g20|g7|un|united nations|migration|migrants|refugees|visa|energy|oil|gas|climate|cooperation|partnership|relations|tensions|dispute|espionage|spy|murder|murdered|murders|killed|killing|killings|manslaughter|guilty|trial|court|arrested|arrest|kidnapped|kidnapping|detained|jailed|sentenced|extradition|extradite|consular|embassy|travel advice|travel warning|cartel|cartels)\b/i;
   function keepPair(x) { return !(SPORT_SRC.test(x.s || "") || SPORT_URL.test(x.u || "") || SPORT_TTL.test(x.t || "")) && PAIR_OK.test(x.t || ""); }
 
   function loadPairNews(box, ka, kb, a, b) {
@@ -1307,7 +1349,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       var cb = el("div", "ctx");
       cx.forEach(function (p) { cb.appendChild(el("h4", "", p[0])); cb.appendChild(el("p", "", p[1])); });
       body.appendChild(cb); body.appendChild(el("div", "pnote", PAIRCTX_NOTE));
-    } else body.appendChild(el("div", "empty", "Background notes have not been written for this pair yet."));
+    } else { var bgBox = el("div"); body.appendChild(bgBox); loadPairBg(bgBox, ka, kb, sel.name, sel2.name); }
     // 5. Headlines
     body.appendChild(el("h3", "", "Bilateral news"));
     var nb2 = el("div"); body.appendChild(nb2);
