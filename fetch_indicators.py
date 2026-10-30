@@ -55,6 +55,22 @@ def main():
             n = len(best)
             if n: break
         print("wb", code, n); time.sleep(1)
+    # IMF fallback via DBnomics (mirrors the IMF WEO) for debt and budget balance where still missing
+    for sub, key in (("GGXWDG_NGDP", "debt"), ("GGXCNL_NGDP", "bal")):
+        miss = [i for i in out if key not in out[i] and key + "2" not in out[i]]
+        n = 0
+        for k in range(0, len(miss), 40):
+            ids = ",".join("%s.%s.pcent_gdp" % (i, sub) for i in miss[k:k + 40])
+            j = get("https://api.db.nomics.world/v22/series/IMF/WEO:latest?observations=1&series_ids=" + ids)
+            for d in ((j or {}).get("series") or {}).get("docs", []):
+                iso = d.get("series_code", "")[:3]; best = None
+                for per, v in zip(d.get("period", []), d.get("value", [])):
+                    try: y = int(str(per)[:4]); f = float(v)
+                    except (ValueError, TypeError): continue
+                    if y <= NOW and (best is None or y > best[1]): best = [f, y]
+                if best: out[iso][key] = best; n += 1
+            time.sleep(1)
+        print("dbnomics", sub, n)
     if len(out) < 100:
         raise SystemExit("too few countries (%d), not publishing" % len(out))
     json.dump(out, open("indicators.json", "w"), separators=(",", ":"))
