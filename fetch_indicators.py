@@ -55,23 +55,26 @@ def main():
             n = len(best)
             if n: break
         print("wb", code, n); time.sleep(1)
-    # IMF fallback via DBnomics (mirrors the IMF WEO) for debt and budget balance where still missing
+    # IMF fallback via DBnomics (mirrors the IMF WEO) for debt and budget balance where still missing.
+    # Real countries only (World Bank region is not an aggregate). Tries the current release, then older ones.
+    cl = get("https://api.worldbank.org/v2/country?format=json&per_page=400")
+    real = {c["id"] for c in (cl[1] if isinstance(cl, list) and len(cl) > 1 else []) if c.get("region", {}).get("id") != "NA"}
+    VINT = [("WEO", NOW)] + [("WEO:%d-%s" % (y, m), y) for y in range(2024, 2017, -1) for m in ("10", "04")]
     for sub, key in (("GGXWDG_NGDP", "debt"), ("GGXCNL_NGDP", "bal")):
-        miss = [i for i in out if key not in out[i] and key + "2" not in out[i]]
+        miss = [i for i in out if i in real and key not in out[i] and key + "2" not in out[i]]
         n = 0
         for iso in miss:
-            for code in ("%s.%s.pcent_gdp" % (iso, sub), "%s.%s" % (iso, sub)):
-                j = get("https://api.db.nomics.world/v22/series/IMF/WEO/%s?observations=1" % code)
-                docs = ((j or {}).get("series") or {}).get("docs", [])
+            for ds, vy in VINT:
+                j = get("https://api.db.nomics.world/v22/series/IMF/%s/%s.%s.pcent_gdp?observations=1" % (ds, iso, sub))
                 best = None
-                for d in docs:
+                for d in ((j or {}).get("series") or {}).get("docs", []):
                     for per, v in zip(d.get("period", []), d.get("value", [])):
                         try: y = int(str(per)[:4]); f = float(v)
                         except (ValueError, TypeError): continue
-                        if y <= NOW and (best is None or y > best[1]): best = [f, y]
-                if best: out[iso][key] = best; n += 1; break
-            time.sleep(0.3)
-        print("dbnomics", sub, n)
+                        if y <= vy and (best is None or y > best[1]): best = [f, y]
+                if best: out[iso][key] = best; n += 1; print("dbnomics found", iso, key, best, ds); break
+                time.sleep(0.15)
+        print("dbnomics", sub, n, "of", len(miss))
     if len(out) < 100:
         raise SystemExit("too few countries (%d), not publishing" % len(out))
     json.dump(out, open("indicators.json", "w"), separators=(",", ":"))
