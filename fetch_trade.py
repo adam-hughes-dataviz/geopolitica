@@ -6,7 +6,8 @@ import json, os, re, sys, time, urllib.request, datetime
 MAX_COUNTRIES = int(os.environ.get("MAX_COUNTRIES", "40"))
 FRESH_DAYS = 28
 OVERRIDE = {"FRA": "251", "ITA": "381", "NOR": "579", "CHE": "757", "USA": "842", "IND": "699", "TWN": "490"}
-API = "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
+KEY = os.environ.get("COMTRADE_KEY", "").strip()
+API = "https://comtradeapi.un.org/data/v1/get/C/A/HS" if KEY else "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
 
 def codes():
     keys = []
@@ -26,12 +27,14 @@ def numeric(k):
 def get(url):
     for i in range(3):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "geopolitica-dashboard"})
+            req = urllib.request.Request(url, headers=dict({"User-Agent": "geopolitica-dashboard"}, **({"Ocp-Apim-Subscription-Key": KEY} if KEY else {})))
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.load(r).get("data") or []
         except urllib.error.HTTPError as e:
+            if e.code in (401, 403):
+                raise RuntimeError("access refused (HTTP %d), check the COMTRADE_KEY secret" % e.code)
             if e.code == 429:
-                raise RuntimeError("rate limited")
+                raise RuntimeError("rate limited" + ("" if KEY else " (no COMTRADE_KEY set)"))
             if e.code in (400, 404):
                 return []
             time.sleep(3)
