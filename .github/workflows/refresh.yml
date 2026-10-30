@@ -1,0 +1,29 @@
+name: Refresh pairs data
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.WIF_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Query GDELT
+        run: bq query --project_id=geopolitica-513116 --use_legacy_sql=false --format=json --max_rows=100000 < all_pairs.sql > raw.json
+      - name: Build pairs.json
+        run: python3 mkpairs.py raw.json
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add pairs.json
+          git diff --cached --quiet || git commit -m "Refresh pairs data"
+          git push
