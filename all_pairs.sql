@@ -2,10 +2,12 @@
 -- Sports stories are left out (by web address), and a "war" count is added: fighting, assaults and mass
 -- violence where BOTH sides are a government or military (w0, w1) or at least one side is (l0, l1),
 -- over the last two 4-week periods.
+-- Only events with a state actor on at least one side (government, military, legislature, intelligence) are counted,
+-- so crime, trial and sport coverage between private citizens does not inflate a pair's conflict share.
 -- Run in the BigQuery console, then Save results > JSON (local file) into the Geopolitica folder.
 -- Cost: probably 5 to 15 GB processed (check "Bytes processed"), inside the free monthly allowance.
 -- If the saved file is too large, raise min_events (for example to 3000) and run again.
-DECLARE min_events INT64 DEFAULT 1000;
+DECLARE min_events INT64 DEFAULT 500;
 DECLARE anchor DATE DEFAULT DATE_TRUNC(CURRENT_DATE(), WEEK(MONDAY));
 
 WITH e AS (
@@ -27,6 +29,7 @@ WITH e AS (
     AND Actor1CountryCode IS NOT NULL
     AND Actor2CountryCode IS NOT NULL
     AND Actor1CountryCode != Actor2CountryCode
+    AND (Actor1Type1Code IN ('GOV', 'MIL', 'LEG', 'SPY') OR Actor2Type1Code IN ('GOV', 'MIL', 'LEG', 'SPY'))
     AND Actor1CountryCode NOT IN ('EUR', 'WST', 'ASA', 'AFR', 'LAM', 'MEA', 'SAS', 'SEA', 'NAM', 'CRB', 'SCN', 'BLK', 'BAL', 'NMR', 'SSA', 'PGS', 'WAF')
     AND Actor2CountryCode NOT IN ('EUR', 'WST', 'ASA', 'AFR', 'LAM', 'MEA', 'SAS', 'SEA', 'NAM', 'CRB', 'SCN', 'BLK', 'BAL', 'NMR', 'SSA', 'PGS', 'WAF')
     -- leave out sports coverage: sports sites and sports words in the article address
