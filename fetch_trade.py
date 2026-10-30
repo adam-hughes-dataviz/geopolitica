@@ -135,7 +135,7 @@ def main():
         try:
             r = country(n)
         except RuntimeError as e:
-            print("stopping:", e); break
+            print("stopping:", e); print("::error title=Comtrade::" + str(e).replace("\n", " ")); break
         done += 1
         if r:
             data[k] = r; print("ok", k, r["y"])
