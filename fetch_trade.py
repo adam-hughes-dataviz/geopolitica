@@ -30,6 +30,15 @@ def pname(code, desc):
 def bad(d):
     return not d or not d.get("px") or any((not a[0]) for k in ("px", "pm", "cx", "cm") for a in d[k]["top"])
 
+BUILT = ['GBR', 'AFG', 'ALB', 'DZA', 'AND', 'AGO', 'ATG', 'ARG', 'ARM', 'AUS', 'AUT', 'AZE', 'BHS', 'BHR', 'BGD', 'BRB', 'BLR', 'BEL', 'BLZ', 'BEN', 'BTN', 'BOL', 'BIH', 'BWA', 'BRA', 'BRN', 'BGR', 'BFA', 'BDI', 'CPV', 'KHM', 'CMR', 'CAN', 'CAF', 'TCD', 'CHL', 'CHN', 'COL', 'COM', 'COD', 'COG', 'CRI', 'CIV', 'HRV', 'CUB', 'CYP', 'CZE', 'DNK', 'DJI', 'DMA', 'DOM', 'ECU', 'EGY', 'SLV', 'GNQ', 'ERI', 'EST', 'SWZ', 'ETH', 'FJI', 'FIN', 'FRA']
+
+def built():
+    """Countries that have a full page (listed in country-data.json), collected before anything else."""
+    try:
+        return list(json.load(open("country-data.json", encoding="utf-8")).keys())
+    except Exception:
+        return BUILT
+
 def codes():
     keys = []
     for line in open("codes.txt", encoding="utf-8"):
@@ -52,10 +61,10 @@ def get(url):
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.load(r).get("data") or []
         except urllib.error.HTTPError as e:
-            if e.code in (401, 403):
-                raise RuntimeError("access refused (HTTP %d), check the COMTRADE_KEY secret" % e.code)
-            if e.code == 429:
-                raise RuntimeError("rate limited" + ("" if KEY else " (no COMTRADE_KEY set)"))
+            try: body = e.read()[:300].decode("utf-8", "replace")
+            except Exception: body = ""
+            if e.code in (401, 403, 429):
+                raise RuntimeError("Comtrade refused (HTTP %d). Key set: %s. Comtrade says: %s" % (e.code, "yes" if KEY else "NO", body))
             if e.code in (400, 404):
                 return []
             time.sleep(3)
@@ -92,17 +101,19 @@ def pick(rows, partners):
     return {"tot": tot or sum(a[1] for a in lst), "top": lst[:5]}
 
 def country(code):
+    """One cheap probe call per year first; the other three calls are only made when the probe finds data."""
     now = datetime.date.today().year
-    for y in (now - 2, now - 3, now - 4):
+    for y in (now - 2, now - 3):
         base = "%s?reporterCode=%s&period=%d&partner2Code=0&customsCode=C00&motCode=0&maxRecords=500&includeDesc=true" % (API, code, y)
+        cx = get(base + "&cmdCode=TOTAL&flowCode=X"); time.sleep(1.2)
+        if not pick(cx, True)["top"]:
+            continue
         px = get(base + "&cmdCode=AG2&flowCode=X&partnerCode=0"); time.sleep(1.2)
         pm = get(base + "&cmdCode=AG2&flowCode=M&partnerCode=0"); time.sleep(1.2)
-        cx = get(base + "&cmdCode=TOTAL&flowCode=X"); time.sleep(1.2)
         cm = get(base + "&cmdCode=TOTAL&flowCode=M"); time.sleep(1.2)
         out = {"y": y, "px": pick(px, False), "pm": pick(pm, False), "cx": pick(cx, True), "cm": pick(cm, True)}
-        if any(out[k]["top"] for k in ("px", "pm", "cx", "cm")):
-            out["t"] = int(time.time())
-            return out
+        out["t"] = int(time.time())
+        return out
     return None
 
 def main():
@@ -112,7 +123,8 @@ def main():
         data = {}
     now = time.time()
     todo = [k for k in codes() if bad(data.get(k)) and not (data.get(k) or {}).get("none") or now - data[k].get("t", 0) > FRESH_DAYS * 86400]
-    todo.sort(key=lambda k: 0 if bad(data.get(k)) else data[k].get("t", 0))
+    B = built()
+    todo.sort(key=lambda k: (0 if k in B else 1, 0 if bad(data.get(k)) else 1, (data.get(k) or {}).get("t", 0)))
     done = 0
     for k in todo:
         if done >= MAX_COUNTRIES:
@@ -131,6 +143,8 @@ def main():
             data[k] = {"t": int(time.time()), "none": True}; print("none", k)
     json.dump(data, open("trade.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("countries done this run:", done, "total:", len(data))
+    if done == 0 and todo:
+        sys.exit("Nothing collected this run, see the line starting 'stopping:' above")
 
 if __name__ == "__main__":
     main()
