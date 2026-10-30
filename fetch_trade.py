@@ -1,9 +1,9 @@
 """Collect top-5 goods trade (UN Comtrade public preview API) into trade.json.
 Runs daily on GitHub Actions. Each run fills missing countries first, then the oldest entries,
-up to MAX_COUNTRIES per run, so rate limits never stop the whole job."""
+up to MAX_COUNTRIES per run (set high so every country is collected), so rate limits never stop the whole job."""
 import json, os, re, sys, time, urllib.request, datetime
 
-MAX_COUNTRIES = int(os.environ.get("MAX_COUNTRIES", "40"))
+MAX_COUNTRIES = int(os.environ.get("MAX_COUNTRIES", "400"))
 FRESH_DAYS = 28
 OVERRIDE = {"FRA": "251", "ITA": "381", "NOR": "579", "CHE": "757", "USA": "842", "IND": "699", "TWN": "490"}
 KEY = os.environ.get("COMTRADE_KEY", "").strip()
