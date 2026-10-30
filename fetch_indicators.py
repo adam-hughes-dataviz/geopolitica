@@ -5,7 +5,10 @@ import json, time, urllib.request, datetime
 NOW = datetime.date.today().year
 IMF = {"NGDP_RPCH": "gdpg", "LUR": "unemp", "PCPIPCH": "infl", "NGDPD": "gdp", "NGDPDPC": "gdppc", "PPPGDP": "ppp", "PPPPC": "pppc",
        "GGXWDG_NGDP": "debt", "GGXCNL_NGDP": "bal", "BCA_NGDPD": "ca"}
-WB = {"SP.POP.TOTL": "pop", "SP.URB.TOTL.IN.ZS": "urban", "SP.DYN.LE00.IN": "life", "SP.POP.GROW": "popg", "EN.POP.DNST": "dens", "SP.DYN.TFRT.IN": "fert"}
+WB = {"SP.POP.TOTL": "pop", "SP.URB.TOTL.IN.ZS": "urban", "SP.DYN.LE00.IN": "life", "SP.POP.GROW": "popg", "EN.POP.DNST": "dens", "SP.DYN.TFRT.IN": "fert", "SI.POV.GINI": "gini",
+      "NY.GDP.MKTP.KD.ZG": "gdpg2", "SL.UEM.TOTL.ZS": "unemp2", "FP.CPI.TOTL.ZG": "infl2", "GC.DOD.TOTL.GD.ZS": "debt2", "GC.NLD.TOTL.GD.ZS": "bal2", "BN.CAB.XOKA.GD.ZS": "ca2",
+      "NY.GDP.MKTP.CD": "gdp2", "NY.GDP.PCAP.CD": "gdppc2", "NY.GDP.MKTP.PP.CD": "ppp2", "NY.GDP.PCAP.PP.CD": "pppc2",
+      "VA.PER.RNK": "voice", "PV.PER.RNK": "stab", "GE.PER.RNK": "eff", "RL.PER.RNK": "law", "CC.PER.RNK": "corr"}
 
 def get(url):
     for i in range(3):
