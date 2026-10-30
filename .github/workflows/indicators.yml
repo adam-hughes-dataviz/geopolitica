@@ -1,0 +1,20 @@
+name: Refresh indicators
+on:
+  schedule:
+    - cron: "21 4 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  indicators:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 fetch_indicators.py
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add indicators.json
+          git diff --cached --quiet || git commit -m "Refresh indicators"
+          git push
