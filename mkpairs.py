@@ -7,8 +7,17 @@ import json, sys, os, datetime
 ALIAS = {"ROM": "ROU", "TMP": "TLS", "ZAR": "COD", "PSE": "PSX", "GZS": "PSX", "WSB": "PSX", "KSV": "KOS", "SSD": "SDS", "ESH": "SAH"}
 args = [x for x in sys.argv[1:] if not x.startswith("--")]
 src = args[0]; out = "pairs.json"
-rows = json.load(open(src))
-if isinstance(rows, dict): rows = rows.get("rows", [])
+def flat(x):
+    if isinstance(x, dict): return [x] if ("d" in x or "r" in x) else [y for v in x.values() for y in flat(v)]
+    if isinstance(x, list): return [y for v in x for y in flat(v)]
+    return []
+txt = open(src).read(); dec = json.JSONDecoder(); i = 0; rows = []
+while i < len(txt):
+    while i < len(txt) and txt[i].isspace(): i += 1
+    if i >= len(txt): break
+    obj, i = dec.raw_decode(txt, i); rows += flat(obj)
+if not rows:
+    print("No rows found in", src, "->", txt[:300]); sys.exit(1)
 mt = datetime.date.fromtimestamp(os.path.getmtime(src))
 anchor = mt - datetime.timedelta(days=mt.weekday())          # Monday of the week the file was made
 known = set(l.split(" ")[0] for l in open("codes.txt").read().split("\n")) if os.path.exists("codes.txt") else None
