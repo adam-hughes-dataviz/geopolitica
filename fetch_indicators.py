@@ -1,11 +1,11 @@
 """Collect key economy and population figures for every country into indicators.json.
 IMF World Economic Outlook (DataMapper API) and World Bank open data. No keys needed."""
-import json, time, urllib.request, urllib.error, datetime
+import csv, io, json, re, time, urllib.request, urllib.error, datetime
 
 NOW = datetime.date.today().year
 IMF = {"NGDP_RPCH": "gdpg", "LUR": "unemp", "PCPIPCH": "infl", "NGDPD": "gdp", "NGDPDPC": "gdppc", "PPPGDP": "ppp", "PPPPC": "pppc",
        "GGXWDG_NGDP": "debt", "GGXCNL_NGDP": "bal", "BCA_NGDPD": "ca"}
-WB = {"SP.POP.TOTL": "pop", "SP.URB.TOTL.IN.ZS": "urban", "SP.DYN.LE00.IN": "life", "SP.POP.GROW": "popg", "EN.POP.DNST": "dens", "SP.DYN.TFRT.IN": "fert", "SI.POV.GINI": "gini",
+WB = {"SP.POP.TOTL": "pop", "SP.URB.TOTL.IN.ZS": "urban", "SP.DYN.LE00.IN": "life", "SP.POP.GROW": "popg", "EN.POP.DNST": "dens", "SP.DYN.TFRT.IN": "fert", "SP.DYN.CBRT.IN": "cbr", "SP.DYN.CDRT.IN": "cdr", "SM.POP.NETM": "netm", "SH.DYN.MORT": "u5", "SP.DYN.AMRT.FE": "amr", "SP.POP.BRTH.MF": "srb", "SI.POV.GINI": "gini",
       "NY.GDP.MKTP.KD.ZG": "gdpg2", "SL.UEM.TOTL.ZS": "unemp2", "FP.CPI.TOTL.ZG": "infl2", "GC.DOD.TOTL.GD.ZS": "debt2", "GC.NLD.TOTL.GD.ZS": "bal2", "BN.CAB.XOKA.GD.ZS": "ca2",
       "NY.GDP.MKTP.CD": "gdp2", "NY.GDP.PCAP.CD": "gdppc2", "NY.GDP.MKTP.PP.CD": "ppp2", "NY.GDP.PCAP.PP.CD": "pppc2",
       "GOV_WGI_VA_SC": "voice", "GOV_WGI_PV_SC": "stab", "GOV_WGI_GE_SC": "eff", "GOV_WGI_RL_SC": "law", "GOV_WGI_CC_SC": "corr"}
@@ -23,6 +23,48 @@ def get(url):
         except Exception as e:
             print("retry", url[:80], e); time.sleep(4)
     return None
+
+def get_text(url):
+    for i in range(3):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                b = r.read()
+            for enc in ("utf-8-sig", "latin-1"):
+                try: return b.decode(enc)
+                except UnicodeDecodeError: pass
+        except urllib.error.HTTPError as e:
+            if e.code in (400, 401, 403, 404): return None
+            time.sleep(4)
+        except Exception:
+            time.sleep(4)
+    return None
+
+def parse_hdi(text):
+    """UNDP composite-indices time series: one row per country, columns iso3 and hdi_1990 ... hdi_YYYY. Returns {iso3: [value, year]} using each country's latest year."""
+    rd = csv.DictReader(io.StringIO(text))
+    cols = sorted(((int(m.group(1)), c) for c in (rd.fieldnames or []) for m in [re.fullmatch(r"hdi_(\d{4})", c.strip())] if m), reverse=True)
+    res = {}
+    for row in rd:
+        iso = (row.get("iso3") or "").strip()
+        if len(iso) != 3 or not iso.isalpha(): continue
+        for y, c in cols:
+            try: v = float(row.get(c))
+            except (TypeError, ValueError): continue
+            res[iso] = [v, y]; break
+    return res
+
+def fetch_hdi():
+    """Human Development Index from the UNDP Human Development Report data centre (latest report that can be downloaded)."""
+    for y in range(NOW, NOW - 4, -1):
+        url = "https://hdr.undp.org/sites/default/files/%d_HDR/HDR%s_Composite_indices_complete_time_series.csv" % (y, str(y)[2:])
+        txt = get_text(url)
+        if txt:
+            res = parse_hdi(txt)
+            if len(res) > 100: print("hdi", url, len(res)); return res
+            print("hdi: unexpected file layout", url)
+    print("hdi: no UNDP file found, skipped")
+    return {}
 
 def main():
     out = {}
@@ -75,9 +117,12 @@ def main():
                 if best: out[iso][key] = best; n += 1; print("dbnomics found", iso, key, best, ds); break
                 time.sleep(0.15)
         print("dbnomics", sub, n, "of", len(miss))
+    for iso, v in fetch_hdi().items():
+        if iso in out: out[iso]["hdi"] = v
     if len(out) < 100:
         raise SystemExit("too few countries (%d), not publishing" % len(out))
     json.dump(out, open("indicators.json", "w"), separators=(",", ":"))
     print("countries:", len(out))
 
-main()
+if __name__ == "__main__":
+    main()
