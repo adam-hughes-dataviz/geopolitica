@@ -2,7 +2,7 @@
 Sources (all free, public): CIA World Factbook (github.com/factbook/factbook.json) for area and elevation,
 Natural Earth (github.com/nvkelso/natural-earth-vector) for river and lake shapes, lengths and areas.
 Run monthly on GitHub Actions. Nothing here is typed by hand except the short geo_overrides.json list."""
-import csv, glob, html, json, math, os, re, sys, time, unicodedata, urllib.request
+import csv, difflib, glob, html, json, math, os, re, sys, time, unicodedata, urllib.request
 import numpy as np
 from shapely.geometry import shape, mapping, MultiLineString, LineString, Point
 from shapely.ops import linemerge, unary_union, transform
@@ -13,6 +13,7 @@ CACHE = os.environ.get("NE_DIR", "ne_cache")
 NE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/"
 CODES = "https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv"
 R_EARTH = 6371.0088
+LAKE_ALIAS = {"scutari": "skadar"}   # older spelling used by the Factbook
 
 def get(url, path):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
@@ -188,6 +189,7 @@ def main():
             inter = g.intersection(C[isos[i]])
             if not inter.is_empty and inter.area / g.area >= 0.05: sh[isos[i]] = inter.area / g.area
         L.append({"n": n, "a": area_km2(g) if g.geom_type == "Polygon" else sum(area_km2(x) for x in g.geoms), "g": g, "sh": sh, "k": norm(n)})
+    ltree = STRtree([l["g"] for l in L])
     Lk = {}
     for l in L: Lk.setdefault(l["k"], []).append(l)
     # ---- rivers (Natural Earth shapes; systems clustered by name and contact)
@@ -225,11 +227,24 @@ def main():
         fl = sorted(parse_lakes(f), key=lambda x: -x["km2"])
         if fl:
             b = fl[0]; shp = None
+            near = [L[i] for i in ltree.query(cg)]
             for nm in b["names"]:
                 for cand in Lk.get(norm(nm), []):
-                    if cand["sh"].get(iso, 0) >= 0.05 and (shp is None or cand["a"] > shp["a"]): shp = cand
+                    if (cand["sh"].get(iso, 0) >= 0.05 or cand in near) and (shp is None or cand["a"] > shp["a"]): shp = cand
+            if shp is None:   # spelling differs (e.g. Quinghai / Qinghai): closest name among lakes touching this country
+                best = 0
+                for cand in near:
+                    for nm in b["names"]:
+                        k1 = LAKE_ALIAS.get(norm(nm), norm(nm)); k2 = cand["k"]
+                        rr = difflib.SequenceMatcher(None, k1, k2).ratio()
+                        if min(len(k1), len(k2)) >= 3 and (k1 in k2 or k2 in k1): rr = max(rr, 0.9)   # Toba / Danau Toba, Uvs / Uvs Nuur
+                        if rr > best and rr >= 0.8: best, shp = rr, cand
             lake = {"n": b["names"][0], "km2": b["km2"], "shared": [], "shp": shp}
-            if shp: lake["shared"] = sorted(c for c in shp["sh"] if c != iso and shp["sh"][c] >= 0.1)
+            if shp:
+                sh = dict(shp["sh"])
+                if sum(sh.values()) < 0.3:   # inland sea or lagoon: sharing by coastline contact instead of land overlap
+                    sh = {isos[i]: 1 for i in trees.query(shp["g"].buffer(0.03)) if C[isos[i]].distance(shp["g"]) < 0.03}
+                lake["shared"] = sorted(c for c in sh if c != iso and sh[c] >= 0.1)
         else:
             cand = [l for l in L if l["sh"].get(iso, 0) >= 0.05]
             if cand:
