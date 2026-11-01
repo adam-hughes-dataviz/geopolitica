@@ -145,6 +145,9 @@ def load_ne():
     adm = json.load(open(get(NE + "ne_50m_admin_0_countries.geojson", os.path.join(CACHE, "adm.geojson")), encoding="utf-8"))
     land = json.load(open(get(NE + "ne_50m_land.geojson", os.path.join(CACHE, "land.geojson")), encoding="utf-8"))
     lakes = json.load(open(get(NE + "ne_10m_lakes.geojson", os.path.join(CACHE, "lakes.geojson")), encoding="utf-8"))
+    # lagoons and inland seas that Natural Earth keeps in its marine layer (Caspian Sea, Lake Maracaibo, Patos and Szczecin lagoons)
+    marine = json.load(open(get(NE + "ne_10m_geography_marine_polys.geojson", os.path.join(CACHE, "marine.geojson")), encoding="utf-8"))
+    lakes["features"] += [f for f in marine["features"] if f["properties"].get("featurecla") == "lagoon" or f["properties"].get("name") == "Caspian Sea"]
     rivers = json.load(open(get(NE + "ne_10m_rivers_lake_centerlines.geojson", os.path.join(CACHE, "rivers.geojson")), encoding="utf-8"))
     return adm, land, lakes, rivers
 
@@ -175,12 +178,14 @@ def main():
     isos = list(C); trees = STRtree([C[k] for k in isos])
     coast = unary_union([shape(f["geometry"]) for f in land["features"]]).boundary
     # ---- lakes (Natural Earth shapes; same-name pieces merged, area from the merged outline)
-    pieces = {}
+    pieces = {}; alts = {}
     for f in lakes["features"]:
         p = f["properties"]; n = p.get("name_en") or p.get("name")
         if not n: continue
         g = shape(f["geometry"])
-        if not g.is_empty: pieces.setdefault(n, []).append(g)
+        if not g.is_empty:
+            pieces.setdefault(n, []).append(g)
+            if p.get("name") and p.get("name") != n: alts.setdefault(n, set()).add(p["name"])   # e.g. English 'Nyanza' vs local 'Lake Victoria'
     L = []
     for n, gs in pieces.items():
         g = unary_union(gs)
@@ -188,10 +193,13 @@ def main():
         for i in trees.query(g):
             inter = g.intersection(C[isos[i]])
             if not inter.is_empty and inter.area / g.area >= 0.05: sh[isos[i]] = inter.area / g.area
-        L.append({"n": n, "a": area_km2(g) if g.geom_type == "Polygon" else sum(area_km2(x) for x in g.geoms), "g": g, "sh": sh, "k": norm(n)})
+        L.append({"n": n, "a": area_km2(g) if g.geom_type == "Polygon" else sum(area_km2(x) for x in g.geoms), "g": g, "sh": sh, "k": norm(n), "alt": alts.get(n, set())})
     ltree = STRtree([l["g"] for l in L])
     Lk = {}
     for l in L: Lk.setdefault(l["k"], []).append(l)
+    for l in L:
+        for al in l["alt"]:
+            if norm(al) != l["k"]: Lk.setdefault(norm(al), []).append(l)
     # ---- rivers (Natural Earth shapes; systems clustered by name and contact)
     RV = {}
     for f in rivers["features"]:
