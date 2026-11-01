@@ -1,0 +1,25 @@
+name: Refresh geography data
+on:
+  schedule:
+    - cron: "41 3 1 * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  geography:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install shapely numpy
+      - run: git clone --depth 1 https://github.com/factbook/factbook.json /tmp/factbook.json
+      - run: python3 fetch_geography.py
+        env:
+          FB_DIR: /tmp/factbook.json
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add geography.json
+          git diff --cached --quiet || git commit -m "Refresh geography data"
+          git pull --rebase -X theirs origin main
+          git push
