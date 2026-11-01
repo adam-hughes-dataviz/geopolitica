@@ -126,6 +126,7 @@ def main():
     B = built()
     todo.sort(key=lambda k: (0 if k in B else 1, 0 if bad(data.get(k)) else 1, (data.get(k) or {}).get("t", 0)))
     done = 0
+    stopped = False
     for k in todo:
         if done >= MAX_COUNTRIES:
             break
@@ -135,7 +136,7 @@ def main():
         try:
             r = country(n)
         except RuntimeError as e:
-            print("stopping:", e); print("::error title=Comtrade::" + str(e).replace("\n", " ")); break
+            print("stopping:", e); print("::error title=Comtrade::" + str(e).replace("\n", " ")); stopped = True; break
         done += 1
         if r:
             data[k] = r; print("ok", k, r["y"])
@@ -143,7 +144,7 @@ def main():
             data[k] = {"t": int(time.time()), "none": True}; print("none", k)
     json.dump(data, open("trade.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("countries done this run:", done, "total:", len(data))
-    if done == 0 and todo:
+    if done == 0 and todo and stopped:
         sys.exit("Nothing collected this run, see the line starting 'stopping:' above")
 
 if __name__ == "__main__":
