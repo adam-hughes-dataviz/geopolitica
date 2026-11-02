@@ -65,4 +65,40 @@ for c in codes:
 print("\n=== D. Full list for CRI and ERI (credit side) ===")
 for k in ("CRI", "ERI"):
     print(k, sorted((c, y) for c, y in res.get(k, {}).items() if "Credit" in svc[c]))
+print("\n=== E. OECD-WTO BaTIS on the OECD SDMX API (fallback for countries with no official data) ===")
+def raw(url, accept="application/xml"):
+    for i in range(2):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "geopolitica-probe", "Accept": accept})
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return r.read().decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            try: body = e.read()[:200].decode("utf-8", "replace")
+            except Exception: body = ""
+            print("  HTTP", e.code, url[:150], "|", body); 
+            if e.code in (400, 404): return None
+            time.sleep(10)
+        except Exception as e:
+            print("  ERR", type(e).__name__, str(e)[:80]); time.sleep(5)
+    return None
+x = raw("https://sdmx.oecd.org/public/rest/dataflow/OECD.SDD.TPS/all")
+flows = re.findall(r'<structure:Dataflow[^>]*id="([^"]+)"[^>]*version="([^"]+)"[^>]*>.*?<common:Name xml:lang="en">([^<]*)', x or "", re.S)
+bat = [f for f in flows if re.search(r"BATIS", f[0] + f[2], re.I)]
+print("dataflows mentioning BATIS:", bat)
+for fid, ver, name in bat[:3]:
+    st = raw("https://sdmx.oecd.org/public/rest/dataflow/OECD.SDD.TPS/%s/%s?references=all" % (fid, ver))
+    dims = re.findall(r'<structure:Dimension [^>]*id="([^"]+)"', st or "")
+    print("flow", fid, ver, "| dimensions in order:", dims)
+    if not dims:
+        continue
+    for k, c3 in (("ERI", "ERI"), ("CUB", "CUB"), ("TCD", "TCD"), ("GNQ", "GNQ"), ("CRI", "CRI")):
+        for area in [d for d in dims if re.search(r"REF_AREA|REPORTER|COUNTRY", d)][:1]:
+            key = ".".join(c3 if d == area else "" for d in dims)
+            t = raw("https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,%s,%s/%s?lastNObservations=1&format=csvfilewithlabels" % (fid, ver, key), "text/csv")
+            lines = (t or "").splitlines()
+            print(k, "key", key, "| rows:", max(len(lines) - 1, 0))
+            if k in ("ERI", "CRI"):
+                for ln in lines[:3]: print("   ", ln[:400])
+            time.sleep(3)
+    break
 print("\nprobe finished")
