@@ -1,0 +1,10 @@
+name: Probe services data
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pycountry
+      - run: python3 probe_services.py
