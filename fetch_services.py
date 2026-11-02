@@ -29,15 +29,19 @@ SINGLE = ["manuf", "repair", "cons", "fin", "ip", "gov"]
 # BaTIS service codes -> keys (12 headline categories)
 BATIS = {"SA": "manuf", "SB": "repair", "SC": "trn", "SD": "trv", "SE": "cons", "SF": "insg", "SG": "fin", "SH": "ip", "SI": "tci", "SJ": "ob", "SK": "pcr", "SL": "gov"}
 
+DEADLINE = time.time() + 40 * 60
+class Out(BaseException): pass
+
 def http(url, accept="application/json", tries=3):
+    if time.time() > DEADLINE: raise Out()
     for i in range(tries):
         try:
             req = urllib.request.Request(url, headers=dict(UA, Accept=accept))
-            with urllib.request.urlopen(req, timeout=120) as r:
+            with urllib.request.urlopen(req, timeout=40) as r:
                 return r.read().decode("utf-8", "replace")
         except urllib.error.HTTPError as e:
             if e.code in (400, 404, 413): return None
-            time.sleep(10 * (i + 1))
+            time.sleep(5 * (i + 1))
         except Exception:
             time.sleep(5 * (i + 1))
     return None
@@ -173,16 +177,24 @@ def main():
     try: wb = json.load(open("indicators.json", encoding="utf-8"))
     except Exception: wb = {}
     ks = codes()
-    for n, k in enumerate(ks, 1):
+    try:
+      for n, k in enumerate(ks, 1):
+        if n % 10 == 1: print("progress", n, "of", len(ks), flush=True)
         d = imf_country(k)
-        if d: data[k] = d; print("imf", k, d["y"], len(d["x"]), len(d["m"]))
-        else: data[k] = {"src": "none"}; print("no imf data", k)
+        if d: data[k] = d; print("imf", k, d["y"], len(d["x"]), len(d["m"]), flush=True)
+        else: data[k] = {"src": "none"}; print("no imf data", k, flush=True)
+    except Out:
+      print("TIME CAP reached before all countries were fetched; saving what we have", flush=True)
+    for k in ks: data.setdefault(k, {"src": "none"})
     data = rescale(data, wb)
     for k in ks:
+      try:
         if data[k].get("src") == "none":
             d = batis_country(k)
             if d: data[k] = d; print("batis", k, d["y"], len(d["x"]), len(d["m"]))
             else: print("STILL MISSING services (need a source from you):", k)
+      except Out:
+        print("TIME CAP reached during BaTIS; saving", flush=True); break
     json.dump(data, open("services.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("services.json countries:", len(data))
 
