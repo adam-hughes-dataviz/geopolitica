@@ -1,0 +1,22 @@
+name: Refresh services trade data
+on:
+  schedule:
+    - cron: "27 4 3 * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  services:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pycountry
+      - run: python3 fetch_services.py
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add services.json
+          git diff --cached --quiet || git commit -m "Refresh services trade data"
+          git pull --rebase -X theirs origin main
+          git push
