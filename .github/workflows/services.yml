@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: pip install pycountry
-      - run: python3 fetch_services.py
+      - run: python3 -u fetch_services.py
       - name: Publish
         run: |
           git config user.name "github-actions"
@@ -19,4 +19,4 @@ jobs:
           git add services.json
           git diff --cached --quiet || git commit -m "Refresh services trade data"
           git pull --rebase -X theirs origin main
-          git push
+          for i in 1 2 3 4 5; do git push && break; sleep $((i*15)); git pull --rebase -X theirs origin main; done
