@@ -4,7 +4,7 @@ Natural Earth (github.com/nvkelso/natural-earth-vector) for river and lake shape
 Run monthly on GitHub Actions. Nothing here is typed by hand except the short geo_overrides.json list."""
 import csv, difflib, glob, html, json, math, os, re, sys, time, unicodedata, urllib.request, urllib.parse
 import numpy as np
-from shapely.geometry import shape, mapping, MultiLineString, LineString, Point
+from shapely.geometry import shape, mapping, MultiLineString, LineString, Point, box
 from shapely.ops import linemerge, unary_union, transform
 from shapely.strtree import STRtree
 
@@ -165,57 +165,56 @@ def cluster(gs):
         groups.append(merged)
     return groups
 
-OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
-GENERIC = {"lake", "lago", "lac", "lagoon", "laguna", "lagune", "lagoa", "thale", "sap", "bad", "ab", "abe", "nuur", "reservoir", "the", "de", "del", "la", "of"}
+LAKES_PKG = "https://registry.npmjs.org/@geo-maps/earth-lakes-1km/-/earth-lakes-1km-0.6.0.tgz"   # OpenStreetMap lakes, 1 km, no names
 
-def overpass_shapes(js):
-    """Turn an Overpass 'out geom' answer into polygons (closed ways, and relations built from their outer rings)."""
-    from shapely.geometry import Polygon
-    from shapely.ops import polygonize
-    out = []
-    for e in js.get("elements", []):
-        nm = (e.get("tags") or {}).get("name") or (e.get("tags") or {}).get("name:en") or ""
-        if e["type"] == "way" and len(e.get("geometry") or []) >= 4:
-            pts = [(q["lon"], q["lat"]) for q in e["geometry"]]
-            if pts[0] == pts[-1]:
-                p = Polygon(pts)
-                if p.is_valid and not p.is_empty: out.append((nm, p))
-        elif e["type"] == "relation":
-            lines = [LineString([(q["lon"], q["lat"]) for q in m["geometry"]]) for m in e.get("members", []) if m.get("role") == "outer" and len(m.get("geometry") or []) >= 2]
-            if lines:
-                ps = [p for p in polygonize(unary_union(lines)) if p.is_valid]
-                if ps: out.append((nm, unary_union(ps)))
-    return out
+def load_osm_lakes():
+    """Unnamed OpenStreetMap lake outlines (ODbL), downloaded from the npm registry."""
+    import tarfile
+    p = get(LAKES_PKG, os.path.join(CACHE, "osm_lakes.tgz"))
+    with tarfile.open(p) as t:
+        d = json.load(t.extractfile("package/map.geo.json"))
+    polys = [shape({"type": "Polygon", "coordinates": c}) for c in d["geometries"][0]["coordinates"]]
+    return polys, STRtree(polys)
 
-def osm_lake(names, bounds, km2):
-    """Last resort for a lake Natural Earth does not have: look it up by name in OpenStreetMap (Overpass) inside the country's box."""
-    words = []
-    for nm in names:
-        for w in re.split(r"[^A-Za-z\u00c0-\u024f]+", unicodedata.normalize("NFKD", nm).encode("ascii", "ignore").decode()):
-            if len(w) >= 4 and w.lower() not in GENERIC and w[:5].lower() not in words: words.append(w[:5].lower())
-    if not words: return None
-    rx = "|".join(re.escape(w) for w in words)
-    w_, s_, e_, n_ = bounds
-    q = '[out:json][timeout:90];nwr["natural"="water"]["name"~"%s",i](%f,%f,%f,%f);out geom;' % (rx, s_, w_, n_, e_)
-    js = None
-    for url in OVERPASS:
-        for i in range(2):
-            try:
-                req = urllib.request.Request(url, data=("data=" + urllib.parse.quote(q)).encode(), headers={"User-Agent": "geopolitica-geography/1.0"})
-                with urllib.request.urlopen(req, timeout=120) as r: js = json.load(r)
-                break
-            except Exception as e:
-                print("overpass retry", url, e); time.sleep(5)
-        if js is not None: break
-    time.sleep(3)
-    if js is None: return None
+def area_any(g):
+    return sum(area_km2(x) for x in (g.geoms if hasattr(g, "geoms") else [g]) if x.geom_type == "Polygon")
+
+def outline_at(pt, km2, osm, land_u):
+    """Outline of a lake Natural Earth lacks, found from its known location (lake_points.json) and the Factbook area.
+    1) OpenStreetMap lakes near the point, merged into one cluster whose area is closest to the Factbook figure;
+    2) for a coastal lagoon, the sea inside the Natural Earth coast near the point, with the narrow mouth cut off."""
+    polys, tree = osm
+    near = [polys[i] for i in tree.query(pt.buffer(0.6)) if polys[i].distance(pt) < 0.6]
+    cl = []
+    for p in near:
+        m = [p]
+        for c in [c for c in cl if c[0].distance(p) < 0.06]:
+            m += c[1]; cl.remove(c)
+        cl.append((unary_union(m), m))
     best = None
-    for nm, g in overpass_shapes(js):
-        a = area_km2(g) if g.geom_type == "Polygon" else sum(area_km2(x) for x in g.geoms)
-        if not (0.2 * km2 <= a <= 5 * km2): continue
-        k = abs(math.log(a / km2))
-        if best is None or k < best[0]: best = (k, g, a)
-    return {"g": best[1], "sh": {}, "n": "", "a": best[2]} if best else None
+    for g, parts in cl:
+        a = area_any(g); r = a / km2
+        big = max(area_km2(x) for x in parts)
+        if 0.15 <= r <= 2.5 and big >= 0.4 * a:   # reject scattered fragments
+            sc = g.distance(pt) + abs(math.log(r)) * 0.15
+            if best is None or sc < best[0]: best = (sc, g)
+    if best:
+        g = best[1]
+        keep = [x for x in (g.geoms if hasattr(g, "geoms") else [g]) if x.geom_type == "Polygon" and area_km2(x) >= 0.03 * area_any(g)]
+        return unary_union(keep), "OpenStreetMap lakes"
+    lo, la = pt.x, pt.y
+    water = box(lo - 1.5, la - 1.5, lo + 1.5, la + 1.5).difference(land_u)
+    comps = [x for x in (water.geoms if hasattr(water, "geoms") else [water]) if x.distance(pt) < 0.05]
+    if comps:
+        c = max(comps, key=lambda x: x.area); bestl = None
+        for r in (0.01, 0.02, 0.03, 0.04, 0.06, 0.08, 0.1, 0.15, 0.2, 0.3):
+            o = c.buffer(-r).buffer(r)
+            cs = [x for x in (o.geoms if hasattr(o, "geoms") else [o]) if x.distance(pt) < 0.05]
+            if not cs: break
+            m = max(cs, key=lambda x: x.area); q = area_any(m) / km2
+            if 0.6 <= q <= 1.6 and (bestl is None or abs(math.log(q)) < bestl[0]): bestl = (abs(math.log(q)), m)
+        if bestl: return bestl[1], "coast outline"
+    return None, ""
 
 def main():
     fb = load_factbook()
@@ -228,7 +227,9 @@ def main():
         by.setdefault(iso, []).append(shape(f["geometry"]))
     C = {k: unary_union(v) for k, v in by.items()}
     isos = list(C); trees = STRtree([C[k] for k in isos])
-    coast = unary_union([shape(f["geometry"]) for f in land["features"]]).boundary
+    LAND_U = unary_union([shape(f["geometry"]) for f in land["features"]]); coast = LAND_U.boundary
+    LAKE_PTS = json.load(open("lake_points.json", encoding="utf-8")) if os.path.exists("lake_points.json") else {}
+    OSM = [None]
     # ---- lakes (Natural Earth shapes; same-name pieces merged, area from the merged outline)
     pieces = {}; alts = {}
     for f in lakes["features"]:
@@ -299,9 +300,11 @@ def main():
                         rr = difflib.SequenceMatcher(None, k1, k2).ratio()
                         if min(len(k1), len(k2)) >= 3 and (k1 in k2 or k2 in k1): rr = max(rr, 0.9)   # Toba / Danau Toba, Uvs / Uvs Nuur
                         if rr > best and rr >= 0.8: best, shp = rr, cand
-            if shp is None:   # not in Natural Earth: try OpenStreetMap by name
-                shp = osm_lake(b["names"], C[iso].bounds, b["km2"])
-                print("lake outline", iso, b["names"][0], "found in OpenStreetMap" if shp else "NOT FOUND")
+            if shp is None and iso in LAKE_PTS:   # not in Natural Earth: outline from the lake's known location
+                if OSM[0] is None: OSM[0] = load_osm_lakes()
+                g, how = outline_at(Point(*LAKE_PTS[iso]), b["km2"], OSM[0], LAND_U)
+                if g is not None and not g.is_empty: shp = {"g": g, "sh": {}, "n": "", "a": area_any(g)}
+                print("lake outline", iso, b["names"][0], ("found: " + how) if shp else "NOT FOUND")
             lake = {"n": b["names"][0], "km2": b["km2"], "shared": [], "shp": shp}
             if shp:
                 sh = dict(shp["sh"])
@@ -313,6 +316,20 @@ def main():
             if cand:
                 b = max(cand, key=lambda l: l["a"])
                 lake = {"n": b["n"], "km2": int(round(b["a"])), "shared": sorted(c for c in b["sh"] if c != iso and b["sh"][c] >= 0.1), "shp": b, "approx": True}
+        if lake is None:   # a lake touching the coast or border, then the biggest OpenStreetMap lake inside the country (unnamed)
+            near = [L[i] for i in ltree.query(cg) if L[i]["g"].distance(C[iso]) < 0.05]
+            if near:
+                b = max(near, key=lambda l: l["a"])
+                lake = {"n": b["n"], "km2": int(round(b["a"])), "shared": sorted(c for c in b["sh"] if c != iso and b["sh"][c] >= 0.1), "shp": b, "approx": True}
+        if lake is None:
+            if OSM[0] is None: OSM[0] = load_osm_lakes()
+            polys_o, tree_o = OSM[0]; best_o = None
+            for i in tree_o.query(C[iso]):
+                p = polys_o[i]
+                if C[iso].contains(p.representative_point()):
+                    a_ = area_km2(p)
+                    if a_ >= 2 and (best_o is None or a_ > best_o[0]): best_o = (a_, p)
+            if best_o: lake = {"n": "Unnamed lake", "km2": int(round(best_o[0])), "shared": [], "shp": {"g": best_o[1], "sh": {}}, "approx": True}
         if lake:
             ol = {"n": lake["n"], "km2": lake["km2"], "shared": lake["shared"]}
             if lake.get("approx"): ol["approx"] = 1
@@ -356,6 +373,17 @@ def main():
                 cands.append({"km": int(round(r["km"], -1)), "n": r["n"], "approx": True, "shp": (li, r, ins)})
         if os.environ.get("DBG") and iso in os.environ["DBG"].split(","): print(iso, [(c["n"], c["km"], c["approx"]) for c in cands], "| FB:", [(x["names"][0], x["km"], x["shared"]) for x in parse_rivers(f)][:8])
         best = max(cands, key=lambda c: c["km"]) if cands else None
+        if not best:   # none stays inside: the longest river that flows through it (listed as shared on the page)
+            fr_ = parse_rivers(f)
+            if fr_:
+                pk = max(fr_, key=lambda x: x["km"]); m = None
+                for nm in pk["names"]:
+                    for li, r, ins in allin:
+                        if r["k"] == norm(nm) and (m is None or li > m[0]): m = (li, r, ins)
+                best = {"km": pk["km"], "n": pk["names"][1] if len(pk["names"]) > 1 else pk["names"][0], "approx": False, "shp": m}
+            elif allin:
+                li, r, ins = allin[0]
+                best = {"km": int(round(r["km"], -1)), "n": r["n"], "approx": True, "shp": (li, r, ins)}
         if best:
             name, km, approx, shp = best["n"], best["km"], best["approx"], best["shp"]
             orv = {"n": name, "km": km}

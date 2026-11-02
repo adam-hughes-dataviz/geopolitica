@@ -66,6 +66,19 @@ def fetch_hdi():
     print("hdi: no UNDP file found, skipped")
     return {}
 
+def wb_latest(code):
+    """Most recent non-empty World Bank value per country: {iso3: [value, year]}."""
+    j = get("https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code)
+    rows = (j[1] if isinstance(j, list) and len(j) > 1 else None) or []
+    best = {}
+    for r in rows:
+        iso = r.get("countryiso3code")
+        if iso and r.get("value") is not None:
+            y = int(r["date"])
+            if iso not in best or y > best[iso][1]: best[iso] = [r["value"], y]
+    time.sleep(1)
+    return best
+
 def main():
     out = {}
     for code, key in IMF.items():
@@ -97,6 +110,19 @@ def main():
             n = len(best)
             if n: break
         print("wb", code, n); time.sleep(1)
+    # Services trade (World Bank, balance of payments). The current series first, then the older WTO-based one.
+    BOP = {"sx": "BX.GSR.NFSV.CD", "sm": "BM.GSR.NFSV.CD", "sxT": "BX.GSR.TRVL.ZS", "sxP": "BX.GSR.TRAN.ZS", "sxF": "BX.GSR.INSF.ZS", "sxC": "BX.GSR.CMCP.ZS",
+           "smT": "BM.GSR.TRVL.ZS", "smP": "BM.GSR.TRAN.ZS", "smF": "BM.GSR.INSF.ZS", "smC": "BM.GSR.CMCP.ZS"}
+    OLD = {"sx": "TX.VAL.SERV.CD.WT", "sm": "TM.VAL.SERV.CD.WT", "sxT": "TX.VAL.TRVL.ZS.WT", "sxP": "TX.VAL.TRAN.ZS.WT", "sxF": "TX.VAL.INSF.ZS.WT", "sxC": "TX.VAL.OTHR.ZS.WT",
+           "smT": "TM.VAL.TRVL.ZS.WT", "smP": "TM.VAL.TRAN.ZS.WT", "smF": "TM.VAL.INSF.ZS.WT", "smC": "TM.VAL.OTHR.ZS.WT"}
+    for fam in (BOP, OLD):
+        got = {k: wb_latest(c) for k, c in fam.items()}
+        print("services family", fam["sx"], {k: len(v) for k, v in got.items()})
+        if len(got["sx"]) >= 80:
+            for k, res in got.items():
+                for iso, v in res.items(): out.setdefault(iso, {})[k] = v
+            break
+    for iso, v in wb_latest("NV.SRV.TOTL.ZS").items(): out.setdefault(iso, {})["srv"] = v
     # IMF fallback via DBnomics (mirrors the IMF WEO) for debt and budget balance where still missing.
     # Real countries only (World Bank region is not an aggregate). Tries the current release, then older ones.
     cl = get("https://api.worldbank.org/v2/country?format=json&per_page=400")
