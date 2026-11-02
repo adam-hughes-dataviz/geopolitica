@@ -2,7 +2,7 @@
 Sources (all free, public): CIA World Factbook (github.com/factbook/factbook.json) for area and elevation,
 Natural Earth (github.com/nvkelso/natural-earth-vector) for river and lake shapes, lengths and areas.
 Run monthly on GitHub Actions. Nothing here is typed by hand except the short geo_overrides.json list."""
-import csv, difflib, glob, html, json, math, os, re, sys, time, unicodedata, urllib.request
+import csv, difflib, glob, html, json, math, os, re, sys, time, unicodedata, urllib.request, urllib.parse
 import numpy as np
 from shapely.geometry import shape, mapping, MultiLineString, LineString, Point
 from shapely.ops import linemerge, unary_union, transform
@@ -165,6 +165,58 @@ def cluster(gs):
         groups.append(merged)
     return groups
 
+OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
+GENERIC = {"lake", "lago", "lac", "lagoon", "laguna", "lagune", "lagoa", "thale", "sap", "bad", "ab", "abe", "nuur", "reservoir", "the", "de", "del", "la", "of"}
+
+def overpass_shapes(js):
+    """Turn an Overpass 'out geom' answer into polygons (closed ways, and relations built from their outer rings)."""
+    from shapely.geometry import Polygon
+    from shapely.ops import polygonize
+    out = []
+    for e in js.get("elements", []):
+        nm = (e.get("tags") or {}).get("name") or (e.get("tags") or {}).get("name:en") or ""
+        if e["type"] == "way" and len(e.get("geometry") or []) >= 4:
+            pts = [(q["lon"], q["lat"]) for q in e["geometry"]]
+            if pts[0] == pts[-1]:
+                p = Polygon(pts)
+                if p.is_valid and not p.is_empty: out.append((nm, p))
+        elif e["type"] == "relation":
+            lines = [LineString([(q["lon"], q["lat"]) for q in m["geometry"]]) for m in e.get("members", []) if m.get("role") == "outer" and len(m.get("geometry") or []) >= 2]
+            if lines:
+                ps = [p for p in polygonize(unary_union(lines)) if p.is_valid]
+                if ps: out.append((nm, unary_union(ps)))
+    return out
+
+def osm_lake(names, bounds, km2):
+    """Last resort for a lake Natural Earth does not have: look it up by name in OpenStreetMap (Overpass) inside the country's box."""
+    words = []
+    for nm in names:
+        for w in re.split(r"[^A-Za-z\u00c0-\u024f]+", unicodedata.normalize("NFKD", nm).encode("ascii", "ignore").decode()):
+            if len(w) >= 4 and w.lower() not in GENERIC and w[:5].lower() not in words: words.append(w[:5].lower())
+    if not words: return None
+    rx = "|".join(re.escape(w) for w in words)
+    w_, s_, e_, n_ = bounds
+    q = '[out:json][timeout:90];nwr["natural"="water"]["name"~"%s",i](%f,%f,%f,%f);out geom;' % (rx, s_, w_, n_, e_)
+    js = None
+    for url in OVERPASS:
+        for i in range(2):
+            try:
+                req = urllib.request.Request(url, data=("data=" + urllib.parse.quote(q)).encode(), headers={"User-Agent": "geopolitica-geography/1.0"})
+                with urllib.request.urlopen(req, timeout=120) as r: js = json.load(r)
+                break
+            except Exception as e:
+                print("overpass retry", url, e); time.sleep(5)
+        if js is not None: break
+    time.sleep(3)
+    if js is None: return None
+    best = None
+    for nm, g in overpass_shapes(js):
+        a = area_km2(g) if g.geom_type == "Polygon" else sum(area_km2(x) for x in g.geoms)
+        if not (0.2 * km2 <= a <= 5 * km2): continue
+        k = abs(math.log(a / km2))
+        if best is None or k < best[0]: best = (k, g, a)
+    return {"g": best[1], "sh": {}, "n": "", "a": best[2]} if best else None
+
 def main():
     fb = load_factbook()
     adm, land, lakes, rivers = load_ne()
@@ -247,6 +299,9 @@ def main():
                         rr = difflib.SequenceMatcher(None, k1, k2).ratio()
                         if min(len(k1), len(k2)) >= 3 and (k1 in k2 or k2 in k1): rr = max(rr, 0.9)   # Toba / Danau Toba, Uvs / Uvs Nuur
                         if rr > best and rr >= 0.8: best, shp = rr, cand
+            if shp is None:   # not in Natural Earth: try OpenStreetMap by name
+                shp = osm_lake(b["names"], C[iso].bounds, b["km2"])
+                print("lake outline", iso, b["names"][0], "found in OpenStreetMap" if shp else "NOT FOUND")
             lake = {"n": b["names"][0], "km2": b["km2"], "shared": [], "shp": shp}
             if shp:
                 sh = dict(shp["sh"])
@@ -266,24 +321,43 @@ def main():
                 polys = list(g.geoms) if g.geom_type == "MultiPolygon" else [g]
                 ol["poly"] = [rd(p.exterior.coords, 3) for p in sorted(polys, key=lambda p: -p.area)[:4]]
             o["lake"] = ol
-        # ---- biggest river: Factbook (longest not shared, else longest), shape matched by name; else longest on the map
+        # ---- biggest river: the longest one that stays entirely inside the country
         allin = []
         for i in rtree.query(cg):
             r = RIV[i]; ins = r["g"].intersection(cg); li = length_km(ins)
             if li >= 25: allin.append((li, r, ins))
         allin.sort(key=lambda t: -t[0])
-        fr = parse_rivers(f); pick = None; shp = None
-        if fr:
-            pool = [x for x in fr if not x["shared"]] or fr
-            pick = max(pool, key=lambda x: x["km"])
-            for nm in pick["names"]:
+        # Longest river that stays entirely inside this country. The Factbook's "shared" flag is trusted, and a river it does
+        # not flag is still dropped when the map shows it leaving the country. Rivers the Factbook does not list use the map length.
+        cg2 = C[iso].buffer(0.1)
+        def stays_in(r):
+            if length_km(r["g"].intersection(cg2)) / max(r["km"], 1e-6) < 0.95: return False
+            for j in trees.query(r["g"]):   # a river that runs along or across a border is shared, even when the Factbook does not say so
+                c = isos[j]
+                if c != iso and length_km(r["g"].intersection(C[c].buffer(0.03))) >= 25: return False
+            eb = r["g"].boundary   # a river that carries on across the border under another name (Tajo / Tejo) is not contained
+            for pt in (list(eb.geoms) if hasattr(eb, "geoms") else [eb]):
+                for j in rtree.query(pt.buffer(0.05)):
+                    r2 = RIV[j]
+                    if r2 is r or r2["g"].boundary.distance(pt) >= 0.05: continue   # end-to-end contact only; joining a bigger river sideways is fine
+                    if r2["km"] - length_km(r2["g"].intersection(cg2)) >= 15: return False
+            return True
+        cands = []; used = set(); shp = None
+        for x in parse_rivers(f):
+            m = None
+            for nm in x["names"]:
                 for li, r, ins in allin:
-                    if r["k"] == norm(nm) and (shp is None or li > shp[0]): shp = (li, r, ins)
-        elif allin:
-            shp = allin[0]
-        if pick or shp:
-            if pick: name, km, approx = (pick["names"][1] if len(pick["names"]) > 1 else pick["names"][0]), pick["km"], False
-            else: name, km, approx = shp[1]["n"], int(round(shp[1]["km"], -1)), True
+                    if r["k"] == norm(nm) and (m is None or li > m[0]): m = (li, r, ins)
+            if m is not None: used.add(id(m[1]))
+            if (m is None and x["shared"]) or (m is not None and not stays_in(m[1])): continue   # the Factbook flag can be wrong (it calls the Vistula shared), so the map decides when it has the shape
+            cands.append({"km": x["km"], "n": x["names"][1] if len(x["names"]) > 1 else x["names"][0], "approx": False, "shp": m})
+        for li, r, ins in allin:
+            if id(r) not in used and not re.search(r"branch|canal|distributary", r["n"], re.I) and stays_in(r):
+                cands.append({"km": int(round(r["km"], -1)), "n": r["n"], "approx": True, "shp": (li, r, ins)})
+        if os.environ.get("DBG") and iso in os.environ["DBG"].split(","): print(iso, [(c["n"], c["km"], c["approx"]) for c in cands], "| FB:", [(x["names"][0], x["km"], x["shared"]) for x in parse_rivers(f)][:8])
+        best = max(cands, key=lambda c: c["km"]) if cands else None
+        if best:
+            name, km, approx, shp = best["n"], best["km"], best["approx"], best["shp"]
             orv = {"n": name, "km": km}
             if approx: orv["approx"] = 1
             if shp:
