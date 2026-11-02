@@ -5,6 +5,9 @@ import json, os, re, sys, time, urllib.request, datetime
 
 MAX_COUNTRIES = int(os.environ.get("MAX_COUNTRIES", "400"))
 FRESH_DAYS = 28
+VER = "v3"  # bump to make countries marked as having no data be tried again
+MIRROR_TOP = 15  # reporting partners summed for the by-chapter mirror figures
+LOOKBACK = 6  # a country that has not reported for the latest two years is probed back this many further years
 OVERRIDE = {"FRA": "251", "ITA": "381", "NOR": "579", "CHE": "757", "USA": "842", "IND": "699", "TWN": "490"}
 KEY = os.environ.get("COMTRADE_KEY", "").strip()
 API = "https://comtradeapi.un.org/data/v1/get/C/A/HS" if KEY else "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
@@ -31,6 +34,10 @@ def bad(d):
     return not d or not d.get("px") or any((not a[0]) for k in ("px", "pm", "cx", "cm") for a in d[k]["top"])
 
 BUILT = ['GBR', 'AFG', 'ALB', 'DZA', 'AND', 'AGO', 'ATG', 'ARG', 'ARM', 'AUS', 'AUT', 'AZE', 'BHS', 'BHR', 'BGD', 'BRB', 'BLR', 'BEL', 'BLZ', 'BEN', 'BTN', 'BOL', 'BIH', 'BWA', 'BRA', 'BRN', 'BGR', 'BFA', 'BDI', 'CPV', 'KHM', 'CMR', 'CAN', 'CAF', 'TCD', 'CHL', 'CHN', 'COL', 'COM', 'COD', 'COG', 'CRI', 'CIV', 'HRV', 'CUB', 'CYP', 'CZE', 'DNK', 'DJI', 'DMA', 'DOM', 'ECU', 'EGY', 'SLV', 'GNQ', 'ERI', 'EST', 'SWZ', 'ETH', 'FJI', 'FIN', 'FRA']
+
+def isnone(d):
+    """A confirmed no-data entry for the current lookback depth (older entries are probed again)."""
+    return bool(d and d.get("none") and d.get("lb") == LOOKBACK and d.get("v") == VER)
 
 def built():
     """Countries that have a full page (listed in country-data.json), collected before anything else."""
@@ -103,7 +110,7 @@ def pick(rows, partners):
 def country(code):
     """One cheap probe call per year first; the other three calls are only made when the probe finds data."""
     now = datetime.date.today().year
-    for y in (now - 2, now - 3):
+    for y in range(now - 2, now - 3 - LOOKBACK, -1):
         base = "%s?reporterCode=%s&period=%d&partner2Code=0&customsCode=C00&motCode=0&maxRecords=500&includeDesc=true" % (API, code, y)
         cx = get(base + "&cmdCode=TOTAL&flowCode=X"); time.sleep(1.2)
         if not pick(cx, True)["top"]:
@@ -116,13 +123,59 @@ def country(code):
         return out
     return None
 
+def mpartners(rows):
+    """Mirror rows: the reporting country is the trading partner of the country we want."""
+    tot, agg, rc = 0, {}, {}
+    for x in rows:
+        v = x.get("primaryValue") or x.get("fobvalue") or x.get("cifvalue") or 0
+        if not v or v <= 0 or str(x.get("cmdCode")) != "TOTAL":
+            continue
+        n = pname(x.get("reporterCode"), x.get("reporterDesc"))
+        if not n or re.search(r"\bnes\b|special categories|bunkers|free zones|^world$", n, re.I):
+            continue
+        agg[n] = agg.get(n, 0) + v
+        rc[n] = x.get("reporterCode")
+    lst = sorted(([n, v] for n, v in agg.items()), key=lambda a: -a[1])
+    return {"tot": sum(agg.values()), "top": lst[:5]}, [(rc[n], v) for n, v in sorted(agg.items(), key=lambda a: -a[1])]
+
+def mchapters(base, flow, reporters):
+    """Add up chapter values over the biggest reporting partners. The total is a sum of the chapters found."""
+    ch = {}
+    for rc, _ in reporters[:MIRROR_TOP]:
+        for x in get("%s&reporterCode=%s&flowCode=%s&cmdCode=AG2" % (base, rc, flow)):
+            v = x.get("primaryValue") or x.get("fobvalue") or x.get("cifvalue") or 0
+            code = str(x.get("cmdCode"))
+            if not v or v <= 0 or code in ("TOTAL", "99", "9999"):
+                continue
+            n = CH.get(code.zfill(2)) or short(x.get("cmdDesc"))
+            ch[n] = ch.get(n, 0) + v
+        time.sleep(1.2)
+    lst = sorted(([n, v] for n, v in ch.items()), key=lambda a: -a[1])
+    return {"tot": sum(ch.values()), "top": lst[:5]}
+
+def mirror(code):
+    """For countries that publish nothing: what the rest of the world reports trading with them."""
+    now = datetime.date.today().year
+    for y in range(now - 2, now - 3 - LOOKBACK, -1):
+        base = "%s?period=%d&partner2Code=0&customsCode=C00&motCode=0&maxRecords=500&includeDesc=true&partnerCode=%s" % (API, y, code)
+        cx, rx = mpartners(get(base + "&cmdCode=TOTAL&flowCode=M")); time.sleep(1.2)
+        if not cx["top"]:
+            continue
+        cm, rm = mpartners(get(base + "&cmdCode=TOTAL&flowCode=X")); time.sleep(1.2)
+        px = mchapters(base, "M", rx)
+        pm = mchapters(base, "X", rm)
+        if not px["top"]:
+            continue
+        return {"y": y, "px": px, "pm": pm, "cx": cx, "cm": cm, "mirror": 1, "t": int(time.time())}
+    return None
+
 def main():
     try:
         data = json.load(open("trade.json", encoding="utf-8"))
     except Exception:
         data = {}
     now = time.time()
-    todo = [k for k in codes() if bad(data.get(k)) and not (data.get(k) or {}).get("none") or now - data[k].get("t", 0) > FRESH_DAYS * 86400]
+    todo = [k for k in codes() if bad(data.get(k)) and not isnone(data.get(k)) or now - data[k].get("t", 0) > FRESH_DAYS * 86400]
     B = built()
     todo.sort(key=lambda k: (0 if k in B else 1, 0 if bad(data.get(k)) else 1, (data.get(k) or {}).get("t", 0)))
     done = 0
@@ -137,11 +190,18 @@ def main():
             r = country(n)
         except RuntimeError as e:
             print("stopping:", e); print("::error title=Comtrade::" + str(e).replace("\n", " ")); stopped = True; break
+        if not r:
+            try:
+                r = mirror(n)
+            except RuntimeError as e:
+                print("stopping:", e); print("::error title=Comtrade::" + str(e).replace("\n", " ")); stopped = True; break
+            if r:
+                print("mirror", k)
         done += 1
         if r:
             data[k] = r; print("ok", k, r["y"])
         else:
-            data[k] = {"t": int(time.time()), "none": True}; print("none", k)
+            data[k] = {"t": int(time.time()), "none": True, "lb": LOOKBACK, "v": VER}; print("none", k)
     json.dump(data, open("trade.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("countries done this run:", done, "total:", len(data))
     if done == 0 and todo and stopped:
