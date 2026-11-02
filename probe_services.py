@@ -9,7 +9,11 @@ def get(url, tries=3):
             with urllib.request.urlopen(req, timeout=60) as r:
                 return json.load(r)
         except urllib.error.HTTPError as e:
-            print("  HTTP", e.code, url[:150])
+            try: body = e.read()[:300].decode("utf-8", "replace")
+            except Exception: body = ""
+            print("  HTTP", e.code, url[:150], "|", body)
+            if e.code == 429:
+                time.sleep(20); continue
             if e.code in (400, 404):
                 return None
             time.sleep(3)
@@ -20,26 +24,31 @@ def get(url, tries=3):
 DB = "https://api.db.nomics.world/v22"
 SAMPLE = ["GBR", "CRI", "DEU", "USA", "IND", "BGD", "ERI", "BLR", "AFG", "ALB", "AGO", "ARG"]
 
-print("=== 1. IMF datasets on DBnomics that mention balance of payments ===")
-j = get(DB + "/datasets/IMF?limit=1000")
+print("=== 1. IMF datasets on DBnomics that mention balance of payments or services ===")
 cands = []
-for d in ((j or {}).get("datasets", {}).get("docs") or (j or {}).get("datasets") or []):
-    code, name = d.get("code"), d.get("name", "")
-    if re.search(r"balance of payments|BOP|international trade in services|ITS", code + " " + name, re.I):
-        cands.append(code); print(" ", code, "|", name)
+def walk(nodes):
+    for n in nodes or []:
+        if n.get("code") and not n.get("children"):
+            code, name = n["code"], n.get("name", "")
+            if re.search(r"payments|BOP|trade in services|ITS|services", code + " " + name, re.I):
+                cands.append(code); print(" ", code, "|", name)
+        walk(n.get("children"))
+j = get(DB + "/providers/IMF")
+walk(((j or {}).get("provider") or {}).get("category_tree") or (j or {}).get("category_tree"))
+if not cands:
+    print("  none found, falling back to BOP")
 
 print("\n=== 2. Dimensions of the main BOP dataset ===")
-ds = "BOP" if "BOP" in cands else (cands[0] if cands else "BOP")
-meta = get("%s/datasets/IMF/%s?limit=1&offset=0&observations=0" % (DB, ds))
-doc = ((meta or {}).get("datasets", {}).get("docs") or [{}])[0] if meta else {}
+ds = "BOP" if "BOP" in cands or not cands else cands[0]
+meta = get("%s/series/IMF/%s?limit=1&offset=0" % (DB, ds))
+doc = (meta or {}).get("dataset") or {}
 order = doc.get("dimensions_codes_order") or []
 labels = doc.get("dimensions_values_labels") or {}
-codes = doc.get("dimensions_codes") or {}
-print("dataset", ds, "| dimension order:", order)
+codes = {d: list((labels.get(d) or {}).keys()) for d in order}
+print("dataset", ds, "| dimension order:", order, "| series in dataset:", ((meta or {}).get("series") or {}).get("num_found"))
 for dim in order:
     vals = codes.get(dim) or []
     print("  %s: %d values, first few: %s" % (dim, len(vals), vals[:6]))
-
 print("\n=== 3. Indicator codes that look like services ===")
 ind_dim = next((d for d in order if re.search(r"indicator|item|account", d, re.I)), None)
 svc = []
@@ -68,6 +77,7 @@ if area_dim and ind_dim:
         for cc in (c2, k):
             if cc in (codes.get(area_dim) or []):
                 q = urllib.parse.urlencode({"dimensions": json.dumps({area_dim: [cc]}), "limit": 1000, "observations": 1})
+                time.sleep(1)
                 j = get("%s/series/IMF/%s?%s" % (DB, ds, q))
                 docs = (j or {}).get("series", {}).get("docs") or []
                 hits = {}
@@ -85,6 +95,7 @@ if area_dim and ind_dim:
 
 print("\n=== 5. UN Comtrade services (EBOPS) probe ===")
 for path in ("public/v1/preview/S/A/EB02", "public/v1/preview/S/A/EB10"):
+    time.sleep(8)
     j = get("https://comtradeapi.un.org/%s?reporterCode=826&period=2022&flowCode=X&maxRecords=100&includeDesc=true" % path)
     rows = (j or {}).get("data") or []
     print(path, "rows:", len(rows), [ (r.get("cmdCode"), r.get("cmdDesc"), r.get("primaryValue")) for r in rows[:8]])
