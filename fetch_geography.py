@@ -216,6 +216,137 @@ def outline_at(pt, km2, osm, land_u):
         if bestl: return bestl[1], "coast outline"
     return None, ""
 
+# ---- Wikidata and OpenStreetMap fill: names, lengths and shapes for countries the sources above leave empty
+WD_UA = {"User-Agent": "geopolitica-dashboard/1.0 (https://github.com/adam-hughes-dataviz/geopolitica)"}
+def wd_http(url, accept="application/json"):
+    for i in range(4):
+        try:
+            req = urllib.request.Request(url, headers=dict(WD_UA, Accept=accept))
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return r.read().decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            if e.code in (400, 404): return None
+            time.sleep(15 * (i + 1))
+        except Exception:
+            time.sleep(5 * (i + 1))
+    return None
+
+def wd_sparql(q):
+    t = wd_http("https://query.wikidata.org/sparql?format=json&query=" + urllib.parse.quote(q))
+    time.sleep(3)
+    try: return json.loads(t)["results"]["bindings"]
+    except Exception: return None
+
+def wd_rows(rows):
+    """One record per Wikidata item: name, longest length or biggest area, OSM relation, countries it lies in."""
+    out = {}
+    for r in rows or []:
+        q = r["r"]["value"].rsplit("/", 1)[-1]
+        d = out.setdefault(q, {"q": q, "n": r["rl"]["value"], "v": 0.0, "osm": None, "cc": set(), "i2": None})
+        try: d["v"] = max(d["v"], float(r["v"]["value"])) if "v" in r else d["v"]
+        except Exception: pass
+        if "osm" in r: d["osm"] = r["osm"]["value"]
+        d["cc"] |= set(x for x in r["ccs"]["value"].split(",") if x)
+        if "i2" in r: d["i2"] = r["i2"]["value"]
+    return list(out.values())
+
+def osm_parts(rel):
+    t = wd_http("https://api.openstreetmap.org/api/0.6/relation/%s/full.json" % rel); time.sleep(1)
+    try: els = json.loads(t)["elements"]
+    except Exception: return []
+    nodes = {e["id"]: (e["lon"], e["lat"]) for e in els if e["type"] == "node"}
+    ways = []
+    for e in els:
+        if e["type"] == "way":
+            pts = [nodes[n] for n in e["nodes"] if n in nodes]
+            if len(pts) >= 2: ways.append(LineString(pts))
+    return ways
+
+def nominatim_geom(name, q, i2, kinds):
+    """Shape of a named feature from OpenStreetMap's search, trusting only a result tagged with the same Wikidata item."""
+    u = "https://nominatim.openstreetmap.org/search?" + urllib.parse.urlencode({"q": name, "countrycodes": (i2 or "").lower(), "format": "jsonv2", "extratags": 1, "polygon_geojson": 1, "limit": 10})
+    t = wd_http(u); time.sleep(1.5)
+    try: res = json.loads(t)
+    except Exception: return None
+    for r in res:
+        if (r.get("extratags") or {}).get("wikidata") == q and r.get("geojson", {}).get("type") in kinds:
+            return shape(r["geojson"])
+    return None
+
+def wd_river(iso, C, coast):
+    q = '''SELECT ?r ?rl ?v ?osm ?i2 (GROUP_CONCAT(DISTINCT ?cc;separator=",") AS ?ccs) WHERE {
+      ?cx wdt:P298 "%s"; wdt:P297 ?i2. VALUES ?t { wd:Q4022 wd:Q355304 wd:Q47521 } ?r wdt:P31 ?t; wdt:P17 ?cx; wdt:P17 ?c2. ?c2 wdt:P298 ?cc.
+      OPTIONAL{?r wdt:P2043 ?v} OPTIONAL{?r wdt:P402 ?osm} ?r rdfs:label ?rl FILTER(LANG(?rl)="en")
+    } GROUP BY ?r ?rl ?v ?osm ?i2''' % iso
+    recs = [d for d in wd_rows(wd_sparql(q)) if d["v"] > 0]
+    inside = sorted([d for d in recs if d["cc"] == {iso}], key=lambda d: -d["v"])
+    thr = sorted([d for d in recs if iso in d["cc"] and len(d["cc"]) > 1], key=lambda d: -d["v"])
+    best = inside[0] if inside else (thr[0] if thr else None)
+    if not best: return None
+    orv = {"n": best["n"], "km": int(round(best["v"])), "src": "wd"}
+    if best["cc"] != {iso}: orv["through"] = sorted(best["cc"] - {iso})
+    g = None
+    if best["osm"]:
+        parts = osm_parts(best["osm"])
+        if parts: g = linemerge(parts)
+    if g is None: g = nominatim_geom(best["n"], best["q"], best["i2"], ("LineString", "MultiLineString"))
+    if g is not None and iso in C:
+        if orv.get("through"): g = g.intersection(C[iso].buffer(0.05))
+        if not g.is_empty:
+            m = linemerge(g) if g.geom_type == "MultiLineString" else g
+            lines = sorted(list(m.geoms) if hasattr(m, "geoms") else [m], key=lambda l: -l.length)
+            main = lines[0].simplify(0.02)
+            orv["line"] = rd(main.coords, 2); orv["others"] = []
+            ends = [Point(main.coords[0]), Point(main.coords[-1])]
+            d = [coast.distance(e) * 111 for e in ends]
+            if min(d) < 40 and max(d) > 120: orv["mouth"] = 0 if d[0] < d[1] else 1
+    return orv
+
+def wd_lake(iso, C):
+    q = '''SELECT ?r ?rl ?v ?osm ?i2 (GROUP_CONCAT(DISTINCT ?cc;separator=",") AS ?ccs) WHERE {
+      ?cx wdt:P298 "%s"; wdt:P297 ?i2. ?r wdt:P31/wdt:P279* wd:Q23397; wdt:P17 ?cx; wdt:P17 ?c2. ?c2 wdt:P298 ?cc.
+      OPTIONAL{?r wdt:P2046 ?v} OPTIONAL{?r wdt:P402 ?osm} ?r rdfs:label ?rl FILTER(LANG(?rl)="en")
+    } GROUP BY ?r ?rl ?v ?osm ?i2''' % iso
+    recs = wd_rows(wd_sparql(q))
+    if not recs: return None
+    recs.sort(key=lambda d: (-d["v"], 0 if d["osm"] else 1))
+    for best in recs[:4]:   # biggest first; a lake with no shape or area is skipped for the next
+        g = None
+        if best["osm"]:
+            parts = osm_parts(best["osm"])
+            if parts:
+                from shapely.ops import polygonize
+                polys = list(polygonize(unary_union(parts)))
+                if polys: g = unary_union(polys)
+        if g is None: g = nominatim_geom(best["n"], best["q"], best["i2"], ("Polygon", "MultiPolygon"))
+        km2, approx = best["v"], False
+        if g is not None and g.geom_type in ("Polygon", "MultiPolygon"):
+            polys = list(g.geoms) if g.geom_type == "MultiPolygon" else [g]
+            if km2 <= 0: km2, approx = sum(area_km2(p) for p in polys), True
+        if km2 <= 0: continue
+        lk = {"n": best["n"], "km2": int(round(km2)) if km2 >= 1 else round(km2, 2), "shared": sorted(best["cc"] - {iso}), "src": "wd"}
+        if approx: lk["approx"] = 1
+        if g is not None and g.geom_type in ("Polygon", "MultiPolygon"):
+            polys = list(g.geoms) if g.geom_type == "MultiPolygon" else [g]
+            lk["poly"] = [rd(p.simplify(0.01).exterior.coords, 3) for p in sorted(polys, key=lambda p: -p.area)[:4]]
+        return lk
+    return None
+
+def wikidata_fill(out, C, coast, targets):
+    missing = []
+    for iso in targets:
+        o = out.setdefault(iso, {})
+        if not o.get("river"):
+            r = wd_river(iso, C, coast)
+            if r: o["river"] = r; print("wikidata river", iso, r["n"], r["km"], "line" if r.get("line") else "NO LINE")
+            else: missing.append(("river", iso))
+        if not o.get("lake"):
+            l = wd_lake(iso, C)
+            if l: o["lake"] = l; print("wikidata lake", iso, l["n"], l["km2"], "outline" if l.get("poly") else "NO OUTLINE")
+            else: missing.append(("lake", iso))
+        if not o: out.pop(iso, None)
+    print("STILL MISSING (need a source from you):", missing)
+
 def main():
     fb = load_factbook()
     adm, land, lakes, rivers = load_ne()
@@ -410,6 +541,9 @@ def main():
                 if min(d) < 40 and max(d) > 120: orv["mouth"] = 0 if d[0] < d[1] else 1
             o["river"] = orv
         if o: out[iso] = o
+    try: targets = list(json.load(open("country-data.json", encoding="utf-8")).keys())
+    except Exception: targets = [k for k in out if isinstance(out[k], dict)]
+    wikidata_fill(out, C, coast, targets)
     lk = {l["n"]: l for l in L}
     out["_ref"] = {"river": max(({"n": v["river"]["n"], "km": int(round(v["river"]["km"], -1))} for k, v in out.items() if isinstance(v, dict) and v.get("river") and not v["river"].get("approx")), key=lambda r: r["km"]),
                    "lakes": [{"n": n, "km2": int(round(lk[n]["a"]))} for n in ("Windermere", "Geneva", "Superior", "Victoria") if n in lk]}
