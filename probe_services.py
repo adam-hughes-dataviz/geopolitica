@@ -31,7 +31,7 @@ svc = {}
 for c, l in lab.items():
     if not c.endswith("_USD"):
         continue
-    if re.match(r"^(Goods and )?Services, (Credit|Debit)", l) or re.match(r"^Current Account, Goods and Services, Services, (Credit|Debit)", l):
+    if l.startswith("Current Account, Goods and Services, Services,") and "Special Purpose" not in l and re.search(r"Credit|Debit", l):
         svc[c] = l
 for c in sorted(svc):
     print(" ", c, "|", svc[c][:150])
