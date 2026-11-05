@@ -66,11 +66,30 @@ def fetch_hdi():
     print("hdi: no UNDP file found, skipped")
     return {}
 
+def wb_range(code, start=2000):
+    """Latest non-empty World Bank value per country from an explicit year range: {iso3: [value, year]}.
+    Does not rely on the API's mrnev option, which has returned only the newest year on some requests."""
+    best = {}
+    page, pages = 1, 1
+    while page <= pages:
+        j = get("https://api.worldbank.org/v2/country/all/indicator/%s?format=json&date=%d:%d&per_page=20000&page=%d" % (code, start, NOW, page))
+        if not (isinstance(j, list) and len(j) > 1 and j[1]): break
+        pages = int(j[0].get("pages") or 1)
+        for r in j[1]:
+            iso = r.get("countryiso3code")
+            if iso and r.get("value") is not None:
+                try: y = int(r["date"])
+                except (ValueError, TypeError): continue
+                if iso not in best or y > best[iso][1]: best[iso] = [r["value"], y]
+        page += 1; time.sleep(1)
+    return best
+
 def wb_latest(code):
     """Most recent non-empty World Bank value per country: {iso3: [value, year]}."""
+    best = wb_range(code)
+    if len(best) >= 20: return best
     j = get("https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code)
     rows = (j[1] if isinstance(j, list) and len(j) > 1 else None) or []
-    best = {}
     for r in rows:
         iso = r.get("countryiso3code")
         if iso and r.get("value") is not None:
@@ -92,6 +111,11 @@ def main():
         print("imf", code, n); time.sleep(1)
     for code, key in WB.items():
         gov = code.startswith("GOV_WGI")
+        if not gov:
+            best = wb_range(code)
+            for iso, v in best.items(): out.setdefault(iso, {})[key] = v
+            print("wb", code, len(best), "(year range)")
+            if len(best) >= 20: continue
         tries = ["https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code]
         if gov:
             tries = ["https://api.worldbank.org/v2/country/all/indicator/%s?format=json&mrnev=1&per_page=500" % code,
