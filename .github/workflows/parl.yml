@@ -1,0 +1,19 @@
+name: Parliament infoboxes
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  parl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -u fetch_parliaments.py
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add parliaments_raw.json
+          git diff --cached --quiet || git commit -m "Parliament infoboxes (raw)"
+          git pull --rebase -X theirs origin main
+          for i in 1 2 3 4 5; do git push && break; sleep $((i*15)); git pull --rebase -X theirs origin main; done
