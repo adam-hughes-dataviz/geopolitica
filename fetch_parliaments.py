@@ -78,9 +78,22 @@ for iso, v in out.items():
     acc = 0
     for r in rows:
         r["gov"] = bool(gov) and acc < gov; acc += r["s"]
-    opp_party = next((r for r in rows if gov and not r["gov"] and not re.match(r"(independent|non-attached|vacan|others?)", r["n"], re.I)), None)
+    cand = [r for r in rows if gov and not r["gov"] and not re.match(r"(independent|non-attached|vacan|others?|supported|government|opposition)", r["n"], re.I) and r["a"]]
+    opp_party = max(cand, key=lambda r: r["s"]) if cand else None
     res[iso] = {"status": "ok" if rows else "no table", "seats_ib": v.get("seats_ib"), "sum": tot, "gov_total": gov, "heads": heads, "rows": rows, "opp_office": v.get("opp"),
                 "opp_party_leader": (opp_party["n"], leader_of(opp_party["a"]) if opp_party and opp_party["a"] else None) if opp_party else None}
     time.sleep(0.5)
 json.dump(res, open("parliaments.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(sum(1 for v in res.values() if v["status"] == "ok"), "tables")
+
+# ---- colours for hand-kept tables: Wikipedia's own {{party color}} values
+CT = json.load(open("colour_titles.json", encoding="utf-8"))
+cols = {}
+for title in sorted({x for v in CT.values() for x in v.values()}):
+    u = "https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "expandtemplates", "text": "{{party color|%s}}" % title, "prop": "wikitext", "format": "json", "formatversion": 2})
+    try:
+        with urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60) as r: cols[title] = json.load(r)["expandtemplates"]["wikitext"].strip()
+    except Exception as e: cols[title] = None
+    time.sleep(0.3)
+json.dump(cols, open("party_colours.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(cols)

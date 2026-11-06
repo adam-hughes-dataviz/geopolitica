@@ -1,0 +1,74 @@
+{
+ "AUT": {
+  "Freedom Party (FPÖ)": "Freedom Party of Austria",
+  "People's Party (ÖVP)": "Austrian People's Party",
+  "Social Democrats (SPÖ)": "Social Democratic Party of Austria",
+  "NEOS": "NEOS – The New Austria and Liberal Forum",
+  "Greens": "The Greens – The Green Alternative"
+ },
+ "BGD": {
+  "BNP": "Bangladesh Nationalist Party",
+  "Jamaat-e-Islami": "Bangladesh Jamaat-e-Islami",
+  "National Citizen Party": "National Citizen Party"
+ },
+ "DZA": {
+  "National Liberation Front (FLN)": "National Liberation Front (Algeria)",
+  "National Democratic Rally (RND)": "National Democratic Rally",
+  "Future Front": "Future Front",
+  "Movement of Society for Peace (MSP)": "Movement of Society for Peace",
+  "El Binaa": "El Bina"
+ },
+ "BEL": {
+  "N-VA": "New Flemish Alliance",
+  "Vlaams Belang": "Vlaams Belang",
+  "MR": "Reformist Movement",
+  "PS": "Socialist Party (Belgium)",
+  "PVDA-PTB": "Workers' Party of Belgium",
+  "Les Engagés": "Les Engagés",
+  "Vooruit": "Vooruit (political party)",
+  "CD&V": "Christian Democratic and Flemish",
+  "Open VLD": "Open Flemish Liberals and Democrats",
+  "Groen": "Groen (political party)",
+  "Ecolo": "Ecolo",
+  "DéFI": "DéFI"
+ },
+ "BWA": {
+  "Umbrella for Democratic Change": "Umbrella for Democratic Change",
+  "Botswana Patriotic Front": "Botswana Patriotic Front",
+  "Botswana Congress Party": "Botswana Congress Party",
+  "Botswana Democratic Party": "Botswana Democratic Party"
+ },
+ "DNK": {
+  "Social Democrats": "Social Democrats (Denmark)",
+  "Green Left": "Green Left (Denmark)",
+  "Venstre": "Venstre (Denmark)",
+  "Liberal Alliance": "Liberal Alliance (Denmark)",
+  "Danish People's Party": "Danish People's Party",
+  "Moderates": "Moderates (Denmark)",
+  "Conservatives": "Conservative People's Party (Denmark)",
+  "Red-Green Alliance": "Red–Green Alliance (Denmark)",
+  "Social Liberals": "Social Liberal Party (Denmark)",
+  "Denmark Democrats": "Denmark Democrats",
+  "The Alternative": "The Alternative (Denmark)",
+  "Citizens' Party": "Citizens' Party (Denmark)"
+ },
+ "GBR": {
+  "Labour": "Labour Party (UK)",
+  "Conservative": "Conservative Party (UK)",
+  "Liberal Democrats": "Liberal Democrats (UK)",
+  "Reform UK": "Reform UK",
+  "SNP": "Scottish National Party",
+  "Sinn Féin": "Sinn Féin",
+  "DUP": "Democratic Unionist Party",
+  "Green (England and Wales)": "Green Party of England and Wales",
+  "Plaid Cymru": "Plaid Cymru"
+ },
+ "EST": {
+  "Reform": "Estonian Reform Party",
+  "EKRE": "Conservative People's Party of Estonia",
+  "Centre": "Estonian Centre Party",
+  "Estonia 200": "Estonia 200",
+  "SDE": "Social Democratic Party (Estonia)",
+  "Isamaa": "Isamaa"
+ }
+}
