@@ -1,0 +1,15 @@
+{
+ "_about": "Sourced figures for gaps in the IMF and World Bank series. Each entry: v (value), y (year), src (source). Edit here, not in the page.",
+ "CUB": {
+  "infl": {"v": 14.07, "y": 2025, "src": "ONEI consumer price index, December 2025 year on year (reported by Agenda Económica)"},
+  "bal": {"v": -7.3, "y": 2024, "src": "ONEI, via Trading Economics"},
+  "debt": {"v": 119, "y": 2022, "src": "ONEI, via Trading Economics"},
+  "ca": {"v": -0.5, "y": 2020, "src": "ONEI, via Trading Economics"}
+ },
+ "ATG": {
+  "unemp": {"v": 5.4, "y": 2023, "src": "ILO"}
+ },
+ "DMA": {
+  "unemp": {"v": 11.3, "y": 2001, "src": "ILO, Dominica labour force survey (no newer official rate published)"}
+ }
+}

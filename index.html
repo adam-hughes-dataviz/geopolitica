@@ -560,6 +560,14 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     indP.then(cb);
   }
   // Gini for countries the World Bank has none for: gini_extra.json (UNU-WIDER WIID), built by fetch_wiid.py
+  var macroX = null;
+  fetch("https://raw.githubusercontent.com/adam-hughes-dataviz/geopolitica/main/macro_extra.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { macroX = j; }).catch(function () {});
+  function fillX(rec, key) {
+    var m = macroX && macroX[key]; if (!m) return rec;
+    var o = {}; Object.keys(rec || {}).forEach(function (k) { o[k] = rec[k]; }); o._xs = [];
+    Object.keys(m).forEach(function (k) { if (!o[k] && !o[k + "2"]) { o[k] = [m[k].v, m[k].y]; o._xs.push([k, m[k]]); } });
+    return o._xs.length ? o : rec;
+  }
   var giniX = null;
   fetch("https://raw.githubusercontent.com/adam-hughes-dataviz/geopolitica/main/gini_extra.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { giniX = j; }).catch(function () {});
   function fmtPop(v) { return v >= 1e9 ? (v / 1e9).toFixed(2) + " bn" : v >= 1e6 ? (v / 1e6).toFixed(v >= 1e8 ? 0 : 1) + " m" : v >= 1e3 ? Math.round(v / 1e3).toLocaleString("en-GB") + " k" : String(Math.round(v)); }
@@ -638,6 +646,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var key = sel && sel.key;
     function draw(rec) {
       box.innerHTML = "";
+      rec = fillX(rec, key);
       var g = function (k, f) { var x = rec && rec[k]; if (!x && rec && rec[k + "2"]) { x = rec[k + "2"]; if (k === "gdp" || k === "ppp") x = [x[0] / 1e9, x[1]]; } return x ? { v: FMT[f](x[0]), y: x[1] } : null; };
       var fb = b.fb || {};
       var stat = function (x, lab, fbv) { var c = el("div", "stat"); c.appendChild(el("b", "", x ? x.v : (fbv && fbv.length < 18 ? fbv : "n/a"))); c.appendChild(el("span", "", lab + (x ? " (" + x.y + ")" : ""))); return c; };
@@ -668,6 +677,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       else if (b.kind === "member") box.appendChild(el("h3", "", "Memberships"));
       if (dl) box.appendChild(dl);
       box.appendChild(el("div", "src", b.kind === "economy" ? "Economy: IMF World Economic Outlook, latest year available (recent years are estimates). Where the IMF has no figure, the World Bank is used. Real GDP and Gini: World Bank. HDI: UNDP." : b.kind === "gov" ? "World Bank Worldwide Governance Indicators, scaled to a 0 to 100 score." : b.kind === "member" ? "From the Blocs filter on the map. A partner is a non-member with a formal link." : "Population: World Bank open data, latest year available. Replacement level is estimated from under-5 mortality, adult female mortality and the sex ratio at birth (1.05 where unavailable); it is 2.1 where mortality data is missing."));
+      if (b.kind === "economy" && rec && rec._xs) { var NM = { infl: "Inflation", unemp: "Unemployment", debt: "Public debt", bal: "Budget balance", ca: "Current account" }; box.appendChild(el("div", "src", rec._xs.map(function (p) { return (NM[p[0]] || p[0]) + " (" + p[1].y + "): " + p[1].src + "."; }).join(" "))); }
       if (fb._note) box.appendChild(el("div", "src", fb._note));
     }
     draw(null);
