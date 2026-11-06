@@ -919,6 +919,12 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var n = 0; ka.forEach(function (k) { if (b[k]) n++; });
     return n / Math.min(ka.length, kb.length);
   }
+  // Syndicated, social and lifestyle posts are not news reporting; established outlets and political stories come first.
+  var BADSRC = /\bmsn\b|msn\.com|yahoo|tiktok|facebook|youtube|reddit|instagram|twitter|x\.com|medium\.com|substack|pinterest|quora|linkedin|blogspot|wordpress|openpr|prnewswire|globenewswire|einpresswire|newsbreak|dailyhunt|flipboard|lonelyplanet|\bblog\b/i;
+  var BADTTL = /travel|tourist|tourism|vlog|influencer|honeymoon|recipe|horoscope|celebrity|fashion|lottery|jackpot|giveaway|\bTT\b|#\w+|how to |best places|things to do|bucket list|cancer|dating|obituary|cricket|premier league|\becb\b|\bicc\b|football|soccer|rugby|tennis|golf|olympic/i;
+  var GOODSRC = /reuters|apnews|associated press|bbc|aljazeera|al jazeera|guardian|ft\.com|financial times|nytimes|new york times|washingtonpost|washington post|bloomberg|telegraph|economist|france24|france 24|dw\.com|deutsche welle|lemonde|le monde|cnn|npr|politico|foreignpolicy|axios|thetimes|independent|sky news|abc\.net|cbc|scmp|nikkei|irishtimes|irish times|intelligence online|africa confidential|thehindu|dawn|straitstimes|japantimes|al-monitor|middleeasteye|thenationalnews|haaretz|timesofisrael|euronews|rfi|voanews|rferl|news\.un\.org|un news|thediplomat|wsj|afp|anadolu|xinhua|kyodo|yonhap|spiegel|elpais/i;
+  var GEOTTL = /\b(government|president|prime minister|minister|ministry|parliament|election|elections|vote|coup|army|military|troops|war|conflict|ceasefire|attack|strike|border|treaty|sanctions?|tariffs?|trade|aid|talks|summit|diplomat\w*|ambassador|embassy|nato|security|refugee\w*|migrants?|protest\w*|court|policy|economy|budget|imf|energy|oil|gas|taliban|regime|opposition|rebels?|militants?|terror\w*|relations|cooperation|agreement|deal|investment)\b/i;
+  function nscore(a) { return (GOODSRC.test((a.domain || "") + " " + (a.url || "")) ? 3 : 0) + (GEOTTL.test(a.title || "") ? 2 : 0); }
   function pick3(arts, name) {
     var terms = name.replace(/[()"]/g, "").split(/ OR /).map(function (s) { return s.trim().toLowerCase(); });
     var drop = {}; terms.join(" ").replace(/[^a-z0-9 ]+/g, " ").split(/\s+/).forEach(function (w) { drop[w] = 1; });
@@ -926,10 +932,12 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     arts.forEach(function (a) {
       var k = (a.title || "").toLowerCase().trim();
       if (k.length < 20 || seenT[k]) return;
+      if (BADSRC.test((a.domain || "") + " " + (a.url || "")) || BADTTL.test(a.title || "")) return;
       seenT[k] = 1; a._t = ntok(a.title, drop);
       a._on = terms.some(function (m) { return a.title.toLowerCase().indexOf(m) >= 0; });
       list.push(a);
     });
+    list.forEach(function (a, i) { a._r = nscore(a) * 1000 - i; }); list.sort(function (x, y) { return y._r - x._r; });
     var onTopic = list.filter(function (a) { return a._on; });
     var pool = onTopic.length >= 3 ? onTopic : list;
     var out = [], doms = {};
