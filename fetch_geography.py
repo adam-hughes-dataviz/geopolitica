@@ -547,6 +547,11 @@ def main():
     for iso_, v_ in over.items():   # hand-sourced rivers and lakes (including {"none":1} for countries with no permanent major one)
         for k_ in ("river", "lake"):
             if isinstance(v_, dict) and k_ in v_: out.setdefault(iso_, {})[k_] = v_[k_]
+    try: LO = json.load(open("lake_outlines.json", encoding="utf-8"))
+    except Exception: LO = {}
+    for iso_, rings in LO.items():   # real outlines for hand-sourced lakes (fetch_lake_outlines.py)
+        lk_ = (out.get(iso_) or {}).get("lake")
+        if lk_ and not lk_.get("none") and not lk_.get("poly"): lk_["poly"] = rings
     lk = {l["n"]: l for l in L}
     out["_ref"] = {"river": max(({"n": v["river"]["n"], "km": int(round(v["river"]["km"], -1))} for k, v in out.items() if isinstance(v, dict) and v.get("river") and not v["river"].get("approx")), key=lambda r: r["km"]),
                    "lakes": [{"n": n, "km2": int(round(lk[n]["a"]))} for n in ("Windermere", "Geneva", "Superior", "Victoria") if n in lk]}
