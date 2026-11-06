@@ -103,7 +103,7 @@ function gather(name, other) {
     if (!pool.length && !other) {   // a small country with no topic hits: ask again with just the name
       try { const r = parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(QUERY[name] || name) + "&format=rss&setlang=en-GB")); dbg.bing_plain = r.length; pool.push(...r); } catch (e) { errs.push(String(e.message || e)); }
     }
-    if (!pool.length) throw new Error(errs.join(" | "));
+    if (!pool.length) throw Object.assign(new Error(errs.join(" | ")), { dbg });
     return { pool, dbg };
   })();
 }
@@ -117,7 +117,7 @@ export default {
     const hit = await cache.match(key); if (hit) return hit;
     let items, dbg;
     try { ({ pool: items, dbg } = await gather(name, other)); }
-    catch (e) { return new Response(JSON.stringify({ error: String(e.message || e) }), { status: 502, headers: CORS }); }
+    catch (e) { return new Response(JSON.stringify({ error: String(e.message || e), debug: e.dbg }), { status: 502, headers: CORS }); }
     const body = JSON.stringify({ updated: new Date().toISOString().slice(0, 16) + "Z", items: other ? pick3(items, name, 5, [name.toLowerCase(), other.toLowerCase()]) : pick3(items, name), pair: !!other, ...(url.searchParams.get("debug") ? { debug: dbg, pool: items.map(x => x.s + " | " + x.t) } : {}) });
     const res = new Response(body, { headers: { ...CORS, "Cache-Control": "public, max-age=900" } });
     ctx.waitUntil(cache.put(key, res.clone()));
