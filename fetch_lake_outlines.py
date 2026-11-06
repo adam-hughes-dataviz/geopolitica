@@ -2,7 +2,7 @@
 Writes lake_outlines.json and adds the outline to geography.json. A shape is kept only if its name matches and its area
 is within a factor of 3 of the sourced area (or, where no area is sourced, if it is a plausible lake size)."""
 import json, math, time, csv, io, urllib.request, urllib.parse, unicodedata
-from shapely.geometry import shape, LineString
+from shapely.geometry import shape, LineString, Point
 from shapely.ops import linemerge, polygonize, unary_union
 
 UA = {"User-Agent": "geopolitica-dashboard/1.0 (https://github.com/adam-hughes-dataviz/geopolitica)"}
@@ -26,6 +26,23 @@ ALT = {"Attersee": ["Attersee"], "Lac du Bourget": ["Lac du Bourget"], "Lake Sar
        "Černé jezero": ["Černé jezero"], "Lake Télé": ["Lake Tele", "Lac Tele", "Lac Télé"], "Akrotiri Salt Lake": ["Akrotiri Salt Lake", "Limassol Salt Lake", "Salt Lake", "Alyki"], "Chott Melrhir": ["Chott Melrhir", "Chott Melghir"],
        "Lake Nokoué": ["Lac Nokoué", "Lake Nokoue"], "Lake Burgas": ["Burgas Lake", "Burgasko ezero", "Burgaskoto ezero", "Vaya", "Вая", "Бургаско езеро"], "Blidinje Lake": ["Blidinje", "Blidinjsko jezero"], "Lake Ilopango": ["Lago de Ilopango", "Ilopango"]}
 WD = {"Lake Sarysu": "Q2752255"}
+PT = {"Lawzi Lake": (26.131886, 50.484901)}
+def by_point(lat, lon):
+    t = get("https://overpass-api.de/api/interpreter?" + urllib.parse.urlencode({"data": '[out:json][timeout:90];(way(around:200,%s,%s)["natural"="water"];relation(around:200,%s,%s)["natural"="water"];way(around:200,%s,%s)["water"];);out geom;' % ((lat, lon) * 3)}))
+    try: els = json.loads(t)["elements"]
+    except Exception: return None
+    best = None
+    for e in els:
+        ls = []
+        if e.get("type") == "way" and e.get("geometry"): ls.append(LineString([(p["lon"], p["lat"]) for p in e["geometry"]]))
+        for m in e.get("members", []):
+            if m.get("type") == "way" and m.get("geometry") and m.get("role") in ("outer", ""): ls.append(LineString([(p["lon"], p["lat"]) for p in m["geometry"]]))
+        if not ls: continue
+        pg = list(polygonize(unary_union(ls)))
+        if not pg: continue
+        g = unary_union(pg); d = g.distance(Point(lon, lat))
+        if best is None or d < best[0] or (d == best[0] and g.area > best[1].area): best = (d, g)
+    return best[1] if best else None
 def by_wikidata(q):
     t = get("https://overpass-api.de/api/interpreter?" + urllib.parse.urlencode({"data": '[out:json][timeout:90];(relation["wikidata"="%s"];way["wikidata"="%s"];);out geom;' % (q, q)}))
     try: els = json.loads(t)["elements"]
@@ -43,7 +60,11 @@ for iso, v in over.items():
     if not lk or lk.get("none") or lk.get("src") != "manual" or "line" in lk: continue
     if (geo.get(iso, {}).get("lake") or {}).get("poly") and iso not in out: continue
     i2 = (cc.get(iso) or "").lower(); got = None
-    if lk["n"] in WD:
+    if lk["n"] in PT:
+        g0 = by_point(*PT[lk["n"]])
+        if g0 is not None and not g0.is_empty:
+            got = (0, g0, km2(g0)); lk["km2"] = round(km2(g0), 2); geo[iso]["lake"]["km2"] = lk["km2"]; print(iso, lk["n"], "-> point outline", lk["km2"], "km2")
+    if lk["n"] in WD and not got:
         g0 = by_wikidata(WD[lk["n"]])
         if g0 is not None and not g0.is_empty:
             got = (0, g0, km2(g0)); print(iso, lk["n"], "-> wikidata outline", round(km2(g0), 2), "km2")
