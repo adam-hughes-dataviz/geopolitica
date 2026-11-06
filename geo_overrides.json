@@ -159,7 +159,10 @@
 "none": 1
 },
 "lake": {
-"none": 1
+"n": "Potworks Reservoir",
+"km2": 2.43,
+"shared": [],
+"src": "manual"
 }
 },
 "CPV": {
@@ -1057,11 +1060,10 @@
 },
 "BIH": {
 "lake": {
-"n": "Blidinje Lake",
+"n": "Buško Blato",
+"km2": 56.7,
 "shared": [],
-"src": "manual",
-"km2": 4,
-"approx": 1
+"src": "manual"
 },
 "river": {
 "n": "Bosna",
@@ -1939,67 +1941,10 @@
 },
 "CUB": {
 "lake": {
-"n": "Laguna de Leche",
+"n": "Zaza Reservoir",
+"km2": 113.5,
 "shared": [],
-"src": "manual",
-"km2": 67,
-"approx": 1,
-"poly": [
-[
-[
--78.676,
-22.269
-],
-[
--78.618,
-22.269
-],
-[
--78.618,
-22.254
-],
-[
--78.662,
-22.254
-],
-[
--78.662,
-22.228
-],
-[
--78.59,
-22.228
-],
-[
--78.59,
-22.187
-],
-[
--78.574,
-22.187
-],
-[
--78.574,
-22.168
-],
-[
--78.661,
-22.147
-],
-[
--78.645,
-22.187
-],
-[
--78.686,
-22.228
-],
-[
--78.676,
-22.269
-]
-]
-]
+"src": "manual"
 }
 },
 "CYP": {
@@ -2112,7 +2057,10 @@
 },
 "BEL": {
 "lake": {
-"none": 1
+"n": "Lac de la Plate Taille",
+"km2": 3.74,
+"shared": [],
+"src": "manual"
 },
 "river": {
 "n": "Meuse",
@@ -11696,6 +11644,12 @@
 5.14
 ]
 ]
+},
+"lake": {
+"n": "Lake Kossou",
+"km2": 1600,
+"shared": [],
+"src": "manual"
 }
 },
 "CMR": {
@@ -18429,6 +18383,12 @@
 "others": [],
 "through": [],
 "src": "manual"
+},
+"lake": {
+"n": "Lake Arenal",
+"km2": 85,
+"shared": [],
+"src": "manual"
 }
 },
 "AZE": {
@@ -18446,6 +18406,16 @@
 "src": "wd",
 "others": [],
 "through": []
+}
+},
+"EGY": {
+"lake": {
+"n": "Lake Nasser",
+"km2": 5250,
+"shared": [
+"SDN"
+],
+"src": "manual"
 }
 }
 }
