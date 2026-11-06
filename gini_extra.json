@@ -1,0 +1,57 @@
+{
+ "AFG": {
+  "v": 30.1,
+  "y": 2020,
+  "basis": "consumption",
+  "src": "UNU-WIDER WIID (national statistics office)",
+  "survey": "Income and Expenditure & Labor Force survey (IE&LFS)"
+ },
+ "AND": {
+  "v": 28.0,
+  "y": 2016,
+  "basis": "consumption",
+  "src": "UNU-WIDER WIID (national statistics office)",
+  "survey": "l’Enquesta de Pressupostos Familiars (EPF)"
+ },
+ "ATG": {
+  "none": true,
+  "why": "no qualifying entry in WIID"
+ },
+ "BHR": {
+  "none": true,
+  "why": "WIID entry is per-capita income across a population with a large migrant workforce; not comparable"
+ },
+ "BHS": {
+  "v": 41.4,
+  "y": 2013,
+  "basis": "consumption",
+  "src": "UNU-WIDER WIID (national statistics office)",
+  "survey": "Household Expenditure Survey"
+ },
+ "BRN": {
+  "none": true,
+  "why": "no qualifying entry in WIID"
+ },
+ "CUB": {
+  "none": true,
+  "why": "no qualifying entry in WIID"
+ },
+ "DMA": {
+  "v": 44.4,
+  "y": 2008,
+  "basis": "consumption",
+  "src": "UNU-WIDER WIID (research study, Kairi Consultants 2010)",
+  "survey": ""
+ },
+ "ERI": {
+  "none": true,
+  "why": "no qualifying entry in WIID"
+ },
+ "KHM": {
+  "v": 30.8,
+  "y": 2012,
+  "basis": "consumption",
+  "src": "UNU-WIDER WIID (World Bank estimate)",
+  "survey": ""
+ }
+}
