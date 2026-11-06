@@ -18,7 +18,7 @@ def html_groups(title):
         if re.search(r"political groups|composition|seat", lab, re.I) or not th:
             td = tr.find("td")
             if not td: continue
-            for li in td.find_all("li"):
+            for li in td.find_all(["li", "dd"]):
                 if li.find_parent("li") and li.find_parent("li") is not li: continue
                 sp = li.find(lambda x: x.name in ("span", "div") and "background" in (x.get("style") or ""))
                 m = re.search(r"background(?:-color)?:\s*([^;\"]+)", sp.get("style")) if sp else None
