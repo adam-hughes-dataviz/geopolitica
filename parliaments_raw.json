@@ -587,6 +587,36 @@
   ],
   "groups": [
    {
+    "c": "#63C3D0",
+    "t": "ÖVP (51)",
+    "a": "Austrian People's Party"
+   },
+   {
+    "c": "#E42712",
+    "t": "SPÖ (41)",
+    "a": "Social Democratic Party of Austria"
+   },
+   {
+    "c": "#CB1667",
+    "t": "NEOS (17)",
+    "a": "NEOS (Austria)"
+   },
+   {
+    "c": "#0056A2",
+    "t": "FPÖ (57)",
+    "a": "Freedom Party of Austria"
+   },
+   {
+    "c": "#87B529",
+    "t": "Greens (16)",
+    "a": "The Greens (Austria)"
+   },
+   {
+    "c": "#DCDCDC",
+    "t": "Independent (1)",
+    "a": null
+   },
+   {
     "heads": [
      "Government (109)",
      "Opposition (74)"
@@ -1349,6 +1379,81 @@
    "| political_groups1 =  '''[[Cabinet of Borjana Krišto|Government]] (20)'''"
   ],
   "groups": [
+   {
+    "c": "#C40000",
+    "t": "SNSD (6)",
+    "a": "Alliance of Independent Social Democrats"
+   },
+   {
+    "c": "#FF0000",
+    "t": "SDP BiH (5)",
+    "a": "Social Democratic Party of Bosnia and Herzegovina"
+   },
+   {
+    "c": "#0064AA",
+    "t": "HDZ BiH (4)",
+    "a": "Croatian Democratic Union of Bosnia and Herzegovina"
+   },
+   {
+    "c": "#FA451F",
+    "t": "NS (3)",
+    "a": "Our Party (Bosnia and Herzegovina)"
+   },
+   {
+    "c": "#142C4C",
+    "t": "NiP (2)",
+    "a": "People and Justice"
+   },
+   {
+    "c": "#87B030",
+    "t": "NES (2)",
+    "a": "People's European Union of Bosnia and Herzegovina"
+   },
+   {
+    "c": "#ED1C24",
+    "t": "DEMOS (1)",
+    "a": "Democratic Union (Bosnia and Herzegovina)"
+   },
+   {
+    "c": "#00008B",
+    "t": "US (1)",
+    "a": "United Srpska"
+   },
+   {
+    "c": "#1520A6",
+    "t": "BHI (1)",
+    "a": "Bosnian-Herzegovinian Initiative"
+   },
+   {
+    "c": "#FFCC00",
+    "t": "NPD (1)",
+    "a": "Forward (Bosnia and Herzegovina)"
+   },
+   {
+    "c": "#00A859",
+    "t": "SDA (8)",
+    "a": "Party of Democratic Action"
+   },
+   {
+    "c": "#F16822",
+    "t": "DF – GS (3)",
+    "a": "Democratic Front (Bosnia and Herzegovina)"
+   },
+   {
+    "c": "#38659C",
+    "t": "SDS (2)",
+    "a": "Serb Democratic Party (Bosnia and Herzegovina)"
+   },
+   {
+    "c": "#343399",
+    "t": "PDP (2)",
+    "a": "Party of Democratic Progress"
+   },
+   {
+    "c": "#024EB0",
+    "t": "ZPR (1)",
+    "a": "For Justice and Order"
+   },
    {
     "heads": [
      "Government (20)",
@@ -2324,10 +2429,105 @@
     ]
    },
    {
+    "c": "#ee1c25",
+    "t": "CCP and Nonpartisan (2478)",
+    "a": "Chinese Communist Party"
+   },
+   {
+    "c": "Indianred",
+    "t": "JS (61)",
+    "a": "Jiusan Society"
+   },
+   {
+    "c": "#189df0",
+    "t": "CPWDP (60)",
+    "a": "Chinese Peasants' and Workers' Democratic Party"
+   },
+   {
+    "c": "#cb7e1f",
+    "t": "CDL (55)",
+    "a": "China Democratic League"
+   },
+   {
+    "c": "#FFF500",
+    "t": "CAPD (54)",
+    "a": "China Association for Promoting Democracy"
+   },
+   {
+    "c": "Orangered",
+    "t": "CNDCA (44)",
+    "a": "China National Democratic Construction Association"
+   },
+   {
+    "c": "#1b65af",
+    "t": "RCCK (43)",
+    "a": "Revolutionary Committee of the Chinese Kuomintang"
+   },
+   {
+    "c": "Red",
+    "t": "CZGP (39)",
+    "a": "China Zhi Gong Party"
+   },
+   {
+    "c": "#1678C1",
+    "t": "TDSL (13)",
+    "a": "Taiwan Democratic Self-Government League"
+   },
+   {
     "heads": [
      "Ruling Party (2478)",
      "Democratic Parties (369)"
     ]
+   },
+   {
+    "c": "#ee1c25",
+    "t": "CCP (107)",
+    "a": "Chinese Communist Party"
+   },
+   {
+    "c": "#cb7e1f",
+    "t": "CDL (9)",
+    "a": "China Democratic League"
+   },
+   {
+    "c": "#FFF500",
+    "t": "CAPD (7)",
+    "a": "China Association for Promoting Democracy"
+   },
+   {
+    "c": "#1b65af",
+    "t": "RCCK (6)",
+    "a": "Revolutionary Committee of the Chinese Kuomintang"
+   },
+   {
+    "c": "#189df0",
+    "t": "CPWDP (5)",
+    "a": "Chinese Peasants' and Workers' Democratic Party"
+   },
+   {
+    "c": "Indianred",
+    "t": "JS (5)",
+    "a": "Jiusan Society"
+   },
+   {
+    "c": "Orangered",
+    "t": "CNDCA (4)",
+    "a": "China National Democratic Construction Association"
+   },
+   {
+    "c": "#1678C1",
+    "t": "TDSL (3)",
+    "a": "Taiwan Democratic Self-Government League"
+   },
+   {
+    "c": "Red",
+    "t": "CZGP (3)",
+    "a": "China Zhi Gong Party"
+   },
+   {
+    "c": "#C2C2C2",
+    "t": "Nonpartisan (13)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -2581,7 +2781,93 @@
    ": {{nowrap|{{Color box|#017E2E}} Allied Action for the Rise of the Congo (7)}}",
    ": {{nowrap|{{Color box|#ACF96A}} Alliance of Nationalists (7)}}"
   ],
-  "groups": [],
+  "groups": [
+   {
+    "c": "#CF1020",
+    "t": "UDSP /TSHISEKEDI (70)",
+    "a": "Union for Democracy and Social Progress (Democratic Republic of the Congo)"
+   },
+   {
+    "c": "#A03020",
+    "t": "AFDC-A (35)",
+    "a": null
+   },
+   {
+    "c": "#EF1E26",
+    "t": "A/A- UCN (34)",
+    "a": "Union for the Congolese Nation"
+   },
+   {
+    "c": "#F4B515",
+    "t": "Act and Build (26)",
+    "a": null
+   },
+   {
+    "c": "#EFE00B",
+    "t": "AAAP (22)",
+    "a": null
+   },
+   {
+    "c": "#162578",
+    "t": "2A/TDC (21)",
+    "a": null
+   },
+   {
+    "c": "#3536A0",
+    "t": "Alliance bloc 50 (20)",
+    "a": null
+   },
+   {
+    "c": "#0000FF",
+    "t": "MLC (19)",
+    "a": "Movement for the Liberation of the Congo"
+   },
+   {
+    "c": "#037EFD",
+    "t": "ENSEMBLE (18)",
+    "a": "Together for the Republic"
+   },
+   {
+    "c": "#49DF00",
+    "t": "4AC (17)",
+    "a": null
+   },
+   {
+    "c": "#4785FD",
+    "t": "AACPG (16)",
+    "a": null
+   },
+   {
+    "c": "#0399F9",
+    "t": "Alliance 2024 (15)",
+    "a": null
+   },
+   {
+    "c": "#085CF0",
+    "t": "ANB (13)",
+    "a": null
+   },
+   {
+    "c": "#B70400",
+    "t": "AA/C (10)",
+    "a": null
+   },
+   {
+    "c": "#4508C8",
+    "t": "Coalition of Democrats (10)",
+    "a": null
+   },
+   {
+    "c": "#00000000",
+    "t": "︙ Parties with <10 seats each (138)",
+    "a": null
+   },
+   {
+    "c": "#FFFFFF",
+    "t": "Carryover from 3rd legislature (16)",
+    "a": null
+   }
+  ],
   "opp": [],
   "seats_ib": "500"
  },
@@ -3837,6 +4123,51 @@
    ": {{Color box|#c8a218|border=darkgray}} [[Estonian Nationalists and Conservatives|ERK]] (1)"
   ],
   "groups": [
+   {
+    "c": "#FFE200",
+    "t": "Reform (38)",
+    "a": "Estonian Reform Party"
+   },
+   {
+    "c": "#2f2a95",
+    "t": "E200 (12)",
+    "a": "Estonia 200"
+   },
+   {
+    "c": "#E10600",
+    "t": "SDE (14)",
+    "a": "Social Democratic Party (Estonia)"
+   },
+   {
+    "c": "#009CE2",
+    "t": "Isamaa (12)",
+    "a": "Isamaa"
+   },
+   {
+    "c": "#007557",
+    "t": "Centre (10)",
+    "a": "Estonian Centre Party"
+   },
+   {
+    "c": "#0063AF",
+    "t": "EKRE (9)",
+    "a": "Conservative People's Party of Estonia"
+   },
+   {
+    "c": "#FA6100",
+    "t": "PP (1)",
+    "a": "Parempoolsed"
+   },
+   {
+    "c": "#c8a218",
+    "t": "ERK (1)",
+    "a": "Estonian Nationalists and Conservatives"
+   },
+   {
+    "c": "#DCDCDC",
+    "t": "Independents (4)",
+    "a": "Independent politician"
+   },
    {
     "heads": [
      "Government (50)",
