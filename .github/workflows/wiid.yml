@@ -1,0 +1,20 @@
+name: Fetch WIID Gini candidates
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  wiid:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pandas openpyxl
+      - run: python3 -u fetch_wiid.py
+      - name: Publish
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add wiid_candidates.json
+          git diff --cached --quiet || git commit -m "WIID Gini candidates"
+          git pull --rebase -X theirs origin main
+          for i in 1 2 3 4 5; do git push && break; sleep $((i*15)); git pull --rebase -X theirs origin main; done
