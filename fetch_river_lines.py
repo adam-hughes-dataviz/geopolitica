@@ -15,7 +15,7 @@ cc = {r["ISO3166-1-Alpha-3"]: r["ISO3166-1-Alpha-2"] for r in csv.DictReader(io.
 over = json.load(open("geo_overrides.json", encoding="utf-8")); geo = json.load(open("geography.json", encoding="utf-8"))
 try: out = json.load(open("river_lines.json", encoding="utf-8"))
 except Exception: out = {}
-ALT = {"Severn": ["Severn", "River Severn", "Afon Hafren"], "Gudenå": ["Gudenå", "Gudenåen", "Gudenaa"], "Manas": ["Manas", "Manas River", "Drangme Chhu", "Drangmechhu", "Manas Chhu"], "Loa": ["Loa", "Río Loa", "Rio Loa"], "Belait": ["Belait", "Sungai Belait"], "Pärnu": ["Pärnu", "Pärnu jõgi", "Parnu"], "Fish River": ["Fish River", "Fischfluss", "Fish"], "Taedong": ["Taedong", "Taedong River", "Daedong"],
+ALT = {"Barka": ["Barka", "Gash", "Mereb-Gash"], "Võhandu": ["Võhandu", "Võhandu jõgi", "Vohandu"], "Térraba": ["Térraba", "Río Térraba", "Río Grande de Térraba", "Terraba"], "Severn": ["Severn", "River Severn", "Afon Hafren"], "Gudenå": ["Gudenå", "Gudenåen", "Gudenaa"], "Manas": ["Manas", "Manas River", "Drangme Chhu", "Drangmechhu", "Manas Chhu"], "Loa": ["Loa", "Río Loa", "Rio Loa"], "Belait": ["Belait", "Sungai Belait"], "Pärnu": ["Pärnu", "Pärnu jõgi", "Parnu"], "Fish River": ["Fish River", "Fischfluss", "Fish"], "Taedong": ["Taedong", "Taedong River", "Daedong"],
        "Váh": ["Váh", "Vah", "Waag"], "Vakhsh": ["Vakhsh", "Vaxsh", "Вахш"], "Mondego": ["Mondego", "Rio Mondego"], "Bosna": ["Bosna", "Rijeka Bosna"], "Chelif River": ["Chelif", "Cheliff", "Chélif", "Oued Chelif", "Oued Cheliff", "Oued Chéliff", "Chlef", "الشلف", "وادي الشلف"]}
 for iso, v in over.items():
     r = v.get("river") if isinstance(v, dict) else None
