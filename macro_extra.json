@@ -41,6 +41,21 @@
    "v": 5.3,
    "y": 2025,
    "src": "African Development Bank, Eritrea Economic Outlook (the IMF series stops in 2019)"
+  },
+  "gdpg": {
+   "v": 3.2,
+   "y": 2025,
+   "src": "African Development Bank, Eritrea Economic Outlook (AEO 2026)"
+  },
+  "ca": {
+   "v": 13.2,
+   "y": 2025,
+   "src": "African Development Bank, Eritrea Economic Outlook (AEO 2026)"
+  },
+  "bal": {
+   "v": -2.5,
+   "y": 2025,
+   "src": "African Development Bank, Eritrea Economic Outlook (AEO 2026); the deficit is stated as 2.5% of GDP in 2024 and 2025"
   }
  }
 }
