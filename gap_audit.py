@@ -24,8 +24,11 @@ rows = {}
 def add(k, what): rows.setdefault(k, []).append(what)
 for k in built:
     r = ind.get(k, {}); have = imf.get(k, set())
-    for f in IMFK.values():
+    for code, f in IMFK.items():
         if f in have or r.get(f) or r.get(f + "2") or (mx.get(k, {}).get(f)): continue
+        j = get("https://www.imf.org/external/datamapper/api/v1/%s/%s" % (code, k))   # the all-country call can omit a country the per-country call has
+        ser = ((j or {}).get("values", {}).get(code, {}) or {}).get(k, {})
+        if any(v is not None and int(y) <= NOW for y, v in ser.items()): continue
         add(k, LAB[f])
     if not (r.get("gini") or r.get("gini2") or (gx.get(k, {}).get("v") is not None)):
         add(k, "Gini (no official estimate)")
