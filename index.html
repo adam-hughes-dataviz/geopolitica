@@ -1315,14 +1315,14 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     if (cur) out.push(cur); return out;
   }
   function geoLake(box, D, C, key, ref) {
-    var Lk = D.lake, card = el("div", "tcard"), id = "gl" + (++geoUid), s = '<svg class="tsv" viewBox="0 0 360 200" role="img" aria-label="Biggest lake">';
+    var Lk = D.lake, card = el("div", "tcard"), id = "gl" + (++geoUid), s = '<svg class="tsv" viewBox="0 0 360 ' + (Lk.km2 ? 200 : 124) + '" role="img" aria-label="Biggest lake">';
     s += '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8ad3f0"/><stop offset="1" stop-color="#2a86b8"/></linearGradient></defs>';
-    var X0 = 134;
+    var X0 = (Lk.poly && Lk.poly.length) ? 134 : 150;
     if (Lk.poly && Lk.poly.length) {
       var fc = { type: "GeometryCollection", geometries: Lk.poly.map(function (r) { var geo = { type: "Polygon", coordinates: [r] }; if (g.geoArea(geo) > 2 * Math.PI) geo.coordinates[0] = r.slice().reverse(); return geo; }) };
       var c = g.geoCentroid(fc), P = g.geoAzimuthalEqualArea().rotate([-c[0], -c[1]]).fitExtent([[10, 10], [112, 112]], fc), path = g.geoPath(P), d = fc.geometries.map(path).join("");
       s += '<g transform="translate(0 12)"><path d="' + d + '" fill="#7cc3e3" opacity=".5" stroke="#7cc3e3" stroke-width="6" stroke-linejoin="round"/><path d="' + d + '" fill="url(#' + id + ')" stroke="#1f6d99" stroke-width="1.6" stroke-linejoin="round"/></g>';
-    } else s += '<g transform="translate(22 8)"><path d="M14 62C10 40 30 22 58 24C74 25 82 18 96 26C112 34 114 52 104 66C96 80 78 88 58 86C46 85 38 92 28 84C18 78 15 70 14 62Z" fill="url(#' + id + ')" stroke="#1f6d99" stroke-width="2" stroke-linejoin="round"/></g>';
+    } else s += '<g transform="translate(10 2) scale(.9)"><path d="M14 62C10 40 30 22 58 24C74 25 82 18 96 26C112 34 114 52 104 66C96 80 78 88 58 86C46 85 38 92 28 84C18 78 15 70 14 62Z" fill="url(#' + id + ')" stroke="#1f6d99" stroke-width="2" stroke-linejoin="round"/></g>';
     var nm = cut(Lk.n.replace(/^Lake\s+/i, ""), 18);
     s += '<text x="' + X0 + '" y="44" font-size="' + (nm.length > 11 ? 20 : 26) + '" font-weight="700" class="ti">' + esc(nm) + '</text>';
     var sub = wrapTxt(Lk.shared && Lk.shared.length ? "Shared with " + geoList(Lk.shared) : "Biggest lake in " + C.name, 38).slice(0, 2);
