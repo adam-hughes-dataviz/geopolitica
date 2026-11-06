@@ -565,7 +565,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   function fillX(rec, key) {
     var m = macroX && macroX[key]; if (!m) return rec;
     var o = {}; Object.keys(rec || {}).forEach(function (k) { o[k] = rec[k]; }); o._xs = [];
-    Object.keys(m).forEach(function (k) { if (!o[k] && !o[k + "2"]) { o[k] = [m[k].v, m[k].y]; o._xs.push([k, m[k]]); } });
+    Object.keys(m).forEach(function (k) { var cur = o[k] || o[k + "2"]; if (!cur || (isFinite(cur[1]) && m[k].y > cur[1])) { o[k] = [m[k].v, m[k].y]; o._xs.push([k, m[k]]); } });
     return o._xs.length ? o : rec;
   }
   var giniX = null;
@@ -1138,10 +1138,10 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   function tradeDraw(box, d, C, pbox) {
     box.innerHTML = "";
     var X = d.cx.tot || d.px.tot, M = d.cm.tot || d.pm.tot;
+    tradeSect(box, "What it buys", d.pm, TO);
     tradeSect(box, "What it sells", d.px, TG);
     box.appendChild(el("h3", "", "Trade in goods (" + d.y + ")"));
     var b = el("div", "tcard"); b.innerHTML = tradeBeam(X, M); box.appendChild(b);
-    tradeSect(box, "What it buys", d.pm, TO);
     if (pbox && ((d.cm.top && d.cm.top.length) || (d.cx.top && d.cx.top.length))) {
       pbox.appendChild(el("h3", "", "Main trading partners"));
       var f = el("div", "tcard"); f.innerHTML = tradeFlow(C.name, d.cm, d.cx); pbox.appendChild(f);
@@ -1178,6 +1178,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       var d = all[key];
       if (!d || !d.xt) { box.appendChild(el("div", "empty", "Services trade figures for " + C.name + " have not been collected yet. They are added automatically.")); return; }
       var X = d.xt, M = d.mt;
+      svcSect(box, "What it buys (services)", M, d.m, TO);
       svcSect(box, "What it sells (services)", X, d.x, TG);
       box.appendChild(el("h3", "", "Trade in services (" + d.y + ")"));
       var b = el("div", "tcard"); b.innerHTML = tradeBeam(X, M, "services"); box.appendChild(b);
@@ -1185,7 +1186,6 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
         var r = ind && ind[key];
         if (r && r.srv && isFinite(r.srv[0]) && box.isConnected) { var g = el("div", "gsm", "Services make up " + r.srv[0].toFixed(0) + "% of the economy (" + r.srv[1] + ")."); b.parentNode.insertBefore(g, b.nextSibling); }
       });
-      svcSect(box, "What it buys (services)", M, d.m, TO);
       box.appendChild(el("div", "src", d.src === "batis"
         ? "Services: OECD-WTO Balanced Trade in Services (BaTIS), " + d.y + ". " + C.name + " publishes no services figures of its own, so these are modelled estimates, shown for the 12 headline categories only."
         : "Services: IMF balance of payments, through DBnomics, in US dollars. Each country is shown at the finest level of detail it reports. Shares are of total services."));
