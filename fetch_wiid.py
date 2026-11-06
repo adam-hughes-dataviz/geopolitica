@@ -22,3 +22,17 @@ for name, url in FILES.items():
     out[name] = json.loads(sub.to_json(orient="records"))
     print(name, "target rows", len(sub), flush=True)
 json.dump(out, open("wiid_candidates.json", "w"), ensure_ascii=False, indent=0)
+
+# gini_extra.json: for countries the World Bank has no Gini for. Rule: latest WIID entry with a Gini, quality High or Average,
+# year 2005 or later. DENY lists entries that meet the rule but measure something not comparable. Everything else is "no official estimate".
+DENY = {"BHR": "WIID entry is per-capita income across a population with a large migrant workforce; not comparable"}
+SRC = {"National statistical authority": "national statistics office", "World Bank": "World Bank estimate", "Research study": "research study"}
+extra = {}
+for iso in sorted(TARGETS):
+    rows = [r for r in out.get("wiid", []) if r.get("c3") == iso and r.get("gini") is not None and r.get("quality") in ("High", "Average") and r.get("year", 0) >= 2005]
+    if iso in DENY or not rows:
+        extra[iso] = {"none": True, "why": DENY.get(iso, "no qualifying entry in WIID")}; continue
+    r = max(rows, key=lambda x: (x["year"], x.get("quality_score") or 0))
+    extra[iso] = {"v": round(float(r["gini"]), 1), "y": int(r["year"]), "basis": (r.get("resource") or "").lower(), "src": "UNU-WIDER WIID (%s%s)" % (SRC.get(r.get("source"), r.get("source")), ", " + r["source_detailed"] if r.get("source_detailed") and r.get("source") == "Research study" else ""), "survey": r.get("survey") or ""}
+json.dump(extra, open("gini_extra.json", "w"), ensure_ascii=False, indent=1)
+print(json.dumps(extra, ensure_ascii=False))
