@@ -113,6 +113,10 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     const url = new URL(req.url), name = (url.searchParams.get("c") || "").trim().slice(0, 80), other = (url.searchParams.get("d") || "").trim().slice(0, 80);
     if (!name) return new Response(JSON.stringify({ error: "missing c" }), { status: 400, headers: CORS });
+    if (url.searchParams.get("debug") && url.searchParams.get("q")) {   // test a Bing query on its own
+      try { const r = parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(url.searchParams.get("q")) + "&format=rss&setlang=en-GB")); return new Response(JSON.stringify(r.map(x => x.s + " | " + x.t)), { headers: CORS }); }
+      catch (e) { return new Response(JSON.stringify({ error: String(e.message || e) }), { headers: CORS }); }
+    }
     const cache = url.searchParams.get("debug") ? { match: async () => null, put: async () => {} } : caches.default, key = new Request(url.origin + "/?c=" + encodeURIComponent(name) + (other ? "&d=" + encodeURIComponent(other) : ""));
     const hit = await cache.match(key); if (hit) return hit;
     let items, dbg;
