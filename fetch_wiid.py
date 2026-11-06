@@ -2,7 +2,7 @@
 Writes wiid_candidates.json: every entry since 2000 for the target countries, with survey, concept and quality fields, for review."""
 import io, json, sys, urllib.request
 import pandas as pd
-UA = {"User-Agent": "geopolitica-dashboard/1.0 (https://github.com/adam-hughes-dataviz/geopolitica)"}
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36", "Referer": "https://www.wider.unu.edu/database/world-income-inequality-database-wiid", "Accept": "*/*"}
 FILES = {"wiid": "https://www.wider.unu.edu/sites/default/files/WIID/WIID-08SEP2026.xlsx",
          "companion": "https://www.wider.unu.edu/sites/default/files/WIID/wiidcountry_7.xlsx"}
 TARGETS = {"AFG", "AND", "ATG", "BHR", "BRN", "KHM", "CUB", "ERI", "BHS", "DMA"}
