@@ -24,10 +24,11 @@ def html_groups(title):
                 m = re.search(r"background(?:-color)?:\s*([^;\"]+)", sp.get("style")) if sp else None
                 for sup in li.find_all("sup"): sup.decompose()
                 txt = li.get_text(" ", strip=True)
-                groups.append({"c": m.group(1).strip() if m else None, "t": txt})
+                a = li.find("a"); groups.append({"c": m.group(1).strip() if m else None, "t": txt, "a": (a.get("title") if a else None)})
             heads = [x.get_text(" ", strip=True) for x in td.find_all(["b", "dt", "strong"])]
             if heads: groups.append({"heads": heads})
-    return {"groups": groups, "opp": opp}
+    sm = re.search(r"Seats\s*([0-9,]+)", ib.get_text(" ", strip=True))
+    return {"groups": groups, "opp": opp, "seats_ib": sm.group(1) if sm else None}
 
 out = {}
 for iso, t in T.items():
@@ -47,4 +48,39 @@ for iso, t in T.items():
     out[iso] = {"title": t, "len": len(w), "infobox": ib[:2500], "lines": keep[:40], **html_groups(t)}
     time.sleep(0.5)
 json.dump(out, open("parliaments_raw.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-print({k: (v.get("error") or len(v["infobox"])) for k, v in out.items()})
+
+def leader_of(title):
+    u = "https://en.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "parse", "page": title, "prop": "text", "format": "json", "redirects": 1, "formatversion": 2})
+    try:
+        with urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=60) as r: h = json.load(r)["parse"]["text"]
+    except Exception: return None
+    s = BeautifulSoup(h, "html.parser"); ib = s.find("table", class_=re.compile("infobox"))
+    if not ib: return None
+    for tr in ib.find_all("tr"):
+        th = tr.find("th")
+        if th and re.match(r"(party )?(leader|chair|president)", th.get_text(" ", strip=True), re.I) and tr.find("td"):
+            return re.sub(r"\s+", " ", re.sub(r"\[[^\]]*\]", "", tr.find("td").get_text(" ", strip=True))).strip()
+    return None
+
+res = {}
+for iso, v in out.items():
+    if "error" in v or "html_error" in v: res[iso] = {"status": "fetch failed"}; continue
+    gs = [g for g in v["groups"] if "c" in g and re.search(r"\(\s*\d+\s*\)\s*$", g["t"]) and not g["t"].startswith("^")]
+    heads = [h for g in v["groups"] if "heads" in g for h in g["heads"]]
+    rows = []
+    for g in gs:
+        m = re.match(r"(.*?)\s*\(\s*(\d+)\s*\)\s*$", g["t"]); rows.append({"n": m.group(1).strip(), "s": int(m.group(2)), "c": g["c"], "a": g["a"]})
+    tot = sum(r["s"] for r in rows)
+    gov = None
+    for h in heads:
+        m = re.match(r"(?:The )?Government.*\((\d+)\)\s*$", h)
+        if m: gov = int(m.group(1))
+    acc = 0
+    for r in rows:
+        r["gov"] = bool(gov) and acc < gov; acc += r["s"]
+    opp_party = next((r for r in rows if gov and not r["gov"] and not re.match(r"(independent|non-attached|vacan|others?)", r["n"], re.I)), None)
+    res[iso] = {"status": "ok" if rows else "no table", "seats_ib": v.get("seats_ib"), "sum": tot, "gov_total": gov, "heads": heads, "rows": rows, "opp_office": v.get("opp"),
+                "opp_party_leader": (opp_party["n"], leader_of(opp_party["a"]) if opp_party and opp_party["a"] else None) if opp_party else None}
+    time.sleep(0.5)
+json.dump(res, open("parliaments.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(sum(1 for v in res.values() if v["status"] == "ok"), "tables")
