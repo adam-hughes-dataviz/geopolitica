@@ -7,7 +7,7 @@ const QUERY = {
   "United Kingdom": '"United Kingdom" OR Britain',
   "United States of America": '"United States" OR "U.S."',
   "Georgia": "Georgia Tbilisi", "Jordan": "Jordan Amman", "Turkey": "Turkey OR Türkiye", "Niger": "Niger Niamey",
-  "Chad": "Chad Sahel OR Ndjamena OR Deby OR Tchad", "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
+  "Chad": '"Chad" Sahel', "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
   "Palestine": 'Palestinian OR Gaza OR "West Bank"',
   "Democratic Republic of the Congo": '"DR Congo" OR "Democratic Republic of Congo"',
   "Republic of the Congo": '"Republic of Congo" OR Brazzaville',
@@ -61,7 +61,7 @@ export function pick3(items, name, limit = 3, pair = null) {
   return out.map(({ t, u, s, d }) => ({ t, u, s, d }));
 }
 
-const decode = s => s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, "&").trim();
+const decode = s => s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&#(\d+);/g, (m, n) => String.fromCodePoint(+n)).replace(/&#x([0-9a-f]+);/gi, (m, n) => String.fromCodePoint(parseInt(n, 16))).replace(/&amp;/g, "&").trim();
 const tag = (x, n) => { const m = new RegExp("<" + n + "[^>]*>([\\s\\S]*?)</" + n + ">").exec(x); return m ? decode(m[1]) : ""; };
 
 export function parseRss(xml) {
