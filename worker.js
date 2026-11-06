@@ -7,7 +7,7 @@ const QUERY = {
   "United Kingdom": '"United Kingdom" OR Britain',
   "United States of America": '"United States" OR "U.S."',
   "Georgia": "Georgia Tbilisi", "Jordan": "Jordan Amman", "Turkey": "Turkey OR Türkiye", "Niger": "Niger Niamey",
-  "Chad": "Chad Ndjamena OR Déby", "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
+  "Chad": "Chad Sahel OR Ndjamena OR Deby OR Tchad", "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
   "Palestine": 'Palestinian OR Gaza OR "West Bank"',
   "Democratic Republic of the Congo": '"DR Congo" OR "Democratic Republic of Congo"',
   "Republic of the Congo": '"Republic of Congo" OR Brazzaville',
