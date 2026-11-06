@@ -7,7 +7,7 @@ const QUERY = {
   "United Kingdom": '"United Kingdom" OR Britain',
   "United States of America": '"United States" OR "U.S."',
   "Georgia": "Georgia Tbilisi", "Jordan": "Jordan Amman", "Turkey": "Turkey OR Türkiye", "Niger": "Niger Niamey",
-  "Chad": "Chad N'Djamena", "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
+  "Chad": "Chad Ndjamena OR Déby", "Guinea": "Guinea Conakry", "Ireland": "Ireland Dublin",
   "Palestine": 'Palestinian OR Gaza OR "West Bank"',
   "Democratic Republic of the Congo": '"DR Congo" OR "Democratic Republic of Congo"',
   "Republic of the Congo": '"Republic of Congo" OR Brazzaville',
@@ -100,6 +100,9 @@ function gather(name, other) {
     const names = ["google", "bing", "bing_outlets", "bing_topics", "gdelt"], pool = [], dbg = {};
     const rest = await Promise.allSettled(srcs.map(f => f()));
     rest.forEach((r, k) => { if (r.status === "fulfilled") { dbg[names[k]] = r.value.length; pool.push(...r.value); } else { dbg[names[k]] = String(r.reason && r.reason.message || r.reason); errs.push(dbg[names[k]]); } });
+    if (!pool.length && !other) {   // a small country with no topic hits: ask again with just the name
+      try { const r = parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(QUERY[name] || name) + "&format=rss&setlang=en-GB")); dbg.bing_plain = r.length; pool.push(...r); } catch (e) { errs.push(String(e.message || e)); }
+    }
     if (!pool.length) throw new Error(errs.join(" | "));
     return { pool, dbg };
   })();
