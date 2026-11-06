@@ -552,6 +552,11 @@ def main():
     for iso_, rings in LO.items():   # real outlines for hand-sourced lakes (fetch_lake_outlines.py)
         lk_ = (out.get(iso_) or {}).get("lake")
         if lk_ and not lk_.get("none") and not lk_.get("poly"): lk_["poly"] = rings
+    try: RL = json.load(open("river_lines.json", encoding="utf-8"))
+    except Exception: RL = {}
+    for iso_, rl_ in RL.items():   # real river lines for hand-sourced rivers (fetch_river_lines.py)
+        rv_ = (out.get(iso_) or {}).get("river")
+        if rv_ and not rv_.get("none") and not rv_.get("line"): rv_.update(rl_)
     lk = {l["n"]: l for l in L}
     out["_ref"] = {"river": max(({"n": v["river"]["n"], "km": int(round(v["river"]["km"], -1))} for k, v in out.items() if isinstance(v, dict) and v.get("river") and not v["river"].get("approx")), key=lambda r: r["km"]),
                    "lakes": [{"n": n, "km2": int(round(lk[n]["a"]))} for n in ("Windermere", "Geneva", "Superior", "Victoria") if n in lk]}
