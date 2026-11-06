@@ -788,18 +788,22 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   }
   function donut(b, body) {
     var it = b.items, sum = 0; it.forEach(function (x) { sum += x[1]; });
-    var d = el("div", "dn"), s = sv("svg", { width: 124, height: 124, viewBox: "0 0 124 124", role: "img" }, d), R = 49, C = 2 * Math.PI * R, off = 0, tot = Math.max(sum, 100);
+    var d = el("div", "dn"), s = sv("svg", { width: 124, height: 124, viewBox: "0 0 124 124", role: "img" }, d), R = 52, C = 2 * Math.PI * R, off = 0, tot = Math.max(sum, 100);
     var segs = it.map(function (x, i) { return [x[0], x[1], PAL[i % PAL.length]]; });
     if (sum < 98) segs.push(["Other or unspecified", 100 - sum, "#8a97a0"]);
     segs.forEach(function (g) {
       var len = g[1] / (sum < 98 ? 100 : sum) * C;
-      sv("circle", { cx: 62, cy: 62, r: R, fill: "none", stroke: g[2], "stroke-width": 14, "stroke-dasharray": Math.max(0, len - 1) + " " + (C - Math.max(0, len - 1)), "stroke-dashoffset": -off, transform: "rotate(-90 62 62)" }, s).appendChild(document.createElementNS(NS, "title")).textContent = g[0] + " " + g[1] + "%";
+      sv("circle", { cx: 62, cy: 62, r: R, fill: "none", stroke: g[2], "stroke-width": 12, "stroke-dasharray": Math.max(0, len - 1) + " " + (C - Math.max(0, len - 1)), "stroke-dashoffset": -off, transform: "rotate(-90 62 62)" }, s).appendChild(document.createElementNS(NS, "title")).textContent = g[0] + " " + g[1] + "%";
       off += len;
     });
     var big = it.reduce(function (a, x) { return x[1] > a[1] ? x : a; }, it[0]);
-    var pct = big[1] + "%", fs1 = Math.min(30, Math.floor(76 / (pct.length * 0.66) * 2) / 2);   // as large as the hole allows
-    var t1 = sv("text", { x: 62, y: 62, "text-anchor": "middle", "font-size": fs1, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = pct;
-    var nm = big[0], fs2 = Math.max(9, Math.min(13, Math.floor(66 / (nm.length * 0.6) * 2) / 2)), t2 = sv("text", { x: 62, y: 62 + fs1 * 0.2 + fs2 + 3, "text-anchor": "middle", "font-size": fs2, style: "fill:var(--muted)" }, s); t2.textContent = nm.length > 12 && fs2 <= 9 ? nm.slice(0, 11) + "…" : nm;
+    var pct = big[1] + "%", fs1 = Math.min(30, Math.floor(82 / (pct.length * 0.66) * 2) / 2);   // as large as the hole allows
+    var t1 = sv("text", { x: 62, y: big[0].length > 11 && big[0].indexOf(" ") > 0 ? 56 : 62, "text-anchor": "middle", "font-size": fs1, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = pct;
+    var nm = big[0], lines = [nm];
+    if (nm.length > 11) { var ws = nm.split(" "), best = null; for (var k = 1; k < ws.length; k++) { var a = ws.slice(0, k).join(" "), b2 = ws.slice(k).join(" "), m = Math.max(a.length, b2.length); if (!best || m < best[0]) best = [m, a, b2]; } if (best) lines = [best[1], best[2]]; }
+    var ml = Math.max.apply(null, lines.map(function (l) { return l.length; })), fs2 = Math.max(9, Math.min(14, Math.floor(78 / (ml * 0.56) * 2) / 2));
+    if (lines.length > 1) fs2 = Math.min(fs2, 11);
+    lines.forEach(function (l, n) { var tx = sv("text", { x: 62, y: 62 + fs1 * 0.2 + fs2 + 3 + n * (fs2 + 1), "text-anchor": "middle", "font-size": fs2, style: "fill:var(--muted)" }, s); tx.textContent = l.length > 14 ? l.slice(0, 13) + "…" : l; });
     var ul = el("ul"); segs.forEach(function (g) { var li = el("li"), i = el("i"); i.style.background = g[2]; li.appendChild(i); li.appendChild(el("span", "", g[0])); li.appendChild(el("em", "", g[1] + "%")); ul.appendChild(li); });
     d.appendChild(ul); body.appendChild(d);
   }
