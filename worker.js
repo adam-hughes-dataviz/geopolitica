@@ -88,17 +88,18 @@ function gather(name, other) {
   const srcs = [
     async () => parseRss(await get("https://news.google.com/rss/search?q=" + encodeURIComponent(q + " when:" + days + "d") + "&hl=en-GB&gl=GB&ceid=GB:en")),
     async () => parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(q) + "&format=rss&setlang=en-GB")),
+    async () => parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent((other ? q : "(" + (QUERY[name] || name) + ") (Reuters OR BBC OR \"Al Jazeera\" OR Guardian OR AP OR AFP)") ) + "&format=rss&setlang=en-GB")),
+    async () => parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent((other ? q : "(" + (QUERY[name] || name) + ") (talks OR sanctions OR ceasefire OR parliament OR trade OR minister)")) + "&format=rss&setlang=en-GB")),
     async () => { const j = JSON.parse(await get("https://api.gdeltproject.org/api/v2/doc/doc?query=" + encodeURIComponent(q + " sourcelang:english") + "&mode=artlist&maxrecords=75&format=json&sort=datedesc&timespan=" + (other ? 14 : 3) + "d")); return (j.articles || []).map(a => ({ t: a.title, u: a.url, s: a.domain, d: a.seendate })); }
   ];
   // Google News comes first: it ranks by relevance and carries the established outlets. Bing and GDELT, which sort by date and
   // pick up syndicated and social posts, are only asked when Google gives too few usable headlines.
   const usable = items => items.filter(it => !isBad(it) && !isSport(it)).length;
   return (async () => {
-    const pool = [], dbg = {};
-    try { const r = await srcs[0](); dbg.google = r.length; pool.push(...r); } catch (e) { dbg.google = String(e.message || e); errs.push(dbg.google); }
-    if (usable(pool) >= 6) return { pool, dbg };
-    const rest = await Promise.allSettled([srcs[1](), srcs[2]()]);
-    ["bing", "gdelt"].forEach((n, k) => { const r = rest[k]; if (r.status === "fulfilled") { dbg[n] = r.value.length; pool.push(...r.value); } else { dbg[n] = String(r.reason && r.reason.message || r.reason); errs.push(dbg[n]); } });
+    // Every source is asked at once (each is cut off after six seconds), and the headlines are pooled and ranked together.
+    const names = ["google", "bing", "bing_outlets", "bing_topics", "gdelt"], pool = [], dbg = {};
+    const rest = await Promise.allSettled(srcs.map(f => f()));
+    rest.forEach((r, k) => { if (r.status === "fulfilled") { dbg[names[k]] = r.value.length; pool.push(...r.value); } else { dbg[names[k]] = String(r.reason && r.reason.message || r.reason); errs.push(dbg[names[k]]); } });
     if (!pool.length) throw new Error(errs.join(" | "));
     return { pool, dbg };
   })();
