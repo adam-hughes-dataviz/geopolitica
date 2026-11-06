@@ -560,7 +560,7 @@ def main():
     lk = {l["n"]: l for l in L}
     out["_ref"] = {"river": max(({"n": v["river"]["n"], "km": int(round(v["river"]["km"], -1))} for k, v in out.items() if isinstance(v, dict) and v.get("river") and not v["river"].get("approx")), key=lambda r: r["km"]),
                    "lakes": [{"n": n, "km2": int(round(lk[n]["a"]))} for n in ("Windermere", "Geneva", "Superior", "Victoria") if n in lk]}
-    for iso_, t_, n_ in (("TUR", "river", "Kızılırmak"), ("PAN", "river", "Santa María"), ("NIC", "river", "Río Grande de Matagalpa"), ("CRI", "river", "Chirripó del Atlántico"), ("AFG", "lake", "Ab-e Istada")):
+    for iso_, t_, n_ in (("TUR", "river", "Kızılırmak"), ("PAN", "river", "Santa María"), ("NIC", "river", "Río Grande de Matagalpa"), ("CRI", "river", "Chirripó del Atlántico"), ("AFG", "lake", "Ab-e Istada"), ("ALB", "lake", "Lake Shkodër"), ("MNE", "lake", "Lake Skadar")):
         if (out.get(iso_) or {}).get(t_) and out[iso_][t_].get("n"): out[iso_][t_]["n"] = n_   # names whose accents were lost, and one too long to show
     json.dump(out, open("geography.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print("countries:", len(out) - 1, "bytes:", os.path.getsize("geography.json"))
