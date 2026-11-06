@@ -83,23 +83,24 @@ const UA = { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 const get = async (u) => { const r = await fetch(u, { ...UA, signal: AbortSignal.timeout(6000) }); if (!r.ok) throw new Error(new URL(u).hostname + " " + r.status); return r.text(); };
 
 function gather(name, other) {
-  const q = other ? '"' + name + '" "' + other + '"' : (QUERY[name] || name), days = other ? 7 : 2, errs = [], pool = [];
+  const TOPIC = " (politics OR government OR president OR minister OR diplomacy OR economy OR military OR election OR sanctions)";
+  const q = other ? '"' + name + '" "' + other + '"' : "(" + (QUERY[name] || name) + ")" + TOPIC, days = other ? 7 : 2, errs = [], pool = [];
   const srcs = [
     async () => parseRss(await get("https://news.google.com/rss/search?q=" + encodeURIComponent(q + " when:" + days + "d") + "&hl=en-GB&gl=GB&ceid=GB:en")),
-    async () => parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(q) + "&format=rss&setlang=en-GB&qft=sortbydate%3d%221%22")),
+    async () => parseRss(await get("https://www.bing.com/news/search?q=" + encodeURIComponent(q) + "&format=rss&setlang=en-GB")),
     async () => { const j = JSON.parse(await get("https://api.gdeltproject.org/api/v2/doc/doc?query=" + encodeURIComponent(q + " sourcelang:english") + "&mode=artlist&maxrecords=75&format=json&sort=datedesc&timespan=" + (other ? 14 : 3) + "d")); return (j.articles || []).map(a => ({ t: a.title, u: a.url, s: a.domain, d: a.seendate })); }
   ];
   // Google News comes first: it ranks by relevance and carries the established outlets. Bing and GDELT, which sort by date and
   // pick up syndicated and social posts, are only asked when Google gives too few usable headlines.
   const usable = items => items.filter(it => !isBad(it) && !isSport(it)).length;
   return (async () => {
-    const pool = [];
-    try { pool.push(...await srcs[0]()); } catch (e) { errs.push(String(e.message || e)); }
-    if (usable(pool) >= 6) return pool;
+    const pool = [], dbg = {};
+    try { const r = await srcs[0](); dbg.google = r.length; pool.push(...r); } catch (e) { dbg.google = String(e.message || e); errs.push(dbg.google); }
+    if (usable(pool) >= 6) return { pool, dbg };
     const rest = await Promise.allSettled([srcs[1](), srcs[2]()]);
-    rest.forEach(r => { if (r.status === "fulfilled") pool.push(...r.value); else errs.push(String(r.reason && r.reason.message || r.reason)); });
+    ["bing", "gdelt"].forEach((n, k) => { const r = rest[k]; if (r.status === "fulfilled") { dbg[n] = r.value.length; pool.push(...r.value); } else { dbg[n] = String(r.reason && r.reason.message || r.reason); errs.push(dbg[n]); } });
     if (!pool.length) throw new Error(errs.join(" | "));
-    return pool;
+    return { pool, dbg };
   })();
 }
 
@@ -108,12 +109,12 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     const url = new URL(req.url), name = (url.searchParams.get("c") || "").trim().slice(0, 80), other = (url.searchParams.get("d") || "").trim().slice(0, 80);
     if (!name) return new Response(JSON.stringify({ error: "missing c" }), { status: 400, headers: CORS });
-    const cache = caches.default, key = new Request(url.origin + "/?c=" + encodeURIComponent(name) + (other ? "&d=" + encodeURIComponent(other) : ""));
+    const cache = url.searchParams.get("debug") ? { match: async () => null, put: async () => {} } : caches.default, key = new Request(url.origin + "/?c=" + encodeURIComponent(name) + (other ? "&d=" + encodeURIComponent(other) : ""));
     const hit = await cache.match(key); if (hit) return hit;
-    let items;
-    try { items = await gather(name, other); }
+    let items, dbg;
+    try { ({ pool: items, dbg } = await gather(name, other)); }
     catch (e) { return new Response(JSON.stringify({ error: String(e.message || e) }), { status: 502, headers: CORS }); }
-    const body = JSON.stringify({ updated: new Date().toISOString().slice(0, 16) + "Z", items: other ? pick3(items, name, 5, [name.toLowerCase(), other.toLowerCase()]) : pick3(items, name), pair: !!other });
+    const body = JSON.stringify({ updated: new Date().toISOString().slice(0, 16) + "Z", items: other ? pick3(items, name, 5, [name.toLowerCase(), other.toLowerCase()]) : pick3(items, name), pair: !!other, ...(url.searchParams.get("debug") ? { debug: dbg, pool: items.map(x => x.s + " | " + x.t) } : {}) });
     const res = new Response(body, { headers: { ...CORS, "Cache-Control": "public, max-age=900" } });
     ctx.waitUntil(cache.put(key, res.clone()));
     return res;
