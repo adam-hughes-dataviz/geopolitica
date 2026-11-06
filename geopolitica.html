@@ -1,5 +1,6 @@
 <meta charset="utf-8">
 <title>Geopolitica</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -291,7 +292,21 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
 .vtag { font-family: var(--font-mono); font-size: 11px; border: 1px solid var(--muted); color: var(--muted); border-radius: 10px; padding: 2px 8px; align-self: center; flex: 0 0 auto; }
 .empty { padding: 18px 4px; font-size: 14px; line-height: 1.5; color: var(--muted); }
 .trade > .empty { padding: 4px 0 0; }
-@media (max-width: 760px) { .main { position: relative; } .side { position: absolute; right: 0; top: 0; bottom: 0; z-index: 3; } .side.open { flex-basis: auto; width: min(400px, 92%); } .side-in { width: 100%; } }
+@media (max-width: 760px) {
+  .main { position: relative; }
+  .main .stage { position: absolute; left: 0; top: 0; width: 100%; height: 100%; visibility: hidden; pointer-events: none; }
+  .side, .side.open { position: absolute; left: 0; top: 0; right: 0; bottom: 0; width: 100%; flex-basis: auto; opacity: 1; border-width: 1px; z-index: 3; }
+  .side:not(.open) { display: none; }
+  .side-in { width: 100%; }
+  .mobhint { display: none; }
+  .side:not(.open) ~ .mobhint { display: flex; position: absolute; inset: 0; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 16px; line-height: 1.5; color: var(--muted); z-index: 2; }
+  header .search { order: 1; width: 100%; margin-left: 0; }
+  header .search input { width: 100%; box-sizing: border-box; font-size: 16px; padding: 10px 12px; }
+  header .tabs { order: 2; flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 2px; }
+  header .tabs button { flex: 0 0 auto; }
+  header .title { width: 100%; }
+  .hint, footer { display: none; }
+}
 
 .search { position: relative; margin-left: auto; }
 .search input {
@@ -357,6 +372,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     <div class="tip" id="tip"></div>
   </div>
   <aside class="side" id="side" aria-label="Country panel"><div class="side-in" id="sideIn"></div></aside>
+  <div class="mobhint" id="mobhint">Type a country or territory in the search box above to see its profile.</div>
   </div>
   <footer>
     <span>Globe &middot; 10&deg; graticule &middot; <span id="count"></span></span>
@@ -543,6 +559,9 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     if (!indP) indP = fetch(IND_URL, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); }).then(function (j) { indData = j; return j; }).catch(function () { indP = null; return null; });
     indP.then(cb);
   }
+  // Gini for countries the World Bank has none for: gini_extra.json (UNU-WIDER WIID), built by fetch_wiid.py
+  var giniX = null;
+  fetch("https://raw.githubusercontent.com/adam-hughes-dataviz/geopolitica/main/gini_extra.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) { giniX = j; }).catch(function () {});
   function fmtPop(v) { return v >= 1e9 ? (v / 1e9).toFixed(2) + " bn" : v >= 1e6 ? (v / 1e6).toFixed(v >= 1e8 ? 0 : 1) + " m" : v >= 1e3 ? Math.round(v / 1e3).toLocaleString("en-GB") + " k" : String(Math.round(v)); }
   var FMT = {
     pct: function (v) { return v.toFixed(1) + "%"; },
@@ -594,7 +613,10 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var dvv = el("div", "ecv", dv ? dv.v : (fb["Public debt"] && fb["Public debt"].length < 18 ? fb["Public debt"] : "n/a")); dvv.appendChild(el("small", "", "of GDP")); cd.appendChild(dvv);
     if (dv) { var tr = track("#d97a3a", parseFloat(dv.v) / 150 * 100, 100 / 150 * 100); tr.style.marginTop = "8px"; cd.appendChild(tr); cd.appendChild(el("div", "ecn", "Tick = debt equal to a year's GDP. Bar ends at 150%.")); }
     var gi = g("gini", "num"), ci = ecard(pr, "Inequality (Gini)");
-    ci.appendChild(el("div", "ecv", gi ? gi.v : "n/a"));
+    var gx = !gi && giniX && key && giniX[key];
+    if (gx && gx.v != null) gi = { v: gx.v.toFixed(1), y: gx.y };
+    ci.appendChild(el("div", "ecv", gi ? gi.v : (giniX && gx && gx.none ? "No official estimate" : "n/a")));
+    if (gx && gx.v != null) ci.appendChild(el("div", "ecn", "Source: " + gx.src + ", " + gx.basis + " survey" + (gx.survey ? " (" + gx.survey + ")" : "") + ". Partly modelled."));
     if (gi) { var t3 = el("div", "etr"); t3.style.marginTop = "8px"; var dot = el("i"); dot.style.cssText = "left:calc(" + Math.min(100, parseFloat(gi.v)) + "% - 6px);width:12px;height:12px;top:-1px;border-radius:50%;background:var(--accent)"; t3.appendChild(dot); ci.appendChild(t3); ci.appendChild(el("div", "ecn", "0 = equal, 100 = one person holds all (" + gi.y + ")")); }
     var c5 = ecard(box, "Balances (% of GDP)");
     [["Budget", g("bal", "pct"), fb["Budget balance"]], ["Current account", g("ca", "pct"), fb["Current account balance"]]].forEach(function (r) {
@@ -1459,7 +1481,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var b = e.target.closest("button"); if (!b) return;
     var t = b.getAttribute("data-tab");
     if (sel2) { sel2 = null; schedule(); openPanel(t); return; }
-    if (side.classList.contains("open") && curTab === t) { closePanel(); return; }
+    if (side.classList.contains("open") && curTab === t) { if (window.matchMedia("(max-width: 760px)").matches) return; closePanel(); return; }
     openPanel(t);
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && e.target.id !== "q" && side.classList.contains("open")) closePanel(); });
@@ -1535,7 +1557,8 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
         var li = el("li"); li.setAttribute("role", "option");
         li.setAttribute("aria-selected", i === act ? "true" : "false");
         li.appendChild(el("span", "sn", e.label)); li.appendChild(el("span", "ss", e.sub));
-        li.addEventListener("mousedown", function (ev) { ev.preventDefault(); chooseEntry(e); });
+        var done = false; function pick(ev) { ev.preventDefault(); if (done) return; done = true; chooseEntry(e); }
+        li.addEventListener("pointerdown", pick); li.addEventListener("mousedown", pick); li.addEventListener("touchend", pick); li.addEventListener("click", pick);
         li.addEventListener("mousemove", function () { if (act !== i) { act = i; Array.prototype.forEach.call(sugg.children, function (c, k) { c.setAttribute("aria-selected", k === i ? "true" : "false"); }); } });
         sugg.appendChild(li);
       });
@@ -1553,7 +1576,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   }
   qIn.addEventListener("input", function () { matches = search(qIn.value); act = matches.length ? 0 : -1; drawSugg(); });
   qIn.addEventListener("focus", function () { if (qIn.value.trim()) { matches = search(qIn.value); act = matches.length ? 0 : -1; drawSugg(); } });
-  qIn.addEventListener("blur", function () { sugg.hidden = true; qIn.setAttribute("aria-expanded", "false"); });
+  qIn.addEventListener("blur", function () { setTimeout(function () { sugg.hidden = true; qIn.setAttribute("aria-expanded", "false"); }, 250); });
   qIn.addEventListener("keydown", function (e) {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
       if (!matches.length) return;
