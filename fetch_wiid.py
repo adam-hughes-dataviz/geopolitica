@@ -34,5 +34,7 @@ for iso in sorted(TARGETS):
         extra[iso] = {"none": True, "why": DENY.get(iso, "no qualifying entry in WIID")}; continue
     r = max(rows, key=lambda x: (x["year"], x.get("quality_score") or 0))
     extra[iso] = {"v": round(float(r["gini"]), 1), "y": int(r["year"]), "basis": (r.get("resource") or "").lower(), "src": "UNU-WIDER WIID (%s%s)" % (SRC.get(r.get("source"), r.get("source")), ", " + r["source_detailed"] if r.get("source_detailed") and r.get("source") == "Research study" else ""), "survey": r.get("survey") or ""}
+import os
+if os.path.exists("gini_manual.json"): extra.update(json.load(open("gini_manual.json", encoding="utf-8")))   # hand-sourced entries win
 json.dump(extra, open("gini_extra.json", "w"), ensure_ascii=False, indent=1)
 print(json.dumps(extra, ensure_ascii=False))

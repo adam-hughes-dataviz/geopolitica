@@ -14,12 +14,14 @@
   "survey": "l’Enquesta de Pressupostos Familiars (EPF)"
  },
  "ATG": {
-  "none": true,
-  "why": "no qualifying entry in WIID"
+  "v": 48.0,
+  "y": "2005/06",
+  "note": "Source: Antigua and Barbuda Country Poverty Assessment 2005/06, Statistics Division (expenditure survey)."
  },
  "BHR": {
-  "none": true,
-  "why": "WIID entry is per-capita income across a population with a large migrant workforce; not comparable"
+  "v": 59.6,
+  "y": 2015,
+  "note": "Source: UNU-WIDER WIID, Bahrain Household Expenditure and Income Survey (Information and eGovernment Authority). Household income per person, so it includes the migrant workforce; not directly comparable with consumption-based figures."
  },
  "BHS": {
   "v": 41.4,
@@ -30,11 +32,12 @@
  },
  "BRN": {
   "none": true,
-  "why": "no qualifying entry in WIID"
+  "why": "World Economics' 63.4 rejected: the World Bank has no Brunei Gini and the statistics office's own income shares do not support it"
  },
  "CUB": {
-  "none": true,
-  "why": "no qualifying entry in WIID"
+  "text": "Above 40",
+  "y": "2010s",
+  "note": "Source: Columbia Law School Cuba Capacity Building Project, An Approach to Poverty in Cuba: the Gini index \"exceeded 0.4 in the 2010s\". No exact official figure is published."
  },
  "DMA": {
   "v": 44.4,
@@ -45,7 +48,7 @@
  },
  "ERI": {
   "none": true,
-  "why": "no qualifying entry in WIID"
+  "why": "no estimate in any source examined"
  },
  "KHM": {
   "v": 30.8,

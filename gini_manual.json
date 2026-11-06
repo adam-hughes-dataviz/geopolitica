@@ -1,0 +1,25 @@
+{
+ "ATG": {
+  "v": 48.0,
+  "y": "2005/06",
+  "note": "Source: Antigua and Barbuda Country Poverty Assessment 2005/06, Statistics Division (expenditure survey)."
+ },
+ "BHR": {
+  "v": 59.6,
+  "y": 2015,
+  "note": "Source: UNU-WIDER WIID, Bahrain Household Expenditure and Income Survey (Information and eGovernment Authority). Household income per person, so it includes the migrant workforce; not directly comparable with consumption-based figures."
+ },
+ "CUB": {
+  "text": "Above 40",
+  "y": "2010s",
+  "note": "Source: Columbia Law School Cuba Capacity Building Project, An Approach to Poverty in Cuba: the Gini index \"exceeded 0.4 in the 2010s\". No exact official figure is published."
+ },
+ "BRN": {
+  "none": true,
+  "why": "World Economics' 63.4 rejected: the World Bank has no Brunei Gini and the statistics office's own income shares do not support it"
+ },
+ "ERI": {
+  "none": true,
+  "why": "no estimate in any source examined"
+ }
+}

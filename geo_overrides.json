@@ -1,1 +1,69 @@
-{"NLD":{"hi":{"n":"Vaalserberg","m":322}}}
+{
+ "NLD": {
+  "hi": {
+   "n": "Vaalserberg",
+   "m": 322
+  }
+ },
+ "DZA": {
+  "river": {
+   "n": "Chelif River",
+   "km": 700,
+   "src": "manual"
+  }
+ },
+ "SWZ": {
+  "river": {
+   "n": "Great Usutu River",
+   "km": 480,
+   "through": [
+    "ZAF",
+    "MOZ"
+   ],
+   "src": "manual"
+  }
+ },
+ "BHS": {
+  "river": {
+   "n": "Goose River",
+   "km": 24,
+   "src": "manual"
+  }
+ },
+ "BHR": {
+  "river": {
+   "none": 1
+  }
+ },
+ "ATG": {
+  "river": {
+   "none": 1
+  }
+ },
+ "CPV": {
+  "river": {
+   "none": 1
+  },
+  "lake": {
+   "none": 1
+  }
+ },
+ "COM": {
+  "river": {
+   "none": 1
+  }
+ },
+ "DJI": {
+  "river": {
+   "none": 1
+  }
+ },
+ "BRB": {
+  "lake": {
+   "none": 1
+  },
+  "river": {
+   "none": 1
+  }
+ }
+}

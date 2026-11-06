@@ -623,8 +623,8 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var gi = g("gini", "num"), ci = ecard(pr, "Inequality (Gini)");
     var gx = !gi && giniX && key && giniX[key];
     if (gx && gx.v != null) gi = { v: gx.v.toFixed(1), y: gx.y };
-    ci.appendChild(el("div", "ecv", gi ? gi.v : (giniX && gx && gx.none ? "No official estimate" : "n/a")));
-    if (gx && gx.v != null) ci.appendChild(el("div", "ecn", "Source: " + gx.src + ", " + gx.basis + " survey" + (gx.survey ? " (" + gx.survey + ")" : "") + ". Partly modelled."));
+    ci.appendChild(el("div", "ecv", gi ? gi.v : (gx && gx.text ? gx.text : (giniX && gx && gx.none ? "No official estimate" : "n/a"))));
+    if (gx && (gx.v != null || gx.text)) ci.appendChild(el("div", "ecn", gx.note || ("Source: " + gx.src + ", " + gx.basis + " survey" + (gx.survey ? " (" + gx.survey + ")" : "") + ". Partly modelled.")));
     if (gi) { var t3 = el("div", "etr"); t3.style.marginTop = "8px"; var dot = el("i"); dot.style.cssText = "left:calc(" + Math.min(100, parseFloat(gi.v)) + "% - 6px);width:12px;height:12px;top:-1px;border-radius:50%;background:var(--accent)"; t3.appendChild(dot); ci.appendChild(t3); ci.appendChild(el("div", "ecn", "0 = equal, 100 = one person holds all (" + gi.y + ")")); }
     var c5 = ecard(box, "Balances (% of GDP)");
     [["Budget", g("bal", "pct"), fb["Budget balance"]], ["Current account", g("ca", "pct"), fb["Current account balance"]]].forEach(function (r) {
@@ -1342,8 +1342,8 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     var ref = G._ref || {}, any = false, ukA = G.GBR && G.GBR.area && G.GBR.area.km2;
     if (D.area) { gbox.appendChild(el("h3", "", "Area")); geoArea(gbox, D, C, key, ukA); any = true; }
     if (D.hi) { gbox.appendChild(el("h3", "", "Highest and lowest points")); geoElev(gbox, D); any = true; }
-    if (D.river) { gbox.appendChild(el("h3", "", "Biggest river")); geoRiver(gbox, D, C, key, ref.river); any = true; }
-    if (D.lake) { gbox.appendChild(el("h3", "", "Biggest lake")); geoLake(gbox, D, C, key, ref); any = true; }
+    if (D.river) { gbox.appendChild(el("h3", "", "Biggest river")); if (D.river.none) gbox.appendChild(el("div", "empty", "No permanent major river.")); else geoRiver(gbox, D, C, key, ref.river); any = true; }
+    if (D.lake) { gbox.appendChild(el("h3", "", "Biggest lake")); if (D.lake.none) gbox.appendChild(el("div", "empty", "No permanent major lake.")); else geoLake(gbox, D, C, key, ref); any = true; }
     if (any) gbox.appendChild(el("div", "src", "Area, elevations and river lengths: CIA World Factbook. The biggest river is the longest one that stays inside the country. River courses and lake outlines: Natural Earth, with some from OpenStreetMap contributors. Where Natural Earth has none, names, lengths and sizes come from Wikidata. Lengths marked 'about' are measured from the map and run a little short. Updated monthly."));
     return any;
   }
