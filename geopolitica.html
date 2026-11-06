@@ -797,9 +797,9 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       off += len;
     });
     var big = it.reduce(function (a, x) { return x[1] > a[1] ? x : a; }, it[0]);
-    var pct = big[1] + "%", fs1 = Math.min(28, Math.floor(70 / (pct.length * 0.66) * 2) / 2);   // as large as the hole allows
+    var pct = big[1] + "%", fs1 = Math.min(30, Math.floor(76 / (pct.length * 0.66) * 2) / 2);   // as large as the hole allows
     var t1 = sv("text", { x: 62, y: 62, "text-anchor": "middle", "font-size": fs1, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = pct;
-    var t2 = sv("text", { x: 62, y: 62 + fs1 * 0.2 + 9, "text-anchor": "middle", "font-size": 8.5, style: "fill:var(--muted)" }, s); t2.textContent = big[0].length > 14 ? big[0].slice(0, 13) + "…" : big[0];
+    var nm = big[0], fs2 = Math.max(9, Math.min(13, Math.floor(66 / (nm.length * 0.6) * 2) / 2)), t2 = sv("text", { x: 62, y: 62 + fs1 * 0.2 + fs2 + 3, "text-anchor": "middle", "font-size": fs2, style: "fill:var(--muted)" }, s); t2.textContent = nm.length > 12 && fs2 <= 9 ? nm.slice(0, 11) + "…" : nm;
     var ul = el("ul"); segs.forEach(function (g) { var li = el("li"), i = el("i"); i.style.background = g[2]; li.appendChild(i); li.appendChild(el("span", "", g[0])); li.appendChild(el("em", "", g[1] + "%")); ul.appendChild(li); });
     d.appendChild(ul); body.appendChild(d);
   }
@@ -821,8 +821,8 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       if (r[2]) sp2.appendChild(el("small", "", r[2]));
       li.appendChild(i2); li.appendChild(sp2); li.appendChild(el("em", "", String(r[1]))); leg.push([li, r[1], grey]);
     });
-    var t1 = sv("text", { x: cx, y: 196, "text-anchor": "middle", "font-size": 26, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = N;
-    var t2 = sv("text", { x: cx, y: 212, "text-anchor": "middle", "font-size": 11, style: "fill:var(--muted)" }, s); t2.textContent = "seats";
+    var t1 = sv("text", { x: cx, y: 195, "text-anchor": "middle", "font-size": 36, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = N;
+    var t2 = sv("text", { x: cx, y: 213, "text-anchor": "middle", "font-size": 16, style: "fill:var(--muted)" }, s); t2.textContent = "seats";
     leg.sort(function (x, y) { return (x[2] - y[2]) || (y[1] - x[1]); }).forEach(function (x) { ul.appendChild(x[0]); });
     ul.style.gridAutoFlow = "column"; ul.style.gridTemplateRows = "repeat(" + Math.ceil(rows.length / 2) + ", auto)";
     wrap.appendChild(ul); body.appendChild(wrap);
