@@ -24,35 +24,43 @@
   "groups": [
    {
     "c": "#5E3894",
-    "t": "PS (82)"
+    "t": "PS (82)",
+    "a": "Socialist Party of Albania"
    },
    {
     "c": "#0C5D34",
-    "t": "PSD (3)"
+    "t": "PSD (3)",
+    "a": "Social Democratic Party of Albania"
    },
    {
     "c": "#00529C",
-    "t": "PD – ASHM (49)"
+    "t": "PD – ASHM (49)",
+    "a": "Democratic Party of Albania"
    },
    {
     "c": "#F4A306",
-    "t": "PM (2)"
+    "t": "PM (2)",
+    "a": "Opportunity Party (Albania)"
    },
    {
     "c": "#F57F20",
-    "t": "SHB ( 1 )"
+    "t": "SHB ( 1 )",
+    "a": "Lëvizja Shqipëria Bëhet"
    },
    {
     "c": "#E82D36",
-    "t": "LB ( 1 )"
+    "t": "LB ( 1 )",
+    "a": "Lëvizja Bashkë"
    },
    {
     "c": "#009EE2",
-    "t": "PDIU ( 1 )"
+    "t": "PDIU ( 1 )",
+    "a": "Party for Justice, Integration and Unity"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent ( 1 )"
+    "t": "Independent ( 1 )",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -64,7 +72,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Sali Berisha , Democratic since 22 May 2022 ( 2022-05-22 )"
-  ]
+  ],
+  "seats_ib": "140"
  },
  "AND": {
   "title": "General Council (Andorra)",
@@ -89,27 +98,33 @@
   "groups": [
    {
     "c": "#EA7A28",
-    "t": "DA (13)"
+    "t": "DA (13)",
+    "a": "Democrats for Andorra"
    },
    {
     "c": "#63277F",
-    "t": "CC (3)"
+    "t": "CC (3)",
+    "a": "Committed Citizens"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (1)"
+    "t": "Independent (1)",
+    "a": "Independent politician"
    },
    {
     "c": "#0C6D76",
-    "t": "Concòrdia (5)"
+    "t": "Concòrdia (5)",
+    "a": "Concord (political party)"
    },
    {
     "c": "#E30613",
-    "t": "PS (3)"
+    "t": "PS (3)",
+    "a": "Social Democratic Party (Andorra)"
    },
    {
     "c": "#2B2D84",
-    "t": "Andorra Endavant (3)"
+    "t": "Andorra Endavant (3)",
+    "a": "Andorra Forward"
    },
    {
     "heads": [
@@ -118,7 +133,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "28"
  },
  "AGO": {
   "title": "National Assembly (Angola)",
@@ -150,23 +166,28 @@
   "groups": [
    {
     "c": "#CE0921",
-    "t": "MPLA (124)"
+    "t": "MPLA (124)",
+    "a": "MPLA"
    },
    {
     "c": "#006600",
-    "t": "UNITA (90)"
+    "t": "UNITA (90)",
+    "a": "UNITA"
    },
    {
     "c": "#F8D516",
-    "t": "FNLA (2)"
+    "t": "FNLA (2)",
+    "a": "National Liberation Front of Angola"
    },
    {
     "c": "#FEB40A",
-    "t": "Social Renewal (2)"
+    "t": "Social Renewal (2)",
+    "a": "Social Renewal Party (Angola)"
    },
    {
     "c": "#1D1D1B",
-    "t": "Humanist Party (2)"
+    "t": "Humanist Party (2)",
+    "a": "Humanist Party of Angola"
    },
    {
     "heads": [
@@ -179,7 +200,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "220"
  },
  "ATG": {
   "title": "House of Representatives (Antigua and Barbuda)",
@@ -205,15 +227,18 @@
   "groups": [
    {
     "c": "#EE3422",
-    "t": "Labour (15)"
+    "t": "Labour (15)",
+    "a": "Antigua and Barbuda Labour Party"
    },
    {
     "c": "#010F71",
-    "t": "UPP (1)"
+    "t": "UPP (1)",
+    "a": "United Progressive Party"
    },
    {
     "c": "#FCD116",
-    "t": "BPM (1)"
+    "t": "BPM (1)",
+    "a": "Barbuda People's Movement"
    },
    {
     "heads": [
@@ -222,7 +247,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "17"
  },
  "ARG": {
   "title": "Argentine Chamber of Deputies",
@@ -269,79 +295,98 @@
   "groups": [
    {
     "c": "#6C4C99",
-    "t": "LLA (95)"
+    "t": "LLA (95)",
+    "a": "La Libertad Avanza"
    },
    {
     "c": "#ffd700",
-    "t": "PRO (12)"
+    "t": "PRO (12)",
+    "a": "Republican Proposal"
    },
    {
     "c": "#E10019",
-    "t": "UCR (6)"
+    "t": "UCR (6)",
+    "a": "Radical Civic Union"
    },
    {
     "c": "#0F2B3D",
-    "t": "MID (2)"
+    "t": "MID (2)",
+    "a": "Integration and Development Movement"
    },
    {
     "c": "#d6d015",
-    "t": "PyT (2)"
+    "t": "PyT (2)",
+    "a": "Production and Labour"
    },
    {
     "c": null,
-    "t": "Adelante Buenos Aires (1)"
+    "t": "Adelante Buenos Aires (1)",
+    "a": null
    },
    {
     "c": "#0d69b4",
-    "t": "Por Santa Cruz (1)"
+    "t": "Por Santa Cruz (1)",
+    "a": "SER Santa Cruz"
    },
    {
     "c": "#fc4c0c",
-    "t": "United Provinces (18)"
+    "t": "United Provinces (18)",
+    "a": "United Provinces (political coalition)"
    },
    {
     "c": "#0a1172",
-    "t": "Innovación Federal (7)"
+    "t": "Innovación Federal (7)",
+    "a": "Federal Peronism"
    },
    {
     "c": "#255fcf",
-    "t": "Independencia (3)"
+    "t": "Independencia (3)",
+    "a": "Independence (legislative bloc)"
    },
    {
     "c": "#255fcf",
-    "t": "Elijo Catamarca (3)"
+    "t": "Elijo Catamarca (3)",
+    "a": null
    },
    {
     "c": "#e6ccef",
-    "t": "País Federal (3)"
+    "t": "País Federal (3)",
+    "a": null
    },
    {
     "c": "#6fb53e",
-    "t": "CC-ARI (2)"
+    "t": "CC-ARI (2)",
+    "a": "Civic Coalition ARI"
    },
    {
     "c": null,
-    "t": "Encuentro Federal (2)"
+    "t": "Encuentro Federal (2)",
+    "a": null
    },
    {
     "c": "#98142B",
-    "t": "Defendamos Córdoba [ es ] (1)"
+    "t": "Defendamos Córdoba [ es ] (1)",
+    "a": "Let’s Defend Córdoba (page does not exist)"
    },
    {
     "c": "#28AB5F",
-    "t": "La Neuquinidad (1)"
+    "t": "La Neuquinidad (1)",
+    "a": null
    },
    {
     "c": "#888888",
-    "t": "Primero San Luis (1)"
+    "t": "Primero San Luis (1)",
+    "a": "Federal Commitment"
    },
    {
     "c": "#009FE3",
-    "t": "FP (93)"
+    "t": "FP (93)",
+    "a": "Homeland Force"
    },
    {
     "c": "#ED4D57",
-    "t": "FIT-U (4)"
+    "t": "FIT-U (4)",
+    "a": "Workers' Left Front"
    },
    {
     "heads": [
@@ -352,7 +397,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "257"
  },
  "ARM": {
   "title": "National Assembly (Armenia)",
@@ -384,15 +430,18 @@
   "groups": [
    {
     "c": "#5169B1",
-    "t": "Civil Contract (64) Independent (2)"
+    "t": "Civil Contract (64) Independent (2)",
+    "a": "Civil Contract (Armenia)"
    },
    {
     "c": "#001489",
-    "t": "Strong Armenia (29) Independent (1) Country of Living (1) New Age (1)"
+    "t": "Strong Armenia (29) Independent (1) Country of Living (1) New Age (1)",
+    "a": "Strong Armenia"
    },
    {
     "c": "#1D2E69",
-    "t": "Armenia Alliance (12) Independent (6) ARF (5) Forward Party (1)"
+    "t": "Armenia Alliance (12) Independent (6) ARF (5) Forward Party (1)",
+    "a": "Armenia Alliance"
    },
    {
     "heads": [
@@ -402,26 +451,32 @@
    },
    {
     "c": null,
-    "t": "National Assembly Building"
+    "t": "National Assembly Building",
+    "a": "National Assembly Building of Armenia"
    },
    {
     "c": null,
-    "t": "19 Baghramyan Avenue"
+    "t": "19 Baghramyan Avenue",
+    "a": "Baghramyan Avenue"
    },
    {
     "c": null,
-    "t": "Yerevan , 0095"
+    "t": "Yerevan , 0095",
+    "a": "Yerevan"
    },
    {
     "c": null,
-    "t": "Armenia"
+    "t": "Armenia",
+    "a": "Armenia"
    },
    {
     "c": null,
-    "t": "40°11′23″N 44°30′33″E ﻿ / ﻿ 40.18972°N 44.50917°E ﻿ / 40.18972; 44.50917"
+    "t": "40°11′23″N 44°30′33″E ﻿ / ﻿ 40.18972°N 44.50917°E ﻿ / 40.18972; 44.50917",
+    "a": null
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "105"
  },
  "AUS": {
   "title": "Australian House of Representatives",
@@ -453,39 +508,48 @@
   "groups": [
    {
     "c": "#E03A40",
-    "t": "Labor (94)"
+    "t": "Labor (94)",
+    "a": "Australian Labor Party"
    },
    {
     "c": "#1C509C",
-    "t": "Liberal (27)"
+    "t": "Liberal (27)",
+    "a": "Liberal Party of Australia"
    },
    {
     "c": "#137c46",
-    "t": "National (14)"
+    "t": "National (14)",
+    "a": "National Party of Australia"
    },
    {
     "c": "#ff6d00",
-    "t": "One Nation (2)"
+    "t": "One Nation (2)",
+    "a": "One Nation"
    },
    {
     "c": "#00B4CD",
-    "t": "Community Strong (2)"
+    "t": "Community Strong (2)",
+    "a": "Community Strong Australia"
    },
    {
     "c": "#10C25B",
-    "t": "Greens ( 1 )"
+    "t": "Greens ( 1 )",
+    "a": "Australian Greens"
    },
    {
     "c": "#B50204",
-    "t": "Katter's Australian ( 1 )"
+    "t": "Katter's Australian ( 1 )",
+    "a": "Katter's Australian Party"
    },
    {
     "c": "#ff944d",
-    "t": "Centre Alliance ( 1 )"
+    "t": "Centre Alliance ( 1 )",
+    "a": "Centre Alliance"
    },
    {
     "c": "#888888",
-    "t": "Independent (8)"
+    "t": "Independent (8)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -498,7 +562,8 @@
   "opp": [
    "Leader of the Opposition: Angus Taylor , Liberal since 13 February 2026",
    "Manager of Opposition Business: Dan Tehan , Liberal since 17 February 2026"
-  ]
+  ],
+  "seats_ib": "150"
  },
  "AUT": {
   "title": "National Council (Austria)",
@@ -528,7 +593,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "183"
  },
  "AZE": {
   "title": "National Assembly (Azerbaijan)",
@@ -557,51 +623,63 @@
   "groups": [
    {
     "c": "#0075C1",
-    "t": "New Azerbaijan (68)"
+    "t": "New Azerbaijan (68)",
+    "a": "New Azerbaijan Party"
    },
    {
     "c": "#0F88C9",
-    "t": "Civic Solidarity (3)"
+    "t": "Civic Solidarity (3)",
+    "a": "Civic Solidarity Party"
    },
    {
     "c": "#29617A",
-    "t": "Justice, Law, Democracy (2)"
+    "t": "Justice, Law, Democracy (2)",
+    "a": "Justice, Law, Democracy Party"
    },
    {
     "c": "#EE3340",
-    "t": "Republican Alternative (1)"
+    "t": "Republican Alternative (1)",
+    "a": "Republican Alternative Party (Azerbaijan)"
    },
    {
     "c": "#7C8EBC",
-    "t": "Democratic Enlightenment (1)"
+    "t": "Democratic Enlightenment (1)",
+    "a": "Azerbaijan Democratic Enlightenment Party"
    },
    {
     "c": "#022F56",
-    "t": "Motherland (1)"
+    "t": "Motherland (1)",
+    "a": "Motherland Party (Azerbaijan)"
    },
    {
     "c": "#333399",
-    "t": "Democratic Reforms (1)"
+    "t": "Democratic Reforms (1)",
+    "a": "Democratic Reforms Party (Azerbaijan)"
    },
    {
     "c": "#ED2939",
-    "t": "Great Order (1)"
+    "t": "Great Order (1)",
+    "a": "Great Order Party"
    },
    {
     "c": "#0B94C2",
-    "t": "AMİP (1)"
+    "t": "AMİP (1)",
+    "a": "Azerbaijan National Independence Party"
    },
    {
     "c": "#C72127",
-    "t": "BAP (1)"
+    "t": "BAP (1)",
+    "a": "Great Azerbaijan Party (page does not exist)"
    },
    {
     "c": "#14B5E1",
-    "t": "National Front (1)"
+    "t": "National Front (1)",
+    "a": "National Front Party (Azerbaijan)"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independents (44)"
+    "t": "Independents (44)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -611,7 +689,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "125"
  },
  "BHS": {
   "title": "House of Assembly of the Bahamas",
@@ -663,11 +742,13 @@
    },
    {
     "c": "#FFD700",
-    "t": "PLP (10)"
+    "t": "PLP (10)",
+    "a": "Progressive Liberal Party (Bahamas)"
    },
    {
     "c": "#D2232A",
-    "t": "FNM (6)"
+    "t": "FNM (6)",
+    "a": "Free National Movement"
    },
    {
     "heads": [
@@ -677,11 +758,13 @@
    },
    {
     "c": "#FFD700",
-    "t": "PLP (33)"
+    "t": "PLP (33)",
+    "a": "Progressive Liberal Party (Bahamas)"
    },
    {
     "c": "#e30513",
-    "t": "FNM (8)"
+    "t": "FNM (8)",
+    "a": "Free National Movement"
    },
    {
     "heads": [
@@ -692,7 +775,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Michael Pintard , FNM since 27 November 2021"
-  ]
+  ],
+  "seats_ib": null
  },
  "BHR": {
   "title": "Council of Representatives (Bahrain)",
@@ -723,7 +807,8 @@
    "| political_groups2 = "
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "40"
  },
  "BGD": {
   "title": "Jatiya Sangsad",
@@ -776,39 +861,48 @@
    },
    {
     "c": "#0087DC",
-    "t": "BNP (246)"
+    "t": "BNP (246)",
+    "a": "Bangladesh Nationalist Party"
    },
    {
     "c": "#C1C100",
-    "t": "BJP (1)"
+    "t": "BJP (1)",
+    "a": "Bangladesh Jatiya Party"
    },
    {
     "c": "#ED1C24",
-    "t": "GSA (1)"
+    "t": "GSA (1)",
+    "a": "Ganosanhati Andolan"
    },
    {
     "c": "#006A4E",
-    "t": "GOP (1)"
+    "t": "GOP (1)",
+    "a": "Gono Odhikar Parishad"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (7)"
+    "t": "Independent (7)",
+    "a": "Independent politician"
    },
    {
     "c": "#32CD32",
-    "t": "11 Party Alliance (88) Jamaat (76) NCP (8) BKM (3) JGP (1)"
+    "t": "11 Party Alliance (88) Jamaat (76) NCP (8) BKM (3) JGP (1)",
+    "a": "11 Party Alliance"
    },
    {
     "c": "#54E3D8",
-    "t": "KM (1)"
+    "t": "KM (1)",
+    "a": "Khelafat Majlis"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (2)"
+    "t": "Independent (2)",
+    "a": "Independent politician"
    },
    {
     "c": "#C7EA00",
-    "t": "IAB (1)"
+    "t": "IAB (1)",
+    "a": "Islami Andolan Bangladesh"
    },
    {
     "heads": [
@@ -823,7 +917,8 @@
    "Leader of the Opposition: Shafiqur Rahman , Jamaat since 17 February 2026",
    "Deputy Leader of the Opposition: Syed Abdullah Mohammed Taher , Jamaat since 17 February 2026",
    "Chief Whip of the Opposition: Nahid Islam , NCP since 17 February 2026"
-  ]
+  ],
+  "seats_ib": "350"
  },
  "BRB": {
   "title": "House of Assembly of Barbados",
@@ -849,7 +944,8 @@
   "groups": [
    {
     "c": "#EC2227",
-    "t": "BLP (30)"
+    "t": "BLP (30)",
+    "a": "Barbados Labour Party"
    },
    {
     "heads": [
@@ -859,7 +955,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Vacant since 11 February 2026"
-  ]
+  ],
+  "seats_ib": null
  },
  "BLR": {
   "title": "House of Representatives (Belarus)",
@@ -881,23 +978,28 @@
   "groups": [
    {
     "c": "#488d07",
-    "t": "Belaya Rus (51)"
+    "t": "Belaya Rus (51)",
+    "a": "Belaya Rus"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (40)"
+    "t": "Independent (40)",
+    "a": "Independent politician"
    },
    {
     "c": "#DE7673",
-    "t": "RPTS (8)"
+    "t": "RPTS (8)",
+    "a": "Republican Party of Labour and Justice"
    },
    {
     "c": "#D30400",
-    "t": "Communist Party (7)"
+    "t": "Communist Party (7)",
+    "a": "Communist Party of Belarus"
    },
    {
     "c": "#011E41",
-    "t": "LDPB (4)"
+    "t": "LDPB (4)",
+    "a": "Liberal Democratic Party of Belarus"
    },
    {
     "heads": [
@@ -906,7 +1008,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "110"
  },
  "BEL": {
   "title": "Chamber of Representatives (Belgium)",
@@ -930,55 +1033,68 @@
   "groups": [
    {
     "c": "#F9CE19",
-    "t": "N-VA (23)"
+    "t": "N-VA (23)",
+    "a": "New Flemish Alliance"
    },
    {
     "c": "#002EFF",
-    "t": "MR (18)"
+    "t": "MR (18)",
+    "a": "Reformist Movement"
    },
    {
     "c": "#02E5D2",
-    "t": "LE (15)"
+    "t": "LE (15)",
+    "a": "Les Engagés"
    },
    {
     "c": "#FF2900",
-    "t": "Vooruit (13)"
+    "t": "Vooruit (13)",
+    "a": "Vooruit (political party)"
    },
    {
     "c": "#FF6200",
-    "t": "CD&V (11)"
+    "t": "CD&V (11)",
+    "a": "Christen-Democratisch en Vlaams"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent ( 1 )"
+    "t": "Independent ( 1 )",
+    "a": "Independent politician"
    },
    {
     "c": "#FFE500",
-    "t": "VB (20)"
+    "t": "VB (20)",
+    "a": "Vlaams Belang"
    },
    {
     "c": "#FF0000",
-    "t": "PS (16)"
+    "t": "PS (16)",
+    "a": "Socialist Party (Belgium)"
    },
    {
     "c": "#8B0000",
-    "t": "PVDA-PTB (15)"
+    "t": "PVDA-PTB (15)",
+    "a": "Workers' Party of Belgium"
    },
    {
     "c": "#3d35ff",
-    "t": "Anders (8)"
+    "t": "Anders (8)",
+    "a": "Anders (political party)"
    },
    {
     "c": "#01796F",
-    "t": "Groen (6)"
+    "t": "Groen (6)",
+    "a": "Groen (political party)"
    },
    {
     "c": "#5aad39",
-    "t": "Ecolo (3)"
+    "t": "Ecolo (3)",
+    "a": "Ecolo"
    },
    {
     "c": "#DD0081",
-    "t": "DéFI (1)"
+    "t": "DéFI (1)",
+    "a": "DéFI"
    },
    {
     "heads": [
@@ -988,7 +1104,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "150"
  },
  "BLZ": {
   "title": "House of Representatives of Belize",
@@ -1014,11 +1131,13 @@
   "groups": [
    {
     "c": "#003F87",
-    "t": "People's United Party (26)"
+    "t": "People's United Party (26)",
+    "a": "People's United Party"
    },
    {
     "c": "#CE1126",
-    "t": "United Democratic Party (5)"
+    "t": "United Democratic Party (5)",
+    "a": "United Democratic Party (Belize)"
    },
    {
     "heads": [
@@ -1029,7 +1148,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Tracy Panton , UDP since March 14, 2025"
-  ]
+  ],
+  "seats_ib": "31"
  },
  "BEN": {
   "title": "National Assembly (Benin)",
@@ -1064,11 +1184,13 @@
   "groups": [
    {
     "c": "#FAC82D",
-    "t": "Progressive Union Renewal (60)"
+    "t": "Progressive Union Renewal (60)",
+    "a": "Progressive Union Renewal"
    },
    {
     "c": "#93C842",
-    "t": "Republican Bloc (49)"
+    "t": "Republican Bloc (49)",
+    "a": "Republican Bloc"
    },
    {
     "heads": [
@@ -1076,7 +1198,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "109"
  },
  "BTN": {
   "title": "National Assembly of Bhutan",
@@ -1108,11 +1231,13 @@
   "groups": [
    {
     "c": "#324D7A",
-    "t": "PDP (31)"
+    "t": "PDP (31)",
+    "a": "People's Democratic Party (Bhutan)"
    },
    {
     "c": "#812A2E",
-    "t": "BTP (16)"
+    "t": "BTP (16)",
+    "a": "Bhutan Tendrel Party"
    },
    {
     "heads": [
@@ -1123,7 +1248,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Pema Chewang , BTP since 3 February 2024"
-  ]
+  ],
+  "seats_ib": "47"
  },
  "BOL": {
   "title": "Chamber of Deputies (Bolivia)",
@@ -1154,31 +1280,38 @@
    },
    {
     "c": "#016167",
-    "t": "PDC (49)"
+    "t": "PDC (49)",
+    "a": "Christian Democratic Party (Bolivia)"
    },
    {
     "c": "#fdb713",
-    "t": "Unity (26)"
+    "t": "Unity (26)",
+    "a": "Unity (Bolivia)"
    },
    {
     "c": "#fe0606",
-    "t": "Libre (39)"
+    "t": "Libre (39)",
+    "a": "Libre (Bolivia)"
    },
    {
     "c": "#511865",
-    "t": "APB Súmate (5)"
+    "t": "APB Súmate (5)",
+    "a": "APB Súmate"
    },
    {
     "c": "#497735",
-    "t": "AP (8)"
+    "t": "AP (8)",
+    "a": "Popular Alliance (Bolivia)"
    },
    {
     "c": "#143a83",
-    "t": "MAS-IPSP (2)"
+    "t": "MAS-IPSP (2)",
+    "a": "Movimiento al Socialismo"
    },
    {
     "c": "#ef84ae",
-    "t": "Bia Yuqui [ es ] (1)"
+    "t": "Bia Yuqui [ es ] (1)",
+    "a": "Bia Yuqui (page does not exist)"
    },
    {
     "heads": [
@@ -1188,7 +1321,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "130"
  },
  "BIH": {
   "title": "House of Representatives of Bosnia and Herzegovina",
@@ -1223,7 +1357,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "42"
  },
  "BWA": {
   "title": "National Assembly of Botswana",
@@ -1269,35 +1404,43 @@
   "groups": [
    {
     "c": "#244197",
-    "t": "Umbrella for Democratic Change (36)"
+    "t": "Umbrella for Democratic Change (36)",
+    "a": "Umbrella for Democratic Change"
    },
    {
     "c": "#fece00",
-    "t": "Botswana Patriotic Front (5)"
+    "t": "Botswana Patriotic Front (5)",
+    "a": "Botswana Patriotic Front"
    },
    {
     "c": "#515151",
-    "t": "Specially-elected (6)"
+    "t": "Specially-elected (6)",
+    "a": null
    },
    {
     "c": "#AAAAAA",
-    "t": "Independent ( 1 )"
+    "t": "Independent ( 1 )",
+    "a": "Independent politician"
    },
    {
     "c": "#000000",
-    "t": "President ( ex-officio ) ( 1 )"
+    "t": "President ( ex-officio ) ( 1 )",
+    "a": "President of Botswana"
    },
    {
     "c": "#92C947",
-    "t": "Botswana Congress Party (15)"
+    "t": "Botswana Congress Party (15)",
+    "a": "Botswana Congress Party"
    },
    {
     "c": "#E61E26",
-    "t": "Botswana Democratic Party (4)"
+    "t": "Botswana Democratic Party (4)",
+    "a": "Botswana Democratic Party"
    },
    {
     "c": "#000000",
-    "t": "Speaker (ex-officio) ( 1 )"
+    "t": "Speaker (ex-officio) ( 1 )",
+    "a": "Speaker of the National Assembly of Botswana"
    },
    {
     "heads": [
@@ -1311,7 +1454,8 @@
   "opp": [
    "Leader of the Opposition: Dumelang Saleshando , BCP since 1 November 2024",
    "Opposition whip: Caterpillar Hikuama , BCP since 11 November 2024"
-  ]
+  ],
+  "seats_ib": "69"
  },
  "BRA": {
   "title": "Chamber of Deputies (Brazil)",
@@ -1348,63 +1492,78 @@
   "groups": [
    {
     "c": "#FF0000",
-    "t": "Brazil of Hope (81)"
+    "t": "Brazil of Hope (81)",
+    "a": "Brazil of Hope"
    },
    {
     "c": "#FFA500",
-    "t": "PSD (48)"
+    "t": "PSD (48)",
+    "a": "Social Democratic Party (Brazil, 2011)"
    },
    {
     "c": "#30914D",
-    "t": "MDB (38)"
+    "t": "MDB (38)",
+    "a": "Brazilian Democratic Movement"
    },
    {
     "c": "#FFCC00",
-    "t": "PSB (17)"
+    "t": "PSB (17)",
+    "a": "Brazilian Socialist Party"
    },
    {
     "c": "#69028C",
-    "t": "PSOL-REDE (16)"
+    "t": "PSOL-REDE (16)",
+    "a": "PSOL REDE Federation"
    },
    {
     "c": "#088F8F",
-    "t": "Avante (5)"
+    "t": "Avante (5)",
+    "a": "Avante (political party)"
    },
    {
     "c": "#0F2BC5",
-    "t": "UPB (98)"
+    "t": "UPB (98)",
+    "a": "Progressive Union (Brazil)"
    },
    {
     "c": "#015AAA",
-    "t": "PL (98)"
+    "t": "PL (98)",
+    "a": "Liberal Party (Brazil)"
    },
    {
     "c": "#2DA933",
-    "t": "PODE (27)"
+    "t": "PODE (27)",
+    "a": "Podemos (Brazil)"
    },
    {
     "c": "#0F2BC5",
-    "t": "PSDB-Cidadania (20)"
+    "t": "PSDB-Cidadania (20)",
+    "a": "Always Forward (Brazil)"
    },
    {
     "c": "#304AA1",
-    "t": "Solidary Renewal (7)"
+    "t": "Solidary Renewal (7)",
+    "a": "Solidary Renewal Federation"
    },
    {
     "c": "#F3701B",
-    "t": "NOVO (5)"
+    "t": "NOVO (5)",
+    "a": "New Party (Brazil)"
    },
    {
     "c": "#FDBF35",
-    "t": "MISSÃO ( 1 )"
+    "t": "MISSÃO ( 1 )",
+    "a": "Mission Party (Brazil)"
    },
    {
     "c": "#0070C5",
-    "t": "Republicanos (42)"
+    "t": "Republicanos (42)",
+    "a": "Republicans (Brazil)"
    },
    {
     "c": "#C21E56",
-    "t": "PDT (10)"
+    "t": "PDT (10)",
+    "a": "Democratic Labour Party (Brazil)"
    },
    {
     "heads": [
@@ -1415,68 +1574,84 @@
    },
    {
     "c": "#015AAA",
-    "t": "PL (121)"
+    "t": "PL (121)",
+    "a": "Liberal Party (Brazil)"
    },
    {
     "c": "#FF0000",
-    "t": "FE Brasil (88)"
+    "t": "FE Brasil (88)",
+    "a": "Brazil of Hope"
    },
    {
     "c": "#0F2BC5",
-    "t": "UPB (87)"
+    "t": "UPB (87)",
+    "a": "Progressive Union (Brazil)"
    },
    {
     "c": "#FFA500",
-    "t": "PSD (43)"
+    "t": "PSD (43)",
+    "a": "Social Democratic Party (Brazil, 2011)"
    },
    {
     "c": "#0070C5",
-    "t": "Republicanos (41)"
+    "t": "Republicanos (41)",
+    "a": "Republicans (Brazil)"
    },
    {
     "c": "#30914D",
-    "t": "MDB (36)"
+    "t": "MDB (36)",
+    "a": "Brazilian Democratic Movement"
    },
    {
     "c": "#2DA933",
-    "t": "PODE (27)"
+    "t": "PODE (27)",
+    "a": "Podemos (Brazil)"
    },
    {
     "c": "#FFCC00",
-    "t": "PSB (15)"
+    "t": "PSB (15)",
+    "a": "Brazilian Socialist Party"
    },
    {
     "c": "#69028C",
-    "t": "PSOL-REDE (15)"
+    "t": "PSOL-REDE (15)",
+    "a": "PSOL REDE Federation"
    },
    {
     "c": "#0F2BC5",
-    "t": "PSDB (11)"
+    "t": "PSDB (11)",
+    "a": "Brazilian Social Democracy Party"
    },
    {
     "c": "#F3701B",
-    "t": "NOVO (10)"
+    "t": "NOVO (10)",
+    "a": "New Party (Brazil)"
    },
    {
     "c": "#304AA1",
-    "t": "FRS (7)"
+    "t": "FRS (7)",
+    "a": "Solidary Renewal Federation"
    },
    {
     "c": "#C21E56",
-    "t": "PDT (6)"
+    "t": "PDT (6)",
+    "a": "Democratic Labour Party (Brazil)"
    },
    {
     "c": "#088F8F",
-    "t": "Avante (5)"
+    "t": "Avante (5)",
+    "a": "Avante (political party)"
    },
    {
     "c": "#FDBF35",
-    "t": "MISSÃO ( 1 )"
+    "t": "MISSÃO ( 1 )",
+    "a": "Mission Party (Brazil)"
    }
   ],
   "opp": [
    "Opposition Leader: Cabo Gilberto Silva , PL since 16 December 2025"
-  ]
+  ],
+  "seats_ib": "513"
  },
  "BRN": {
   "title": "Legislative Council of Brunei",
@@ -1501,11 +1676,13 @@
   "groups": [
    {
     "c": "#000000",
-    "t": "Ex-officio (14)"
+    "t": "Ex-officio (14)",
+    "a": "Ex officio member"
    },
    {
     "c": "#DCDCDC",
-    "t": "Non-partisan (20)"
+    "t": "Non-partisan (20)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -1514,7 +1691,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "34"
  },
  "BGR": {
   "title": "National Assembly (Bulgaria)",
@@ -1536,27 +1714,33 @@
   "groups": [
    {
     "c": "#004242",
-    "t": "PB (131)"
+    "t": "PB (131)",
+    "a": "Progressive Bulgaria"
    },
    {
     "c": "#226ABA",
-    "t": "GERB–SDS (39)"
+    "t": "GERB–SDS (39)",
+    "a": "GERB–SDS"
    },
    {
     "c": "#004A80",
-    "t": "DB (21)"
+    "t": "DB (21)",
+    "a": "Democratic Bulgaria"
    },
    {
     "c": "#0065b7",
-    "t": "DPS (21)"
+    "t": "DPS (21)",
+    "a": "Movement for Rights and Freedoms"
    },
    {
     "c": "#FFC300",
-    "t": "PP (16)"
+    "t": "PP (16)",
+    "a": "We Continue the Change"
    },
    {
     "c": "#C09F62",
-    "t": "Revival (12)"
+    "t": "Revival (12)",
+    "a": "Revival (Bulgaria)"
    },
    {
     "heads": [
@@ -1565,7 +1749,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": null
  },
  "BFA": {
   "title": "Transitional Legislative Assembly of Burkina Faso",
@@ -1601,7 +1786,8 @@
    " | term_length        = 5 years"
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "100"
  },
  "CPV": {
   "title": "National Assembly (Cape Verde)",
@@ -1623,15 +1809,18 @@
   "groups": [
    {
     "c": "#FCD116",
-    "t": "PAICV (37)"
+    "t": "PAICV (37)",
+    "a": "African Party for the Independence of Cape Verde"
    },
    {
     "c": "#01C700",
-    "t": "MpD (33)"
+    "t": "MpD (33)",
+    "a": "Movement for Democracy (Cape Verde)"
    },
    {
     "c": "#0066FF",
-    "t": "UCID (2)"
+    "t": "UCID (2)",
+    "a": "Democratic and Independent Cape Verdean Union"
    },
    {
     "heads": [
@@ -1640,7 +1829,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "72"
  },
  "KHM": {
   "title": "National Assembly (Cambodia)",
@@ -1670,11 +1860,13 @@
   "groups": [
    {
     "c": "#1E90FF",
-    "t": "CPP (120)"
+    "t": "CPP (120)",
+    "a": "Cambodian People's Party"
    },
    {
     "c": "#FDD017",
-    "t": "FUNCINPEC (5)"
+    "t": "FUNCINPEC (5)",
+    "a": "FUNCINPEC"
    },
    {
     "heads": [
@@ -1683,7 +1875,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "125"
  },
  "CMR": {
   "title": "National Assembly (Cameroon)",
@@ -1725,35 +1918,43 @@
   "groups": [
    {
     "c": "#73C2FB",
-    "t": "CPDM (152)"
+    "t": "CPDM (152)",
+    "a": "Cameroon People's Democratic Movement"
    },
    {
     "c": "#40B749",
-    "t": "UNDP (7)"
+    "t": "UNDP (7)",
+    "a": "National Union for Democracy and Progress (Cameroon)"
    },
    {
     "c": "#008142",
-    "t": "SDF (5)"
+    "t": "SDF (5)",
+    "a": "Social Democratic Front (Cameroon)"
    },
    {
     "c": "#93C940",
-    "t": "CPNR (5)"
+    "t": "CPNR (5)",
+    "a": "Cameroonian Party for National Reconciliation"
    },
    {
     "c": "#032893",
-    "t": "UDC (4)"
+    "t": "UDC (4)",
+    "a": "Cameroon Democratic Union"
    },
    {
     "c": "#685f5A",
-    "t": "FNSC (3)"
+    "t": "FNSC (3)",
+    "a": "Front for the National Salvation of Cameroon"
    },
    {
     "c": "#BEE4E5",
-    "t": "MDR (2)"
+    "t": "MDR (2)",
+    "a": "Movement for the Defence of the Republic"
    },
    {
     "c": "#3F3991",
-    "t": "USM (2)"
+    "t": "USM (2)",
+    "a": "Union of Socialist Movements"
    },
    {
     "heads": [
@@ -1762,7 +1963,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "180"
  },
  "CAN": {
   "title": "House of Commons of Canada",
@@ -1795,27 +1997,33 @@
   "groups": [
    {
     "c": "#EA6D6A",
-    "t": "Liberal (173)"
+    "t": "Liberal (173)",
+    "a": "Liberal Party of Canada"
    },
    {
     "c": "#6495ED",
-    "t": "Conservative (137)"
+    "t": "Conservative (137)",
+    "a": "Conservative Party of Canada"
    },
    {
     "c": "#87CEFA",
-    "t": "Bloc Québécois (21)"
+    "t": "Bloc Québécois (21)",
+    "a": "Bloc Québécois"
    },
    {
     "c": "#F4A460",
-    "t": "New Democratic (5)"
+    "t": "New Democratic (5)",
+    "a": "New Democratic Party"
    },
    {
     "c": "#99C955",
-    "t": "Green ( 1 )"
+    "t": "Green ( 1 )",
+    "a": "Green Party of Canada"
    },
    {
     "c": "#FFFFFF",
-    "t": "Vacant (6)"
+    "t": "Vacant (6)",
+    "a": null
    },
    {
     "heads": [
@@ -1830,7 +2038,8 @@
   "opp": [
    "Leader of the Opposition: Pierre Poilievre , Conservative since August 18, 2025",
    "Opposition House Leader: Andrew Scheer , Conservative since September 13, 2022"
-  ]
+  ],
+  "seats_ib": "343"
  },
  "CAF": {
   "title": "National Assembly (Central African Republic)",
@@ -1865,40 +2074,49 @@
   "groups": [
    {
     "c": "#0A73C6",
-    "t": "MCU (50)"
+    "t": "MCU (50)",
+    "a": "United Hearts Movement"
    },
    {
     "c": null,
-    "t": "PDSK (3)"
+    "t": "PDSK (3)",
+    "a": null
    },
    {
     "c": "#F3FE47",
-    "t": "MOUNI (2)"
+    "t": "MOUNI (2)",
+    "a": null
    },
    {
     "c": "#357D29",
-    "t": "UNDP (1)"
+    "t": "UNDP (1)",
+    "a": "National Union for Democracy and Progress (Central African Republic)"
    },
    {
     "c": null,
-    "t": "CAN (1)"
+    "t": "CAN (1)",
+    "a": null
    },
    {
     "c": null,
-    "t": "PS (1)"
+    "t": "PS (1)",
+    "a": null
    },
    {
     "c": null,
-    "t": "PAD (1)"
+    "t": "PAD (1)",
+    "a": null
    },
    {
     "c": "#DDDDDD",
-    "t": "Independents (15)"
+    "t": "Independents (15)",
+    "a": "Independent politician"
    }
   ],
   "opp": [
    "Leader of Opposition: Adrien Zambila, URCA since 5 May 2021"
-  ]
+  ],
+  "seats_ib": "140"
  },
  "TCD": {
   "title": "National Assembly (Chad)",
@@ -1928,43 +2146,53 @@
   "groups": [
    {
     "c": "#1D3A92",
-    "t": "MPS (124)"
+    "t": "MPS (124)",
+    "a": "Patriotic Salvation Movement"
    },
    {
     "c": "#2d7430",
-    "t": "RDNT (11)"
+    "t": "RDNT (11)",
+    "a": "National Rally of Chadian Democrats"
    },
    {
     "c": "#66CCFF",
-    "t": "RDP (8)"
+    "t": "RDP (8)",
+    "a": "Rally for Democracy and Progress (Chad)"
    },
    {
     "c": "#FF8C00",
-    "t": "UNDR (7)"
+    "t": "UNDR (7)",
+    "a": "National Union for Democracy and Renewal"
    },
    {
     "c": "#bb7158",
-    "t": "PLD (3)"
+    "t": "PLD (3)",
+    "a": "Party for Liberty and Development"
    },
    {
     "c": "#d61d18",
-    "t": "UDT (1)"
+    "t": "UDT (1)",
+    "a": "Chadian Democratic Union"
    },
    {
     "c": "#F5ED30",
-    "t": "URD (2)"
+    "t": "URD (2)",
+    "a": "Union for Renewal and Democracy"
    },
    {
     "c": "#000040",
-    "t": "VIVA (1)"
+    "t": "VIVA (1)",
+    "a": "National Rally for Development and Progress"
    },
    {
     "c": "#4B6F44",
-    "t": "CNDS (1)"
+    "t": "CNDS (1)",
+    "a": "National Democratic and Social Convention"
    },
    {
     "c": "#DDDDBB",
-    "t": "Others (30)"
+    "t": "Others (30)",
+    "a": "List of political parties in Chad"
    },
    {
     "heads": [
@@ -1973,7 +2201,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "188"
  },
  "CHL": {
   "title": "Chamber of Deputies of Chile",
@@ -1997,47 +2226,58 @@
   "groups": [
    {
     "c": "#22446D",
-    "t": "Republican (31)"
+    "t": "Republican (31)",
+    "a": "Republican Party (Chile, 2019)"
    },
    {
     "c": "#000080",
-    "t": "UDI (18)"
+    "t": "UDI (18)",
+    "a": "Independent Democratic Union"
    },
    {
     "c": "#0054D6",
-    "t": "RN (16)"
+    "t": "RN (16)",
+    "a": "National Renewal (Chile)"
    },
    {
     "c": "#808080",
-    "t": "Independents (2)"
+    "t": "Independents (2)",
+    "a": "Independent politician"
    },
    {
     "c": "#FBA211",
-    "t": "PNL (8)"
+    "t": "PNL (8)",
+    "a": "National Libertarian Party"
    },
    {
     "c": "#00285E",
-    "t": "PDG (15)"
+    "t": "PDG (15)",
+    "a": "Party of the People (Chile)"
    },
    {
     "c": "#05BC93",
-    "t": "Broad Front (18)"
+    "t": "Broad Front (18)",
+    "a": "Broad Front (Chilean political party)"
    },
    {
     "c": "#FF0000",
-    "t": "Socialist (15)"
+    "t": "Socialist (15)",
+    "a": "Socialist Party of Chile"
    },
    {
     "c": "#B22222",
-    "t": "Communist (12)"
+    "t": "Communist (12)",
+    "a": "Communist Party of Chile"
    },
    {
     "c": "#FFA500",
-    "t": "PPD (10)"
+    "t": "PPD (10)",
+    "a": "Party for Democracy (Chile)"
    },
    {
     "c": "dodgerblue",
-    "t": "PDC (10)"
+    "t": "PDC (10)",
+    "a": "Christian Democratic Party (Chile)"
    },
    {
     "heads": [
@@ -2048,7 +2288,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "155"
  },
  "CHN": {
   "title": "National People's Congress",
@@ -2095,7 +2336,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": null
  },
  "COL": {
   "title": "Chamber of Representatives of Colombia",
@@ -2127,83 +2369,103 @@
   "groups": [
    {
     "c": "#63B9E9",
-    "t": "Democratic Center (30)"
+    "t": "Democratic Center (30)",
+    "a": "Democratic Center (Colombia)"
    },
    {
     "c": "#FF3333",
-    "t": "Liberal (24)"
+    "t": "Liberal (24)",
+    "a": "Colombian Liberal Party"
    },
    {
     "c": "#0061A9",
-    "t": "Conservative (20)"
+    "t": "Conservative (20)",
+    "a": "Colombian Conservative Party"
    },
    {
     "c": "#FF8C00",
-    "t": "Union Party (13)"
+    "t": "Union Party (13)",
+    "a": "Union Party for the People"
    },
    {
     "c": "#FB656F",
-    "t": "Radical Change (12)"
+    "t": "Radical Change (12)",
+    "a": "Radical Change"
    },
    {
     "c": "#FFFFFF",
-    "t": "Civil Conflict Victims (11)"
+    "t": "Civil Conflict Victims (11)",
+    "a": "es:Programa de Desarrollo con Enfoque Territorial"
    },
    {
     "c": "#104384",
-    "t": "Democratic Party (3)"
+    "t": "Democratic Party (3)",
+    "a": "es:Partido Demócrata Colombiano"
    },
    {
     "c": "#00944A",
-    "t": "Independent Social Alliance (2)"
+    "t": "Independent Social Alliance (2)",
+    "a": "Independent Social Alliance"
    },
    {
     "c": "#FF7F50",
-    "t": "Reborn Colombia (2)"
+    "t": "Reborn Colombia (2)",
+    "a": "es:Colombia Renaciente"
    },
    {
     "c": "#961A5D",
-    "t": "Creemos (2)"
+    "t": "Creemos (2)",
+    "a": "es:Creemos Colombia"
    },
    {
     "c": "#05AEF2",
-    "t": "National Salvation Movement (1)"
+    "t": "National Salvation Movement (1)",
+    "a": "National Salvation Movement"
    },
    {
     "c": "#07d400",
-    "t": "Green Alliance (7)"
+    "t": "Green Alliance (7)",
+    "a": "Green Alliance (Colombia)"
    },
    {
     "c": "#FFFFFF",
-    "t": "Civil Conflict Victims (5)"
+    "t": "Civil Conflict Victims (5)",
+    "a": "es:Programa de Desarrollo con Enfoque Territorial"
    },
    {
     "c": "#c91226",
-    "t": "New Liberalism (2)"
+    "t": "New Liberalism (2)",
+    "a": "New Liberalism (Colombia)"
    },
    {
     "c": "#0033a0",
-    "t": "MIRA (1)"
+    "t": "MIRA (1)",
+    "a": "Independent Movement of Absolute Renovation"
    },
    {
     "c": "#FD0000",
-    "t": "La Fuerza (1)"
+    "t": "La Fuerza (1)",
+    "a": "es:La Fuerza (Colombia)"
    },
    {
     "c": null,
-    "t": "Raizal (1)"
+    "t": "Raizal (1)",
+    "a": "Raizal"
    },
    {
     "c": "#A42F95",
-    "t": "Historic Pact (43)"
+    "t": "Historic Pact (43)",
+    "a": "Historic Pact"
    },
    {
     "c": null,
-    "t": "Afro-Colombians (2)"
+    "t": "Afro-Colombians (2)",
+    "a": "Afro-Colombians"
    },
    {
     "c": "#ED151F",
-    "t": "MAIS (1)"
+    "t": "MAIS (1)",
+    "a": "es:Movimiento Alternativo Indígena y Social"
    },
    {
     "heads": [
@@ -2213,7 +2475,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "183"
  },
  "COM": {
   "title": "Assembly of the Union of the Comoros",
@@ -2247,15 +2510,18 @@
   "groups": [
    {
     "c": "#18489C",
-    "t": "CRC (31)"
+    "t": "CRC (31)",
+    "a": "Convention for the Renewal of the Comoros"
    },
    {
     "c": "#FFD100",
-    "t": "PARI (1)"
+    "t": "PARI (1)",
+    "a": "Party for the Reform of Institutions (page does not exist)"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (1)"
+    "t": "Independent (1)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -2266,7 +2532,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Mohamed Omar Abubakar since 3 April 2020"
-  ]
+  ],
+  "seats_ib": "33"
  },
  "COD": {
   "title": "National Assembly (Democratic Republic of the Congo)",
@@ -2315,7 +2582,8 @@
    ": {{nowrap|{{Color box|#ACF96A}} Alliance of Nationalists (7)}}"
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "500"
  },
  "COG": {
   "title": "National Assembly (Republic of the Congo)",
@@ -2361,67 +2629,83 @@
   "groups": [
    {
     "c": "#DE2119",
-    "t": "PCT (112)"
+    "t": "PCT (112)",
+    "a": "Congolese Party of Labour"
    },
    {
     "c": "#F6881F",
-    "t": "MAR (4)"
+    "t": "MAR (4)",
+    "a": "Action and Renewal Movement"
    },
    {
     "c": "#73160F",
-    "t": "Club 2002 (2)"
+    "t": "Club 2002 (2)",
+    "a": "Club 2002 – Party for the Unity and the Republic"
    },
    {
     "c": "#00B100",
-    "t": "RDPS (2)"
+    "t": "RDPS (2)",
+    "a": "Rally for Democracy and Social Progress"
    },
    {
     "c": "#448EE3",
-    "t": "CPR (1)"
+    "t": "CPR (1)",
+    "a": "Perspectives and Realities Club"
    },
    {
     "c": "#108FDE",
-    "t": "URDP (1)"
+    "t": "URDP (1)",
+    "a": "Union for the Reconstruction and Development of Congo"
    },
    {
     "c": "#4C4068",
-    "t": "RC (1)"
+    "t": "RC (1)",
+    "a": "Citizen Rally (Republic of the Congo)"
    },
    {
     "c": "#009543",
-    "t": "UPADS (7)"
+    "t": "UPADS (7)",
+    "a": "Pan-African Union for Social Democracy"
    },
    {
     "c": "#37B4FF",
-    "t": "UDH-Yuki (7)"
+    "t": "UDH-Yuki (7)",
+    "a": "Union of Humanist Democrats-Yuki"
    },
    {
     "c": "#C70506",
-    "t": "MUST (1)"
+    "t": "MUST (1)",
+    "a": "fr:Mouvement pour l'unité, la solidarité et le travail"
    },
    {
     "c": "#2C5BA5",
-    "t": "MCDDI (1)"
+    "t": "MCDDI (1)",
+    "a": "Congolese Movement for Democracy and Integral Development"
    },
    {
     "c": "#090371",
-    "t": "PRL (2)"
+    "t": "PRL (2)",
+    "a": "Republican and Liberal Party"
    },
    {
     "c": "#986E08",
-    "t": "DRD (2)"
+    "t": "DRD (2)",
+    "a": "Dynamic for the Republic and Recovery"
    },
    {
     "c": "#1778BB",
-    "t": "APC (1)"
+    "t": "APC (1)",
+    "a": "Permanent Action for the Congo"
    },
    {
     "c": "#EA8B0B",
-    "t": "MDP (1)"
+    "t": "MDP (1)",
+    "a": "Movement for Democracy and Progress (Republic of the Congo)"
    },
    {
     "c": "#AAAAAA",
-    "t": "Independents (6)"
+    "t": "Independents (6)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -2432,7 +2716,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "151"
  },
  "CRI": {
   "title": "Legislative Assembly of Costa Rica",
@@ -2461,23 +2746,28 @@
   "groups": [
    {
     "c": "#01A4B5",
-    "t": "PPSO (31)"
+    "t": "PPSO (31)",
+    "a": "Sovereign People's Party (Costa Rica)"
    },
    {
     "c": "#008024",
-    "t": "PLN (17)"
+    "t": "PLN (17)",
+    "a": "National Liberation Party (Costa Rica)"
    },
    {
     "c": "#F8E000",
-    "t": "FA (7)"
+    "t": "FA (7)",
+    "a": "Broad Front (Costa Rica)"
    },
    {
     "c": "#0454A3",
-    "t": "PUSC (1)"
+    "t": "PUSC (1)",
+    "a": "Social Christian Unity Party"
    },
    {
     "c": "#DC143C",
-    "t": "CAC (1)"
+    "t": "CAC (1)",
+    "a": "Citizens' Action Party (Costa Rica)"
    },
    {
     "heads": [
@@ -2486,7 +2776,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "57"
  },
  "CIV": {
   "title": "National Assembly (Ivory Coast)",
@@ -2511,27 +2802,33 @@
   "groups": [
    {
     "c": "#F77F00",
-    "t": "Rally of Houphouëtists for Democracy and Peace (196)"
+    "t": "Rally of Houphouëtists for Democracy and Peace (196)",
+    "a": "Rally of Houphouëtists for Democracy and Peace"
    },
    {
     "c": "#0FAF32",
-    "t": "Democratic Party of Ivory Coast (32)"
+    "t": "Democratic Party of Ivory Coast (32)",
+    "a": "Democratic Party of Ivory Coast – African Democratic Rally"
    },
    {
     "c": "#0066cc",
-    "t": "Ivorian Popular Front (1)"
+    "t": "Ivorian Popular Front (1)",
+    "a": "Ivorian Popular Front"
    },
    {
     "c": "#2B9CA4",
-    "t": "Union for the Republic (1)"
+    "t": "Union for the Republic (1)",
+    "a": null
    },
    {
     "c": "#EBBF24",
-    "t": "Le Buffle (1)"
+    "t": "Le Buffle (1)",
+    "a": null
    },
    {
     "c": "#DCDCDC",
-    "t": "Independents (24)"
+    "t": "Independents (24)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -2541,7 +2838,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "255"
  },
  "HRV": {
   "title": "Croatian Parliament",
@@ -2592,75 +2890,93 @@
   "groups": [
    {
     "c": "#295BA5",
-    "t": "HDZ (58)"
+    "t": "HDZ (58)",
+    "a": "Croatian Democratic Union"
    },
    {
     "c": "#7C767C",
-    "t": "DP (8)"
+    "t": "DP (8)",
+    "a": "Homeland Movement (Croatia)"
    },
    {
     "c": "#FFE01A",
-    "t": "HSLS & ind. (3)"
+    "t": "HSLS & ind. (3)",
+    "a": "Croatian Social Liberal Party"
    },
    {
     "c": "#FF931E",
-    "t": "HNS – HSS & ind. (3)"
+    "t": "HNS – HSS & ind. (3)",
+    "a": "Croatian People's Party – Liberal Democrats"
    },
    {
     "c": "#124E6B",
-    "t": "Nezavisni– HSU (3)"
+    "t": "Nezavisni– HSU (3)",
+    "a": "Croatian Party of Pensioners"
    },
    {
     "c": "#FB9B46",
-    "t": "Drito – DZNL (1)"
+    "t": "Drito – DZNL (1)",
+    "a": "Drito (political party)"
    },
    {
     "c": "#DDDDDD",
-    "t": "Independent (3)"
+    "t": "Independent (3)",
+    "a": "Independent politician"
    },
    {
     "c": "#ED1C24",
-    "t": "SDP (34)"
+    "t": "SDP (34)",
+    "a": "Social Democratic Party of Croatia"
    },
    {
     "c": "#C3D746",
-    "t": "We Can! (10)"
+    "t": "We Can! (10)",
+    "a": "We Can! (Croatia)"
    },
    {
     "c": "#E85726",
-    "t": "The Bridge (7)"
+    "t": "The Bridge (7)",
+    "a": "The Bridge (Croatia)"
    },
    {
     "c": "#4D85C4",
-    "t": "Centre – NPS – GLAS (5)"
+    "t": "Centre – NPS – GLAS (5)",
+    "a": "Centre (Croatian political party)"
    },
    {
     "c": "#000000",
-    "t": "DOMiNO – HS (4)"
+    "t": "DOMiNO – HS (4)",
+    "a": "Home and National Rally"
    },
    {
     "c": "#2D3C8C",
-    "t": "SDSS (3)"
+    "t": "SDSS (3)",
+    "a": "Independent Democratic Serb Party"
    },
    {
     "c": "#FB9B46",
-    "t": "Drito – DZNL (2)"
+    "t": "Drito – DZNL (2)",
+    "a": "Drito (political party)"
    },
    {
     "c": "#0CB14B",
-    "t": "IDS (2)"
+    "t": "IDS (2)",
+    "a": "Istrian Democratic Assembly"
    },
    {
     "c": "#D11E60",
-    "t": "DO i SIP (1)"
+    "t": "DO i SIP (1)",
+    "a": "Dalija Orešković and People with a First and Last Name"
    },
    {
     "c": "#DDDDDD",
-    "t": "Independent (3)"
+    "t": "Independent (3)",
+    "a": "Independent politician"
    },
    {
     "c": "#FFFFFF",
-    "t": "Vacant seat (1)"
+    "t": "Vacant seat (1)",
+    "a": null
    },
    {
     "heads": [
@@ -2673,7 +2989,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Siniša Hajdaš Dončić , SDP since 21 September 2024"
-  ]
+  ],
+  "seats_ib": "151"
  },
  "CUB": {
   "title": "National Assembly of People's Power",
@@ -2701,7 +3018,8 @@
    "| term_length = 5 years"
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "470"
  },
  "CYP": {
   "title": "House of Representatives (Cyprus)",
@@ -2726,27 +3044,33 @@
   "groups": [
    {
     "c": "#FF7E00",
-    "t": "DIKO (8)"
+    "t": "DIKO (8)",
+    "a": "Democratic Party (Cyprus)"
    },
    {
     "c": "#1569C7",
-    "t": "DISY (17)"
+    "t": "DISY (17)",
+    "a": "Democratic Rally"
    },
    {
     "c": "#B31B1B",
-    "t": "AKEL (15)"
+    "t": "AKEL (15)",
+    "a": "Progressive Party of Working People"
    },
    {
     "c": "#000000",
-    "t": "ELAM (8)"
+    "t": "ELAM (8)",
+    "a": "ELAM (Cyprus)"
    },
    {
     "c": "#99AC27",
-    "t": "ALMA (4)"
+    "t": "ALMA (4)",
+    "a": "ALMA – Citizens for Cyprus"
    },
    {
     "c": "#114576",
-    "t": "ADK (4)"
+    "t": "ADK (4)",
+    "a": "Direct Democracy Cyprus"
    },
    {
     "heads": [
@@ -2755,7 +3079,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "56"
  },
  "CZE": {
   "title": "Chamber of Deputies of the Czech Republic",
@@ -2777,39 +3102,48 @@
   "groups": [
    {
     "c": "#261060",
-    "t": "ANO (79)"
+    "t": "ANO (79)",
+    "a": "ANO 2011"
    },
    {
     "c": "#004C82",
-    "t": "SPD (15)"
+    "t": "SPD (15)",
+    "a": "Freedom and Direct Democracy"
    },
    {
     "c": "#009ee3",
-    "t": "AUTO (13)"
+    "t": "AUTO (13)",
+    "a": "Motorists for Themselves"
    },
    {
     "c": "#034EA2",
-    "t": "ODS (27)"
+    "t": "ODS (27)",
+    "a": "Civic Democratic Party (Czech Republic)"
    },
    {
     "c": "#CD0F69",
-    "t": "STAN (22)"
+    "t": "STAN (22)",
+    "a": "Mayors and Independents"
    },
    {
     "c": "black",
-    "t": "Pirates (18)"
+    "t": "Pirates (18)",
+    "a": "Czech Pirate Party"
    },
    {
     "c": "#FFDC00",
-    "t": "KDU-ČSL (16)"
+    "t": "KDU-ČSL (16)",
+    "a": "KDU-ČSL"
    },
    {
     "c": "#993366",
-    "t": "TOP 09 (9)"
+    "t": "TOP 09 (9)",
+    "a": "TOP 09"
    },
    {
     "c": "#DCDCDC",
-    "t": "Non-attached (1)"
+    "t": "Non-attached (1)",
+    "a": null
    },
    {
     "heads": [
@@ -2818,7 +3152,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "200"
  },
  "DNK": {
   "title": "Folketing",
@@ -2851,71 +3186,88 @@
   "groups": [
    {
     "c": "#C82518",
-    "t": "Social Democrats (38)"
+    "t": "Social Democrats (38)",
+    "a": "Social Democrats (Denmark)"
    },
    {
     "c": "#eb94d1",
-    "t": "Green Left (20)"
+    "t": "Green Left (20)",
+    "a": "Green Left (Denmark)"
    },
    {
     "c": "#B48CD2",
-    "t": "Moderates (14)"
+    "t": "Moderates (14)",
+    "a": "Moderates (Denmark)"
    },
    {
     "c": "#733280",
-    "t": "Social Liberals (10)"
+    "t": "Social Liberals (10)",
+    "a": "Danish Social Liberal Party"
    },
    {
     "c": "#F7660D",
-    "t": "Red–Green Alliance (11)"
+    "t": "Red–Green Alliance (11)",
+    "a": "Red–Green Alliance (Denmark)"
    },
    {
     "c": "#18942D",
-    "t": "Alternative (5)"
+    "t": "Alternative (5)",
+    "a": "The Alternative (Denmark)"
    },
    {
     "c": "#D20D44",
-    "t": "Social Democratic ( 1 )"
+    "t": "Social Democratic ( 1 )",
+    "a": "Social Democratic Party (Faroe Islands)"
    },
    {
     "c": "#006CB4",
-    "t": "Union ( 1 )"
+    "t": "Union ( 1 )",
+    "a": "Union Party (Faroe Islands)"
    },
    {
     "c": "#AB2328",
-    "t": "Inuit Ataqatigiit (1)"
+    "t": "Inuit Ataqatigiit (1)",
+    "a": "Inuit Ataqatigiit"
    },
    {
     "c": "#FF6900",
-    "t": "Naleraq (1)"
+    "t": "Naleraq (1)",
+    "a": "Naleraq"
    },
    {
     "c": "#01438E",
-    "t": "Venstre (17)"
+    "t": "Venstre (17)",
+    "a": "Venstre (Denmark)"
    },
    {
     "c": "#FCD03B",
-    "t": "Danish People's (16)"
+    "t": "Danish People's (16)",
+    "a": "Danish People's Party"
    },
    {
     "c": "#3FB2BE",
-    "t": "Liberal Alliance (15)"
+    "t": "Liberal Alliance (15)",
+    "a": "Liberal Alliance (Denmark)"
    },
    {
     "c": "#6B9249",
-    "t": "The Conservatives (13)"
+    "t": "The Conservatives (13)",
+    "a": "Conservative People's Party (Denmark)"
    },
    {
     "c": "#668DD1",
-    "t": "Denmark Democrats (10)"
+    "t": "Denmark Democrats (10)",
+    "a": "Denmark Democrats"
    },
    {
     "c": "#2B72FD",
-    "t": "Citizens' ( 1 )"
+    "t": "Citizens' ( 1 )",
+    "a": "Citizens' Party (Denmark)"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (5)"
+    "t": "Independent (5)",
+    "a": null
    },
    {
     "heads": [
@@ -2925,7 +3277,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "179"
  },
  "DJI": {
   "title": "National Assembly (Djibouti)",
@@ -2954,11 +3307,13 @@
   "groups": [
    {
     "c": "#5FB989",
-    "t": "UPM (58) RPP (45) FRUD (12) PND (1)"
+    "t": "UPM (58) RPP (45) FRUD (12) PND (1)",
+    "a": "Union for the Presidential Majority"
    },
    {
     "c": "#000000",
-    "t": "UDJ (7)"
+    "t": "UDJ (7)",
+    "a": "Djibouti Union for Democracy and Justice"
    },
    {
     "heads": [
@@ -2967,7 +3322,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "65"
  },
  "DMA": {
   "title": "House of Assembly of Dominica",
@@ -3005,26 +3361,32 @@
   "groups": [
    {
     "c": "#BE1E2D",
-    "t": "Dominica Labour Party (19)"
+    "t": "Dominica Labour Party (19)",
+    "a": "Dominica Labour Party"
    },
    {
     "c": "#BE1E2D",
-    "t": "Government Senators (5)"
+    "t": "Government Senators (5)",
+    "a": null
    },
    {
     "c": "#2E3092",
-    "t": "Opposition Senators (4)"
+    "t": "Opposition Senators (4)",
+    "a": null
    },
    {
     "c": "#DDDDDD",
-    "t": "Independent (2)"
+    "t": "Independent (2)",
+    "a": null
    },
    {
     "c": "#FFFFFF",
-    "t": "Attorney General and Speaker (ex-officio) (2)"
+    "t": "Attorney General and Speaker (ex-officio) (2)",
+    "a": "Attorney General"
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "32"
  },
  "DOM": {
   "title": "Chamber of Deputies of the Dominican Republic",
@@ -3065,47 +3427,58 @@
   "groups": [
    {
     "c": "#005BAA",
-    "t": "PRM (140)"
+    "t": "PRM (140)",
+    "a": "Modern Revolutionary Party"
    },
    {
     "c": "#DC143C",
-    "t": "PRSC (1)"
+    "t": "PRSC (1)",
+    "a": "Social Christian Reformist Party"
    },
    {
     "c": "#12E3FF",
-    "t": "DxC (2)"
+    "t": "DxC (2)",
+    "a": "Dominicans for Change"
    },
    {
     "c": "#35BB8C",
-    "t": "ALPAÍS (1)"
+    "t": "ALPAÍS (1)",
+    "a": "Country Alliance (Dominican Republic)"
    },
    {
     "c": "#193D6F",
-    "t": "PCR (1)"
+    "t": "PCR (1)",
+    "a": "Civic Renovation Party"
    },
    {
     "c": "#145E2B",
-    "t": "PLR (1)"
+    "t": "PLR (1)",
+    "a": "Liberal Reformist Party (Dominican Republic)"
    },
    {
     "c": "#00AC5B",
-    "t": "FP (28)"
+    "t": "FP (28)",
+    "a": "People's Force"
    },
    {
     "c": "#870B9C",
-    "t": "PLD (13)"
+    "t": "PLD (13)",
+    "a": "Dominican Liberation Party"
    },
    {
     "c": "#009EFF",
-    "t": "PRD (1)"
+    "t": "PRD (1)",
+    "a": "Dominican Revolutionary Party"
    },
    {
     "c": "#FEDB1D",
-    "t": "PQDC (1)"
+    "t": "PQDC (1)",
+    "a": "Quisqueyano Christian Democratic Party"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (1)"
+    "t": "Independent (1)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -3117,7 +3490,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "190"
  },
  "ECU": {
   "title": "National Assembly (Ecuador)",
@@ -3143,39 +3517,48 @@
   "groups": [
    {
     "c": "#67308B",
-    "t": "ADN (66)"
+    "t": "ADN (66)",
+    "a": "National Democratic Action (Ecuador)"
    },
    {
     "c": "#FE2EC8",
-    "t": "MUPP (9)"
+    "t": "MUPP (9)",
+    "a": "Pachakutik"
    },
    {
     "c": "#FFD700",
-    "t": "PSC (4)"
+    "t": "PSC (4)",
+    "a": "Christian Social Party (Ecuador)"
    },
    {
     "c": "#e9ddaF",
-    "t": "Provincial movements (2)"
+    "t": "Provincial movements (2)",
+    "a": null
    },
    {
     "c": "#006400",
-    "t": "PSP (1)"
+    "t": "PSP (1)",
+    "a": "Patriotic Society Party"
    },
    {
     "c": "#012F71",
-    "t": "RETO (1)"
+    "t": "RETO (1)",
+    "a": "RETO Movement"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (2)"
+    "t": "Independent (2)",
+    "a": "Independent politician"
    },
    {
     "c": "#00B0F6",
-    "t": "RC (65)"
+    "t": "RC (65)",
+    "a": "Citizen Revolution Movement"
    },
    {
     "c": "#FF0000",
-    "t": "UP (1)"
+    "t": "UP (1)",
+    "a": "Popular Unity (Ecuador)"
    },
    {
     "heads": [
@@ -3185,7 +3568,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "151"
  },
  "EGY": {
   "title": "House of Representatives (Egypt)",
@@ -3219,63 +3603,78 @@
   "groups": [
    {
     "c": "#283279",
-    "t": "Nation's Future (231)"
+    "t": "Nation's Future (231)",
+    "a": "Nation's Future Party"
    },
    {
     "c": "#DC143C",
-    "t": "Homeland Defenders (91)"
+    "t": "Homeland Defenders (91)",
+    "a": "Homeland Defenders Party"
    },
    {
     "c": "#D68518",
-    "t": "National Front (70)"
+    "t": "National Front (70)",
+    "a": "National Front Party (Egypt)"
    },
    {
     "c": "#B7800B",
-    "t": "Republican People’s (28)"
+    "t": "Republican People’s (28)",
+    "a": "Republican People's Party (Egypt)"
    },
    {
     "c": "#1C6339",
-    "t": "New Wafd (12)"
+    "t": "New Wafd (12)",
+    "a": "Egyptian Wafd Party"
    },
    {
     "c": "#0096DB",
-    "t": "Al-Nour (6)"
+    "t": "Al-Nour (6)",
+    "a": "Al-Nour Party"
    },
    {
     "c": "#089b4d",
-    "t": "Congress (4)"
+    "t": "Congress (4)",
+    "a": "Egyptian Congress Party"
    },
    {
     "c": "#F8F9FA",
-    "t": "Will of a Generation (2)"
+    "t": "Will of a Generation (2)",
+    "a": "Will of a Generation Party"
    },
    {
     "c": "#fb8f8f",
-    "t": "Freedom (2)"
+    "t": "Freedom (2)",
+    "a": "Egyptian Freedom Party"
    },
    {
     "c": "#15301F",
-    "t": "Consciousness (1)"
+    "t": "Consciousness (1)",
+    "a": "Consciousness Party"
    },
    {
     "c": "#C40C0A",
-    "t": "Social Democratic (12)"
+    "t": "Social Democratic (12)",
+    "a": "Egyptian Social Democratic Party"
    },
    {
     "c": "#C7A317",
-    "t": "Reform and Development (11)"
+    "t": "Reform and Development (11)",
+    "a": "Reform and Development Party (Egypt)"
    },
    {
     "c": "#000000",
-    "t": "Justice (11)"
+    "t": "Justice (11)",
+    "a": "Justice Party (Egypt)"
    },
    {
     "c": "#FF0000",
-    "t": "Tagammu (5)"
+    "t": "Tagammu (5)",
+    "a": "National Progressive Unionist Rally Party"
    },
    {
     "c": "#b31e46",
-    "t": "Conservative (1)"
+    "t": "Conservative (1)",
+    "a": "Conservative Party (Egypt)"
    },
    {
     "heads": [
@@ -3284,7 +3683,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "596"
  },
  "SLV": {
   "title": "Legislative Assembly of El Salvador",
@@ -3311,23 +3711,28 @@
   "groups": [
    {
     "c": "#00ADEF",
-    "t": "Nuevas Ideas (54)"
+    "t": "Nuevas Ideas (54)",
+    "a": "Nuevas Ideas"
    },
    {
     "c": "#0B58DC",
-    "t": "PCN (2)"
+    "t": "PCN (2)",
+    "a": "National Coalition Party (El Salvador)"
    },
    {
     "c": "#00732E",
-    "t": "PDC (1)"
+    "t": "PDC (1)",
+    "a": "Christian Democratic Party (El Salvador)"
    },
    {
     "c": "#234B9A",
-    "t": "ARENA (2)"
+    "t": "ARENA (2)",
+    "a": "Nationalist Republican Alliance"
    },
    {
     "c": "#104d8f",
-    "t": "Vamos (1)"
+    "t": "Vamos (1)",
+    "a": "Vamos (El Salvador)"
    },
    {
     "heads": [
@@ -3336,7 +3741,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "60"
  },
  "GNQ": {
   "title": "Chamber of Deputies (Equatorial Guinea)",
@@ -3370,7 +3776,8 @@
   "groups": [
    {
     "c": "#3051A3",
-    "t": "Democratic Party of Equatorial Guinea (100)"
+    "t": "Democratic Party of Equatorial Guinea (100)",
+    "a": "Democratic Party of Equatorial Guinea"
    },
    {
     "heads": [
@@ -3378,7 +3785,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "100"
  },
  "ERI": {
   "title": "National Assembly (Eritrea)",
@@ -3404,7 +3812,8 @@
    " | political_groups1  = {{Color box|#008000|border=silver}} [[People's Front for Democracy and Justice]] (75)<br>{{Color box|#DCDCDC|border=silver}} Appointed (75)"
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "150"
  },
  "EST": {
   "title": "Riigikogu",
@@ -3435,7 +3844,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "101"
  },
  "SWZ": {
   "title": "House of Assembly of Eswatini",
@@ -3463,7 +3873,8 @@
    " | term_length        = 5 years"
   ],
   "groups": [],
-  "opp": []
+  "opp": [],
+  "seats_ib": "76,"
  },
  "ETH": {
   "title": "House of Peoples' Representatives",
@@ -3496,27 +3907,33 @@
   "groups": [
    {
     "c": "#FFCD29",
-    "t": "Prosperity (457)"
+    "t": "Prosperity (457)",
+    "a": "Prosperity Party"
    },
    {
     "c": "#B97433",
-    "t": "NaMA (5)"
+    "t": "NaMA (5)",
+    "a": "National Movement of Amhara"
    },
    {
     "c": "#203FF2",
-    "t": "EZEMA (4)"
+    "t": "EZEMA (4)",
+    "a": "Ethiopian Citizens for Social Justice"
    },
    {
     "c": "#110D6C",
-    "t": "GPDO (2)"
+    "t": "GPDO (2)",
+    "a": "Gedeo People's Democratic Party"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (4)"
+    "t": "Independent (4)",
+    "a": null
    },
    {
     "c": "#FFFFFF",
-    "t": "Vacant (74)"
+    "t": "Vacant (74)",
+    "a": null
    },
    {
     "heads": [
@@ -3526,7 +3943,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "547"
  },
  "FJI": {
   "title": "Parliament of Fiji",
@@ -3554,19 +3972,23 @@
   "groups": [
    {
     "c": "#A30001",
-    "t": "People's Alliance (21)"
+    "t": "People's Alliance (21)",
+    "a": "People's Alliance (Fiji)"
    },
    {
     "c": "#145935",
-    "t": "NFP (5)"
+    "t": "NFP (5)",
+    "a": "National Federation Party"
    },
    {
     "c": "#00529F",
-    "t": "SODELPA (3)"
+    "t": "SODELPA (3)",
+    "a": "Social Democratic Liberal Party"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independents (26)"
+    "t": "Independents (26)",
+    "a": "Independent politician"
    },
    {
     "heads": [
@@ -3577,7 +3999,8 @@
   ],
   "opp": [
    "Leader of the Opposition: Inia Seruiratu , Independent since 29 March 2023"
-  ]
+  ],
+  "seats_ib": "55"
  },
  "FIN": {
   "title": "Parliament of Finland",
@@ -3628,43 +4051,53 @@
   "groups": [
    {
     "c": "#006288",
-    "t": "National Coalition (48)"
+    "t": "National Coalition (48)",
+    "a": "National Coalition Party"
    },
    {
     "c": "#FFDE55",
-    "t": "Finns (45)"
+    "t": "Finns (45)",
+    "a": "Finns Party"
    },
    {
     "c": "#ffdd93",
-    "t": "Swedish People's (10)"
+    "t": "Swedish People's (10)",
+    "a": "Swedish People's Party of Finland"
    },
    {
     "c": "#2B67C9",
-    "t": "Christian Democrats (5)"
+    "t": "Christian Democrats (5)",
+    "a": "Christian Democrats (Finland)"
    },
    {
     "c": "#F54B4B",
-    "t": "Social Democratic (43)"
+    "t": "Social Democratic (43)",
+    "a": "Social Democratic Party of Finland"
    },
    {
     "c": "#3AAD2E",
-    "t": "Centre (23)"
+    "t": "Centre (23)",
+    "a": "Centre Party (Finland)"
    },
    {
     "c": "#006845",
-    "t": "Green League (13)"
+    "t": "Green League (13)",
+    "a": "Green League"
    },
    {
     "c": "#F00A64",
-    "t": "Left Alliance (11)"
+    "t": "Left Alliance (11)",
+    "a": "Left Alliance (Finland)"
    },
    {
     "c": "#ae2375",
-    "t": "Movement Now ( 1 )"
+    "t": "Movement Now ( 1 )",
+    "a": "Movement Now"
    },
    {
     "c": "black",
-    "t": "Independent ( 1 )"
+    "t": "Independent ( 1 )",
+    "a": "Timo Vornanen"
    },
    {
     "heads": [
@@ -3674,11 +4107,13 @@
    },
    {
     "c": null,
-    "t": "^ Åland Coalition ( 1 )"
+    "t": "^ Åland Coalition ( 1 )",
+    "a": null
    },
    {
     "c": null,
-    "t": "^ €7,494 for MPs who've worked more than four years, and €7,993 for MPs who've worked for more than 12 years."
+    "t": "^ €7,494 for MPs who've worked more than four years, and €7,993 for MPs who've worked for more than 12 years.",
+    "a": null
    },
    {
     "heads": [
@@ -3687,7 +4122,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "200"
  },
  "FRA": {
   "title": "National Assembly (France)",
@@ -3726,51 +4162,63 @@
   "groups": [
    {
     "c": "#FFD600",
-    "t": "EPR (92)"
+    "t": "EPR (92)",
+    "a": "Together for the Republic group"
    },
    {
     "c": "#EF5327",
-    "t": "LD (36)"
+    "t": "LD (36)",
+    "a": "The Democrats group"
    },
    {
     "c": "#0000BA",
-    "t": "HOR (34)"
+    "t": "HOR (34)",
+    "a": "Horizons group (National Assembly)"
    },
    {
     "c": "#254671",
-    "t": "RN (123)"
+    "t": "RN (123)",
+    "a": "National Rally group"
    },
    {
     "c": "#532480",
-    "t": "LFI (71)"
+    "t": "LFI (71)",
+    "a": "La France Insoumise group"
    },
    {
     "c": "#E3265B",
-    "t": "SOC (69)"
+    "t": "SOC (69)",
+    "a": "Socialists and affiliated group"
    },
    {
     "c": "#0265CC",
-    "t": "DR (49)"
+    "t": "DR (49)",
+    "a": "Republican Right group"
    },
    {
     "c": "#3E7F54",
-    "t": "E&S (38)"
+    "t": "E&S (38)",
+    "a": "Ecologist Group"
    },
    {
     "c": "#38d4c7",
-    "t": "LIOT (22)"
+    "t": "LIOT (22)",
+    "a": "Liberties, Independents, Overseas and Territories"
    },
    {
     "c": "#E4002A",
-    "t": "GDR (17)"
+    "t": "GDR (17)",
+    "a": "Democratic and Republican Left group"
    },
    {
     "c": "#004B8F",
-    "t": "UDR (17)"
+    "t": "UDR (17)",
+    "a": "UDR group"
    },
    {
     "c": "#DCDCDC",
-    "t": "NI (9)"
+    "t": "NI (9)",
+    "a": "Non-Attached Members (France)"
    },
    {
     "heads": [
@@ -3779,7 +4227,8 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "577"
  },
  "GBR": {
   "title": "House of Commons of the United Kingdom",
@@ -3820,75 +4269,93 @@
   "groups": [
    {
     "c": "#E41C3E",
-    "t": "Labour Party (404)"
+    "t": "Labour Party (404)",
+    "a": "Labour Party (UK)"
    },
    {
     "c": "#0087DC",
-    "t": "Conservative Party (118)"
+    "t": "Conservative Party (118)",
+    "a": "Conservative Party (UK)"
    },
    {
     "c": "#FF6400",
-    "t": "Liberal Democrats (71)"
+    "t": "Liberal Democrats (71)",
+    "a": "Liberal Democrats (UK, 2025)"
    },
    {
     "c": "#1EB8D0",
-    "t": "Reform UK (8)"
+    "t": "Reform UK (8)",
+    "a": "Reform UK"
    },
    {
     "c": "#FDF38E",
-    "t": "Scottish National Party (8)"
+    "t": "Scottish National Party (8)",
+    "a": "Scottish National Party"
    },
    {
     "c": "#02A95B",
-    "t": "Green Party of England and Wales (5)"
+    "t": "Green Party of England and Wales (5)",
+    "a": "Green Party of England and Wales"
    },
    {
     "c": "#D46A4C",
-    "t": "Democratic Unionist Party (4)"
+    "t": "Democratic Unionist Party (4)",
+    "a": "Democratic Unionist Party"
    },
    {
     "c": "grey",
-    "t": "Independent Alliance (4)"
+    "t": "Independent Alliance (4)",
+    "a": "Independent Alliance (UK)"
    },
    {
     "c": "#008672",
-    "t": "Plaid Cymru (4)"
+    "t": "Plaid Cymru (4)",
+    "a": "Plaid Cymru"
    },
    {
     "c": "#FF0000",
-    "t": "Social Democratic and Labour Party (2)"
+    "t": "Social Democratic and Labour Party (2)",
+    "a": "Social Democratic and Labour Party (2025)"
    },
    {
     "c": "#FF3131",
-    "t": "Your Party (2)"
+    "t": "Your Party (2)",
+    "a": "Your Party (UK)"
    },
    {
     "c": "#F6CB2F",
-    "t": "Alliance Party (1)"
+    "t": "Alliance Party (1)",
+    "a": "Alliance Party of Northern Ireland"
    },
    {
     "c": "#051D3F",
-    "t": "Restore Britain (1)"
+    "t": "Restore Britain (1)",
+    "a": "Restore Britain"
    },
    {
     "c": "#201863",
-    "t": "Traditional Unionist Voice (1)"
+    "t": "Traditional Unionist Voice (1)",
+    "a": "Traditional Unionist Voice"
    },
    {
     "c": "#48A5EE",
-    "t": "Ulster Unionist Party (1)"
+    "t": "Ulster Unionist Party (1)",
+    "a": "Ulster Unionist Party"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independents (8)"
+    "t": "Independents (8)",
+    "a": "Independent politician"
    },
    {
     "c": "black",
-    "t": "Speaker (1)"
+    "t": "Speaker (1)",
+    "a": "Speaker of the House of Commons (United Kingdom)"
    },
    {
     "c": "#326760",
-    "t": "Sinn Féin (7)"
+    "t": "Sinn Féin (7)",
+    "a": "Sinn Féin"
    },
    {
     "heads": [
@@ -3903,7 +4370,8 @@
   "opp": [
    "Leader of the Opposition: Kemi Badenoch , Conservative since 2 November 2024",
    "Opposition Chief Whip: Dame Rebecca Harris , Conservative since 3 November 2024"
-  ]
+  ],
+  "seats_ib": "650"
  },
  "DZA": {
   "title": "People's National Assembly",
@@ -3947,99 +4415,123 @@
   "groups": [
    {
     "c": "#DD143C",
-    "t": "FLN (90)"
+    "t": "FLN (90)",
+    "a": "National Liberation Front (Algeria)"
    },
    {
     "c": "#003153",
-    "t": "RND (74)"
+    "t": "RND (74)",
+    "a": "Democratic National Rally"
    },
    {
     "c": "#3CB371",
-    "t": "FM (56)"
+    "t": "FM (56)",
+    "a": "Future Front"
    },
    {
     "c": "#009900",
-    "t": "MSP (43)"
+    "t": "MSP (43)",
+    "a": "Movement of Society for Peace"
    },
    {
     "c": "#BCDB7E",
-    "t": "El Binaa (40)"
+    "t": "El Binaa (40)",
+    "a": "National Construction Movement"
    },
    {
     "c": "#B50333",
-    "t": "PVP (15)"
+    "t": "PVP (15)",
+    "a": "Voice of the People (Algeria)"
    },
    {
     "c": "#263586",
-    "t": "FFS (12)"
+    "t": "FFS (12)",
+    "a": "Socialist Forces Front"
    },
    {
     "c": "#B0BF1A",
-    "t": "PFD (6)"
+    "t": "PFD (6)",
+    "a": "New Dawn (Algeria)"
    },
    {
     "c": "#E08831",
-    "t": "PLJ (6)"
+    "t": "PLJ (6)",
+    "a": "Freedom and Justice Party (Algeria)"
    },
    {
     "c": "#16D70A",
-    "t": "El Karama (5)"
+    "t": "El Karama (5)",
+    "a": "Dignity Party (Algeria)"
    },
    {
     "c": "#6F3412",
-    "t": "FJD (4)"
+    "t": "FJD (4)",
+    "a": "Justice and Development Front"
    },
    {
     "c": "#264989",
-    "t": "RCD (4)"
+    "t": "RCD (4)",
+    "a": "Rally for Culture and Democracy"
    },
    {
     "c": "#3879B8",
-    "t": "Jil Jadid (3)"
+    "t": "Jil Jadid (3)",
+    "a": "Jil Jadid"
    },
    {
     "c": "#FF0000",
-    "t": "PT (3)"
+    "t": "PT (3)",
+    "a": "Workers' Party (Algeria)"
    },
    {
     "c": "#8C71FA",
-    "t": "TAJ (3)"
+    "t": "TAJ (3)",
+    "a": "Rally for Hope for Algeria"
    },
    {
     "c": "#000099",
-    "t": "MRI (2)"
+    "t": "MRI (2)",
+    "a": "Islamic Renaissance Movement"
    },
    {
     "c": "#52A708",
-    "t": "PUND (1)"
+    "t": "PUND (1)",
+    "a": "National Unity and Development Party"
    },
    {
     "c": "#88E040",
-    "t": "FAN (1)"
+    "t": "FAN (1)",
+    "a": "New Algeria Front"
    },
    {
     "c": "#74B1DD",
-    "t": "FBG (1)"
+    "t": "FBG (1)",
+    "a": "Good Governance Front"
    },
    {
     "c": "#0082c6",
-    "t": "PRA (1)"
+    "t": "PRA (1)",
+    "a": "Party of Algerian Renewal"
    },
    {
     "c": "#504a48",
-    "t": "ANR (1)"
+    "t": "ANR (1)",
+    "a": "National Republican Alliance"
    },
    {
     "c": "#BF9B38",
-    "t": "FCL (1)"
+    "t": "FCL (1)",
+    "a": "Free Citizens' Front"
    },
    {
     "c": "#DCDCDC",
-    "t": "Independent (33)"
+    "t": "Independent (33)",
+    "a": "Independent politician"
    },
    {
     "c": "#FFFFFF",
-    "t": "Vacant (2)"
+    "t": "Vacant (2)",
+    "a": null
    },
    {
     "heads": [
@@ -4049,6 +4541,7 @@
     ]
    }
   ],
-  "opp": []
+  "opp": [],
+  "seats_ib": "407"
  }
 }
