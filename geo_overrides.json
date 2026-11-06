@@ -15231,11 +15231,9 @@
 },
 "AUT": {
 "lake": {
-"n": "Neusiedler See",
-"km2": 315,
-"shared": [
-"HUN"
-],
+"n": "Attersee",
+"km2": 46.2,
+"shared": [],
 "src": "manual"
 }
 },
