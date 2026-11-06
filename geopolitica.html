@@ -788,17 +788,18 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
   }
   function donut(b, body) {
     var it = b.items, sum = 0; it.forEach(function (x) { sum += x[1]; });
-    var d = el("div", "dn"), s = sv("svg", { width: 124, height: 124, viewBox: "0 0 124 124", role: "img" }, d), R = 44, C = 2 * Math.PI * R, off = 0, tot = Math.max(sum, 100);
+    var d = el("div", "dn"), s = sv("svg", { width: 124, height: 124, viewBox: "0 0 124 124", role: "img" }, d), R = 49, C = 2 * Math.PI * R, off = 0, tot = Math.max(sum, 100);
     var segs = it.map(function (x, i) { return [x[0], x[1], PAL[i % PAL.length]]; });
     if (sum < 98) segs.push(["Other or unspecified", 100 - sum, "#8a97a0"]);
     segs.forEach(function (g) {
       var len = g[1] / (sum < 98 ? 100 : sum) * C;
-      sv("circle", { cx: 62, cy: 62, r: R, fill: "none", stroke: g[2], "stroke-width": 20, "stroke-dasharray": Math.max(0, len - 1) + " " + (C - Math.max(0, len - 1)), "stroke-dashoffset": -off, transform: "rotate(-90 62 62)" }, s).appendChild(document.createElementNS(NS, "title")).textContent = g[0] + " " + g[1] + "%";
+      sv("circle", { cx: 62, cy: 62, r: R, fill: "none", stroke: g[2], "stroke-width": 14, "stroke-dasharray": Math.max(0, len - 1) + " " + (C - Math.max(0, len - 1)), "stroke-dashoffset": -off, transform: "rotate(-90 62 62)" }, s).appendChild(document.createElementNS(NS, "title")).textContent = g[0] + " " + g[1] + "%";
       off += len;
     });
     var big = it.reduce(function (a, x) { return x[1] > a[1] ? x : a; }, it[0]);
-    var t1 = sv("text", { x: 62, y: 61, "text-anchor": "middle", "font-size": 15, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = big[1] + "%";
-    var t2 = sv("text", { x: 62, y: 75, "text-anchor": "middle", "font-size": 8.5, style: "fill:var(--muted)" }, s); t2.textContent = big[0].length > 14 ? big[0].slice(0, 13) + "…" : big[0];
+    var pct = big[1] + "%", fs1 = Math.min(28, Math.floor(70 / (pct.length * 0.66) * 2) / 2);   // as large as the hole allows
+    var t1 = sv("text", { x: 62, y: 62, "text-anchor": "middle", "font-size": fs1, "font-weight": 700, style: "fill:var(--ink)" }, s); t1.textContent = pct;
+    var t2 = sv("text", { x: 62, y: 62 + fs1 * 0.2 + 9, "text-anchor": "middle", "font-size": 8.5, style: "fill:var(--muted)" }, s); t2.textContent = big[0].length > 14 ? big[0].slice(0, 13) + "…" : big[0];
     var ul = el("ul"); segs.forEach(function (g) { var li = el("li"), i = el("i"); i.style.background = g[2]; li.appendChild(i); li.appendChild(el("span", "", g[0])); li.appendChild(el("em", "", g[1] + "%")); ul.appendChild(li); });
     d.appendChild(ul); body.appendChild(d);
   }
