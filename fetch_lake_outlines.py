@@ -20,10 +20,10 @@ cc = {r["ISO3166-1-Alpha-3"]: r["ISO3166-1-Alpha-2"] for r in csv.DictReader(io.
 over = json.load(open("geo_overrides.json", encoding="utf-8")); geo = json.load(open("geography.json", encoding="utf-8"))
 try: out = json.load(open("lake_outlines.json", encoding="utf-8"))
 except Exception: out = {}
-ALT = {"Kabji Hoka Tsho": ["Hokatsho", "Hoka Tsho", "Kabji Hoka Tsho"], "Lago Biaó": ["Lago Biao", "Lago de Moka", "Lake Moka"], "Tasek Merimbun": ["Merimbun", "Tasek Merimbun"],
-       "Al Luzi Lake": ["Al Luzi", "Lake Al Luzi", "Luzi"], "Laguna de Cuicocha": ["Cuicocha", "Laguna Cuicocha"], "Vuaqava lake": ["Vuaqava"], "Lake Rosa": ["Lake Rosa", "Lake Windsor"],
-       "Černé jezero": ["Černé jezero"], "Lake Télé": ["Lake Tele", "Lac Tele", "Lac Télé"], "Akrotiri Salt Lake": ["Akrotiri Salt Lake", "Limassol Salt Lake"], "Chott Melrhir": ["Chott Melrhir", "Chott Melghir"],
-       "Lake Nokoué": ["Lac Nokoué", "Lake Nokoue"], "Lake Burgas": ["Burgas Lake", "Burgaské ezero", "Vaya"], "Blidinje Lake": ["Blidinje", "Blidinjsko jezero"], "Lake Ilopango": ["Lago de Ilopango", "Ilopango"]}
+ALT = {"Dilolo Lake": ["Dilolo", "Lago Dilolo", "Lac Dilolo"], "Lake Tota": ["Lago de Tota", "Lago Tota", "Lake Tota"], "Vransko Lake": ["Vransko jezero", "Vransko Lake"], "Lake Bam": ["Lac de Bam", "Lac Bam", "Barrage de Bam"], "Lago Biaó": ["Lago Biao", "Lago de Moka", "Biao", "Moka"], "Kabji Hoka Tsho": ["Hokatsho", "Hoka Tsho", "Kabji Hoka Tsho"], "Lago Biaó": ["Lago Biao", "Lago de Moka", "Lake Moka"], "Tasek Merimbun": ["Merimbun", "Tasek Merimbun"],
+       "Al Luzi Lake": ["Al Luzi", "Lake Al Luzi", "Luzi", "Lauzi", "Al Lawzi", "Al Luzi lake Bahrain"], "Laguna de Cuicocha": ["Cuicocha", "Laguna Cuicocha"], "Vuaqava lake": ["Vuaqava"], "Lake Rosa": ["Lake Rosa", "Lake Windsor"],
+       "Černé jezero": ["Černé jezero"], "Lake Télé": ["Lake Tele", "Lac Tele", "Lac Télé"], "Akrotiri Salt Lake": ["Akrotiri Salt Lake", "Limassol Salt Lake", "Salt Lake", "Alyki"], "Chott Melrhir": ["Chott Melrhir", "Chott Melghir"],
+       "Lake Nokoué": ["Lac Nokoué", "Lake Nokoue"], "Lake Burgas": ["Burgas Lake", "Burgasko ezero", "Burgaskoto ezero", "Vaya", "Вая", "Бургаско езеро"], "Blidinje Lake": ["Blidinje", "Blidinjsko jezero"], "Lake Ilopango": ["Lago de Ilopango", "Ilopango"]}
 for iso, v in over.items():
     lk = v.get("lake") if isinstance(v, dict) else None
     if not lk or lk.get("none") or lk.get("src") != "manual" or "line" in lk: continue
