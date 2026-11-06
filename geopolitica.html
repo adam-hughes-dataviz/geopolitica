@@ -978,12 +978,12 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       box.innerHTML = "";
       box.appendChild(el("div", "empty", msg));
       var r = el("button", "chip", "Try again"); r.type = "button";
-      r.onclick = function () { delete newsMem[key]; try { localStorage.removeItem("gn:" + key); } catch (e) {} box.innerHTML = ""; loadNews(C, key, box); };
+      r.onclick = function () { delete newsMem[key]; try { localStorage.removeItem("gn2:" + key); } catch (e) {} box.innerHTML = ""; loadNews(C, key, box); };
       box.appendChild(r);
       var g = el("a", "nlink", "Search Google News instead"); g.href = gn; g.target = "_blank"; g.rel = "noopener noreferrer"; box.appendChild(el("div")).appendChild(g);
     }
     var now = Date.now(), c = newsMem[key];
-    if (!c) { try { var s = localStorage.getItem("gn:" + key); if (s) c = JSON.parse(s); } catch (e) {} }
+    if (!c) { try { var s = localStorage.getItem("gn2:" + key); if (s) c = JSON.parse(s); } catch (e) {} }
     if (c && now - c.t < 30 * 60 * 1000) { show(c.items); return; }
     function viaGdelt() {
       var url = "https://api.gdeltproject.org/api/v2/doc/doc?query=" + encodeURIComponent(q + " sourcelang:english") +
@@ -1040,7 +1040,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
     if (NEWS_API) {
       viaApi().then(function (items) {
         var rec = { t: Date.now(), items: items }; newsMem[key] = rec;
-        try { localStorage.setItem("gn:" + key, JSON.stringify(rec)); } catch (e) {}
+        try { localStorage.setItem("gn2:" + key, JSON.stringify(rec)); } catch (e) {}
         if (sel && sel.key === key && curTab === "news") show(items);
       }).catch(function (e) { apiErr = e.message; tries = 0; if (sel && sel.key === key && curTab === "news") run(); });
       return;
@@ -1063,7 +1063,7 @@ ol.spk b { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; backgr
       attempt().then(function (arts) {
         var items = pick3(arts, name).map(function (a) { return { title: a.title, url: a.url, domain: a.domain, seendate: a.seendate }; });
         var rec = { t: Date.now(), items: items }; newsMem[key] = rec;
-        try { localStorage.setItem("gn:" + key, JSON.stringify(rec)); } catch (e) {}
+        try { localStorage.setItem("gn2:" + key, JSON.stringify(rec)); } catch (e) {}
         if (sel && sel.key === key && curTab === "news") show(items);
       }).catch(function (e) {
         if (!(sel && sel.key === key && curTab === "news")) return;
