@@ -63,7 +63,7 @@ FORMAL["DMA"] = "Jesma Paul-Victor (Independent)"
 # ---- hand-checked extras (infobox layout defeats the parser)
 def setchart(iso, head, rows):
     g = d[iso]['tabs']['government']
-    g[:] = [x for x in g if not (x.get('t') == 'table' and len(x['head']) > 1 and 'eat' in x['head'][1])]
+    g[:] = [x for x in g if not (x.get('t') == 'table' and len(x['head']) > 1 and 'eat' in x['head'][1]) and not (x.get('t') == 'h' and 'current seats' in x.get('v', ''))]
     i = next((k for k, x in enumerate(g) if x.get('t') == 'live'), len(g)); g[i:i] = [{"t": "h", "v": head}, {"t": "table", "head": ["Party", "Seats"], "rows": rows}]
 def fromP(iso, upto=None, govn=0):
     rr = P[iso]['rows'][:upto]; out = []
@@ -72,6 +72,8 @@ def fromP(iso, upto=None, govn=0):
         if r['a']: TT[(iso, clean(r['n']).replace('︙ ', ''))] = r['a']
         out.append([clean(r['n']).replace('︙ ', ''), str(r['s']), "In government" if k < govn else "", c or ""])
     return out
+setchart("BRB", "House of Assembly (current seats)", [["Barbados Labour Party", "30", "Mia Mottley \u00b7 govt", "#ED1C24"]])
+
 setchart("BHR", "Council of Representatives (2022 election)", [["Independents", "38", "", "#8a97a0"], ["National Unity Assembly", "1", "", "#4e79a7"], ["Al-Rabita Islamic Society", "1", "", "#59a14f"]])
 
 setchart('ARM', "National Assembly (current seats)", [["Civil Contract", "64", "In government", "#5169B1"], ["Strong Armenia", "29", "", "#001489"], ["Armenia Alliance", "12", "", "#1D2E69"]])
